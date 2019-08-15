@@ -10,11 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const websockets_1 = require("@nestjs/websockets");
-const rxjs_1 = require("rxjs");
-const operators_1 = require("rxjs/operators");
 let ChallengeRequestsGateway = class ChallengeRequestsGateway {
-    findAll(client, data) {
-        return rxjs_1.from([1, 2, 3]).pipe(operators_1.map(item => ({ event: 'events', data: item })));
+    findNearest(client, data) {
+        const random = Math.random();
+        if (random > 0.6) {
+            return {
+                points: 33,
+                level: 2,
+                opponent: {
+                    name: 'John',
+                    avatar: {
+                        uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931309/restaurant/backgrounds/joseph-gonzalez-176749-unsplash.jpg"
+                    },
+                    win: 22,
+                    lost: 12,
+                    level: 5,
+                },
+                time: 3,
+                status: 'Pending',
+            };
+        }
+        return null;
     }
     async identity(client, data) {
         return 'from server 3';
@@ -25,11 +41,11 @@ __decorate([
     __metadata("design:type", Object)
 ], ChallengeRequestsGateway.prototype, "server", void 0);
 __decorate([
-    websockets_1.SubscribeMessage('events'),
+    websockets_1.SubscribeMessage('locationChanged'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ChallengeRequestsGateway.prototype, "findAll", null);
+    __metadata("design:returntype", Object)
+], ChallengeRequestsGateway.prototype, "findNearest", null);
 __decorate([
     websockets_1.SubscribeMessage('identity'),
     __metadata("design:type", Function),
@@ -37,7 +53,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChallengeRequestsGateway.prototype, "identity", null);
 ChallengeRequestsGateway = __decorate([
-    websockets_1.WebSocketGateway()
+    websockets_1.WebSocketGateway({ path: '/challenge' })
 ], ChallengeRequestsGateway);
 exports.ChallengeRequestsGateway = ChallengeRequestsGateway;
 //# sourceMappingURL=index.gateway.js.map

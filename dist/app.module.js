@@ -10,11 +10,22 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const index_module_1 = require("./challengeRequests/index.module");
+const graphql_1 = require("@nestjs/graphql");
+const profile_module_1 = require("./profile/profile.module");
+const mongoose_1 = require("@nestjs/mongoose");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
-        imports: [index_module_1.ChallengeRequestsModule],
+        imports: [
+            profile_module_1.ProfileModule,
+            index_module_1.ChallengeRequestsModule,
+            graphql_1.GraphQLModule.forRoot({
+                installSubscriptionHandlers: true,
+                autoSchemaFile: 'schema.gql',
+            }),
+            mongoose_1.MongooseModule.forRoot('mongodb+srv://ali:123456khan@cluster0-5hifi.mongodb.net/test?retryWrites=true&w=majority'),
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

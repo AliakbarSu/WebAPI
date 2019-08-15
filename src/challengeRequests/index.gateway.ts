@@ -6,16 +6,34 @@ import {
   } from '@nestjs/websockets';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Client, Server } from 'socket.io';
+import { Client, Server} from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway({path: '/challenge'})
 export class ChallengeRequestsGateway {
     @WebSocketServer()
     server: Server;
 
-    @SubscribeMessage('events')
-    findAll(client: Client, data: any): Observable<WsResponse<number>> {
-        return from([1, 2, 3]).pipe(map(item => ({ event: 'events', data: item })));
+    @SubscribeMessage('locationChanged')
+    findNearest(client: Client, data: any): any {
+        const random = Math.random();
+        if (random > 0.6) {
+            return {
+                points: 33,
+                level: 2,
+                opponent: {
+                    name: 'John',
+                    avatar: {
+                        uri: "https://res.cloudinary.com/dxuf2ssx6/image/upload/v1560931309/restaurant/backgrounds/joseph-gonzalez-176749-unsplash.jpg"
+                    },
+                    win: 22,
+                    lost: 12,
+                    level: 5,
+                },
+                time: 3,
+                status: 'Pending',
+            };
+        }
+        return null;
     }
 
     @SubscribeMessage('identity')
