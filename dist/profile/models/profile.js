@@ -23,6 +23,10 @@ __decorate([
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
+], Personal.prototype, "avatar", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
 ], Personal.prototype, "username", void 0);
 __decorate([
     type_graphql_1.Field(),
@@ -50,6 +54,10 @@ __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", Number)
 ], Privacy.prototype, "loginFailedAttempts", void 0);
+__decorate([
+    type_graphql_1.Field(type => [String]),
+    __metadata("design:type", Array)
+], Privacy.prototype, "roles", void 0);
 Privacy = __decorate([
     type_graphql_1.ObjectType()
 ], Privacy);

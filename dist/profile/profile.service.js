@@ -33,14 +33,20 @@ let ProfileService = class ProfileService {
         return await updatedProfile.exec();
     }
     async updateLocation(id, location) {
-        const fetchedLocation = this.profileModel.findOne({ 'gameStatus.location': {
-                $near: {
-                    $geometry: {
-                        type: 'Point', coordinates: location.coordinates,
-                        $maxDistance: 100,
+        await this.update({ _id: id, gameStatus: { location } });
+        const fetchedLocation = this.profileModel.find({
+            $and: [
+                { 'gameStatus.location': {
+                        $near: {
+                            $geometry: {
+                                type: 'Point',
+                                coordinates: location.coordinates,
+                            },
+                            $maxDistance: 20,
+                        },
                     },
-                },
-            },
+                }
+            ],
         });
         return fetchedLocation;
     }
@@ -52,7 +58,7 @@ let ProfileService = class ProfileService {
     }
     async remove(id) {
         const removedProfile = this.profileModel.findOneAndDelete({ _id: id });
-        return await removedProfile;
+        return removedProfile;
     }
 };
 ProfileService = __decorate([

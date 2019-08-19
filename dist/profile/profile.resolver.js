@@ -20,7 +20,9 @@ const profile_1 = require("./models/profile");
 const profile_service_1 = require("./profile.service");
 const type_graphql_1 = require("type-graphql");
 const update_profile_input_1 = require("./dto/update-profile.input");
-const update_location_input_1 = require("./dto/update-location.input");
+const platform_express_1 = require("@nestjs/platform-express");
+const auth_guard_1 = require("../guards/auth.guard");
+const roles_decorator_1 = require("../decorators/roles.decorator");
 const pubSub = new apollo_server_express_1.PubSub();
 let ProfileResolver = class ProfileResolver {
     constructor(profileService) {
@@ -41,6 +43,7 @@ let ProfileResolver = class ProfileResolver {
             password: 'fkafjskl;fj',
             resetPasswordToken: 'jfl;akjfklsjf424',
             loginFailedAttempts: 2,
+            roles: ['user'],
         };
     }
     async addProfile(newProfileData) {
@@ -51,15 +54,10 @@ let ProfileResolver = class ProfileResolver {
         const profile = await this.profileService.update(data);
         return profile;
     }
-    async updateLocation(id, location) {
-        const foundLocations = await this.profileService.updateLocation(id, location);
-        if (!foundLocations) {
-            throw new common_1.NotFoundException(id);
-        }
-        return foundLocations;
-    }
     async removeProfile(id) {
         return this.profileService.remove(id);
+    }
+    async updateAvatar(file, body) {
     }
     recipeAdded() {
         return pubSub.asyncIterator('recipeAdded');
@@ -67,6 +65,8 @@ let ProfileResolver = class ProfileResolver {
 };
 __decorate([
     graphql_1.Query(returns => profile_1.Profile, { name: 'profile' }),
+    roles_decorator_1.Roles('admin'),
+    common_1.UseGuards(new auth_guard_1.AuthGuard()),
     __param(0, graphql_1.Args('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -100,18 +100,19 @@ __decorate([
 ], ProfileResolver.prototype, "updateProfile", null);
 __decorate([
     graphql_1.Mutation(returns => profile_1.Profile),
-    __param(0, graphql_1.Args('id')), __param(1, graphql_1.Args('location')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_location_input_1.UpdateLocationInput]),
-    __metadata("design:returntype", Promise)
-], ProfileResolver.prototype, "updateLocation", null);
-__decorate([
-    graphql_1.Mutation(returns => profile_1.Profile),
     __param(0, graphql_1.Args('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ProfileResolver.prototype, "removeProfile", null);
+__decorate([
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('file')),
+    graphql_1.Mutation(returns => profile_1.Profile),
+    __param(0, common_1.UploadedFile()), __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], ProfileResolver.prototype, "updateAvatar", null);
 __decorate([
     graphql_1.Subscription(returns => profile_1.Profile),
     __metadata("design:type", Function),

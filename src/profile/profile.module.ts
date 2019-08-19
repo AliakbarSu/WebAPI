@@ -4,11 +4,12 @@ import { ProfileService } from './profile.service';
 // import { DateScalar } from 'src/common/scalars/date.scalar';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProfileSchema } from './MongoSchema/profile.schema';
+import { CommonModule } from '../common.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Profile', schema: ProfileSchema }]),
+    CommonModule,
   ],
-  providers: [ProfileResolver, ProfileService],
+  providers: [ProfileResolver],
 })
 export class ProfileModule {}

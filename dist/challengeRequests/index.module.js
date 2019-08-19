@@ -8,11 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const index_gateway_1 = require("./index.gateway");
+const common_module_1 = require("../common.module");
+const room_service_1 = require("./room.service");
 let ChallengeRequestsModule = class ChallengeRequestsModule {
 };
 ChallengeRequestsModule = __decorate([
     common_1.Module({
-        providers: [index_gateway_1.ChallengeRequestsGateway],
+        imports: [common_module_1.CommonModule],
+        providers: [room_service_1.RoomService, index_gateway_1.ChallengeRequestsGateway],
     })
 ], ChallengeRequestsModule);
 exports.ChallengeRequestsModule = ChallengeRequestsModule;

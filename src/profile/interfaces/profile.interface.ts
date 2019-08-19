@@ -8,6 +8,12 @@ export interface Profile extends Document {
     status: number,
     level: number,
     location: LocationType,
+    request: {
+      status: string,
+      opponent: string,
+      created_at: number,
+      updated_at: number,
+    },
   };
   readonly points: {
     points: number,
@@ -18,6 +24,7 @@ export interface Profile extends Document {
   readonly personal: {
     firstName: string,
     lastName: string,
+    avatar: string,
     username: string,
     email: string,
     phone: string,
@@ -26,6 +33,7 @@ export interface Profile extends Document {
     password: string,
     resetPasswordToken: string,
     loginFailedAttempts: number,
+    roles: string[],
   };
 }
 

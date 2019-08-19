@@ -24,7 +24,8 @@ input GameStatusInput {
 input GameStatusType {
   level: Float
   status: Float
-  location: UpdateLocationInput!
+  location: UpdateLocationInput
+  request: Request
 }
 
 type Location {
@@ -40,8 +41,8 @@ input LocationInput {
 type Mutation {
   addProfile(data: NewProfileInput!): Profile!
   updateProfile(data: UpdateProfileInput!): Profile!
-  updateLocation(location: UpdateLocationInput!, id: String!): Profile!
   removeProfile(id: String!): Profile!
+  updateAvatar: Profile!
 }
 
 input NewProfileInput {
@@ -52,6 +53,7 @@ input NewProfileInput {
 type Personal {
   firstName: String!
   lastName: String!
+  avatar: String!
   username: String!
   email: String!
   phone: String!
@@ -76,6 +78,7 @@ type Privacy {
   password: String!
   resetPasswordToken: String!
   loginFailedAttempts: Float!
+  roles: [String!]!
 }
 
 type Profile {
@@ -96,6 +99,13 @@ type RecievePoints {
   sender: String!
   amount: Float!
   timestamp: DateTime!
+}
+
+input Request {
+  status: String
+  opponent: String
+  created_at: Float
+  updated_at: Float
 }
 
 type SendPoints {

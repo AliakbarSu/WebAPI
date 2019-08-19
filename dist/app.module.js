@@ -13,6 +13,7 @@ const index_module_1 = require("./challengeRequests/index.module");
 const graphql_1 = require("@nestjs/graphql");
 const profile_module_1 = require("./profile/profile.module");
 const mongoose_1 = require("@nestjs/mongoose");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -25,6 +26,7 @@ AppModule = __decorate([
                 autoSchemaFile: 'schema.gql',
             }),
             mongoose_1.MongooseModule.forRoot('mongodb+srv://ali:123456khan@cluster0-5hifi.mongodb.net/test?retryWrites=true&w=majority'),
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

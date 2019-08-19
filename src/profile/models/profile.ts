@@ -4,16 +4,14 @@ import { Field, ID, ObjectType, Int } from 'type-graphql';
 export class Personal {
   @Field()
   firstName: string;
-
   @Field()
   lastName: string;
-
+  @Field()
+  avatar: string;
   @Field()
   username: string;
-
   @Field()
   email: string;
-
   @Field()
   phone: string;
 }
@@ -22,19 +20,18 @@ export class Personal {
 export class Privacy {
   @Field()
   password: string;
-
   @Field()
   resetPasswordToken: string;
-
   @Field()
   loginFailedAttempts: number;
+  @Field(type => [String])
+    roles: string[];
 }
 
 @ObjectType()
 export class Location {
   @Field(type => String)
   type: string;
-
   @Field(type => [Number])
   coordinates: number[];
 }
@@ -43,16 +40,12 @@ export class Location {
 export class GameStatus {
   @Field()
   win: number;
-
   @Field()
   lost: number;
-
   @Field()
   status: number;
-
   @Field()
   level: number;
-
   @Field(type => Location)
   location: Location;
 }
@@ -61,13 +54,10 @@ export class GameStatus {
 export class RecievePoints {
   @Field()
   id: string;
-
   @Field()
   sender: string;
-
   @Field()
   amount: number;
-
   @Field()
   timestamp: Date;
 }
@@ -76,13 +66,10 @@ export class RecievePoints {
 export class SendPoints {
   @Field()
   id: string;
-
   @Field()
   recipient: string;
-
   @Field()
   amount: number;
-
   @Field()
   timestamp: Date;
 }
@@ -91,13 +78,10 @@ export class SendPoints {
 export class Points {
   @Field()
   points: number;
-
   @Field()
   redeemedPoints: number;
-
   @Field()
   recievedPoints: RecievePoints;
-
   @Field()
   sentPoints: SendPoints;
 }
@@ -106,16 +90,12 @@ export class Points {
 export class Profile {
   @Field(type => ID)
   _id: string;
-
   @Field(type => Personal)
   personal: Personal;
-
   @Field(type => Privacy)
   privacy: Privacy;
-
   @Field(type => Points)
   points: Points;
-
   @Field(type => GameStatus)
   gameStatus: GameStatus;
 }

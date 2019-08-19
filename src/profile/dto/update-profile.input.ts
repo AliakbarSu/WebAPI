@@ -4,6 +4,24 @@ import { UpdateLocationInput } from './update-location.input';
 
 
 @InputType()
+class Request {
+  @Field(type => String, {nullable: true})
+  @IsOptional()
+  status?: string;
+  @Field(type => String, {nullable: true})
+  @IsOptional()
+  opponent?: string;
+  @Field(type => Number, {nullable: true})
+  @IsOptional()
+  created_at?: number;
+  @Field(type => Number, {nullable: true})
+  @IsOptional()
+  updated_at?: number;
+}
+
+
+
+@InputType()
 class GameStatusType {
     @Field({nullable: true})
     @IsOptional()
@@ -13,8 +31,13 @@ class GameStatusType {
     @IsOptional()
     status?: number;
 
-    @Field(type => UpdateLocationInput)
-    location: UpdateLocationInput;
+    @Field(type => UpdateLocationInput, {nullable: true})
+    @IsOptional()
+    location?: UpdateLocationInput;
+
+    @Field(type => Request, {nullable: true})
+    @IsOptional()
+    request?: Request;
 }
 
 

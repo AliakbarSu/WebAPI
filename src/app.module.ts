@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ProfileModule } from './profile/profile.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { ProfileService } from './profile/profile.service';
 
 @Module({
   imports: [

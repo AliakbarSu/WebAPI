@@ -1,6 +1,7 @@
 export declare class Personal {
     firstName: string;
     lastName: string;
+    avatar: string;
     username: string;
     email: string;
     phone: string;
@@ -9,6 +10,7 @@ export declare class Privacy {
     password: string;
     resetPasswordToken: string;
     loginFailedAttempts: number;
+    roles: string[];
 }
 export declare class Location {
     type: string;

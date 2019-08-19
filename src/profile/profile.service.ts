@@ -30,20 +30,24 @@ export class ProfileService {
     return await updatedProfile.exec();
   }
 
-  async updateLocation(id: string, location: UpdateLocationInput): Promise<Profile> {
-    // const updatedProfile = await this.update({_id: id, gameStatus: {location}});
-    const fetchedLocation = this.profileModel.findOne(
-      {'gameStatus.location': {
-        $near: {
-          $geometry: {
-            type: 'Point', coordinates: location.coordinates,
-            $maxDistance: 100,
-            // $minDistance: ,
+  async updateLocation(id: string, location: UpdateLocationInput): Promise<Profile[]> {
+    await this.update({_id: id, gameStatus: {location}});
+    const fetchedLocation = this.profileModel.find(
+      {
+        $and: [
+          // {_id: {$ne : id}},
+          {'gameStatus.location': {
+            $near: {
+              $geometry: {
+                type: 'Point',
+                coordinates: location.coordinates,
+              },
+              $maxDistance: 20,
+              // $minDistance: 0,
+            },
           },
-        },
-        },
-      },
-    );
+        }],
+      });
     return fetchedLocation;
   }
 
@@ -55,9 +59,9 @@ export class ProfileService {
     return [profileDummyData] as any;
   }
 
-  async remove(id: string): Promise<boolean> {
+  async remove(id: string): Promise<Profile> {
     const removedProfile = this.profileModel.findOneAndDelete({_id: id});
-    return await removedProfile;
+    return removedProfile;
   }
 }
 
