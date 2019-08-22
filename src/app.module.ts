@@ -7,6 +7,7 @@ import { ProfileModule } from './profile/profile.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { ProfileService } from './profile/profile.service';
+import { QuestionsModule } from './questions/questions.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProfileService } from './profile/profile.service';
     }),
     MongooseModule.forRoot('mongodb+srv://ali:123456khan@cluster0-5hifi.mongodb.net/test?retryWrites=true&w=majority'),
     AuthModule,
+    QuestionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

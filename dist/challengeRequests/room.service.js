@@ -37,6 +37,9 @@ let RoomService = class RoomService {
     addToPlaying(gameObj) {
         this.playingRoom.push(gameObj);
     }
+    getActiveGame(gameId) {
+        return this.playingRoom.find((game) => game.id === gameId);
+    }
     removeFromPlaying(id) {
         this.playingRoom = this.playingRoom.filter((game) => {
             return game.id !== id;

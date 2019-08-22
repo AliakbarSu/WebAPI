@@ -3,6 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Answer {
+  id: String!
+  text: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -39,6 +44,9 @@ input LocationInput {
 }
 
 type Mutation {
+  addQuestion(data: NewQuestionInput!): Question!
+  updateQuestion(data: UpdateQuestionInput!): Question!
+  removeQuestion(id: String!): Question!
   addProfile(data: NewProfileInput!): Profile!
   updateProfile(data: UpdateProfileInput!): Profile!
   removeProfile(id: String!): Profile!
@@ -48,6 +56,14 @@ type Mutation {
 input NewProfileInput {
   personal: PersonalInput!
   gameStatus: GameStatusInput
+}
+
+input NewQuestionInput {
+  question: String!
+  answers: [String!]!
+  correctAnswer: String!
+  diff_level: Float!
+  category: String
 }
 
 type Personal {
@@ -90,8 +106,21 @@ type Profile {
 }
 
 type Query {
-  profile(id: String!): Profile!
+  question(id: String!): Question!
   profiles: [Profile!]!
+  profile(id: String!): Profile!
+}
+
+type Question {
+  _id: ID!
+  question: String!
+  answers: [Answer!]!
+  correctAnswerId: String!
+  diff_level: Float!
+  category: String!
+  createdAt: Float!
+  updatedAt: Float!
+  createdBy: String!
 }
 
 type RecievePoints {
@@ -132,4 +161,13 @@ input UpdateProfileInput {
   username: String
   password: String
   email: String
+}
+
+input UpdateQuestionInput {
+  question: String!
+  answers: [String!]!
+  correctAnswer: String!
+  diff_level: Float!
+  category: String
+  id: String!
 }

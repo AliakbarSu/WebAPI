@@ -20,7 +20,10 @@ CommonModule = CommonModule_1 = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: 'Profile', schema: profile_schema_1.ProfileSchema }]),
         ],
         providers: [profile_service_1.ProfileService],
-        exports: [profile_service_1.ProfileService],
+        exports: [
+            profile_service_1.ProfileService,
+            mongoose_1.MongooseModule,
+        ],
     })
 ], CommonModule);
 exports.CommonModule = CommonModule;

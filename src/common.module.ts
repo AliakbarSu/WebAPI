@@ -9,6 +9,9 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forFeature([{ name: 'Profile', schema: ProfileSchema }]),
   ],
   providers: [ProfileService],
-  exports: [ProfileService],
+  exports: [
+    ProfileService,
+    MongooseModule,
+  ],
 })
 export class CommonModule {}

@@ -44,10 +44,7 @@ export class Request {
     }
 
     addToAccepted(playerId: string) {
-        if (playerId !== this.sender.id && this.acceptedRecipients.length === 1) {
-            return;
-        }
-        if (this.acceptedRecipients.length !== 2) {
+        if (this.acceptedRecipients.length !== 2 || playerId === this.sender.id) {
             const player: Player = this.reciepients.find((p: Player) => p.id === playerId);
             this.acceptedRecipients.push(player);
         }

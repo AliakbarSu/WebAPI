@@ -16,12 +16,14 @@ import { Profile } from 'src/profile/models/profile';
 import { Player } from './player.class';
 import { Request } from './request.class';
 import { Game } from './game.class';
+import { QuestionsService } from '../questions/questionsService/questions.service';
 
 @WebSocketGateway({path: '/challenge'})
 export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     constructor(
         private readonly profileService: ProfileService,
         private readonly roomService: RoomService,
+        private readonly questionsService: QuestionsService,
         ) {}
 
     @WebSocketServer()
@@ -63,12 +65,25 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
         request.addToAccepted(data.userId);
         if (request && !request.isExpired && request.isReady()) {
             request.setState('ACTIVE');
-            const game = new Game(request, ['testing', 'testing1']);
+            const game = new Game(this.questionsService, request);
             this.roomService.addToPlaying(game);
             this.roomService.removeFromRequests(request.id);
             game.start(this.server);
         } else {
             return 'Too late!';
+        }
+    }
+
+    @SubscribeMessage('onAnswersSubmitted')
+    async submitAnswers(client: any, data: any): Promise<any> {
+        const game: Game = this.roomService.getActiveGame(data.gameId);
+        if (game.state !== 'COMPLETED') {
+            game.submitAnswers(data.userId, data.answers);
+        }
+        if (game.isGameOver) {
+            game.announanceResults();
+            game.finishGame();
+            this.roomService.removeFromPlaying(game.id);
         }
     }
 }

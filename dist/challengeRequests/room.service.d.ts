@@ -11,5 +11,6 @@ export declare class RoomService {
     addToRequests(request: Request): void;
     removeFromRequests(id: string): void;
     addToPlaying(gameObj: Game): void;
+    getActiveGame(gameId: string): Game;
     removeFromPlaying(id: string): void;
 }

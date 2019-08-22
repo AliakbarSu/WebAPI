@@ -43,6 +43,10 @@ export class RoomService {
     this.playingRoom.push(gameObj);
  }
 
+  getActiveGame(gameId: string): Game {
+     return this.playingRoom.find((game: Game) => game.id === gameId);
+  }
+
  removeFromPlaying(id: string) {
     this.playingRoom = this.playingRoom.filter((game: Game) => {
         return game.id !== id;
