@@ -4,14 +4,8 @@ import { ProfileSchema } from './profile/MongoSchema/profile.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [
-    CommonModule,
-    MongooseModule.forFeature([{ name: 'Profile', schema: ProfileSchema }]),
-  ],
-  providers: [ProfileService],
+  providers: [],
   exports: [
-    ProfileService,
-    MongooseModule,
   ],
 })
 export class CommonModule {}

@@ -9,20 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const common_1 = require("@nestjs/common");
-const auth_service_1 = require("../auth/auth.service");
-let AuthGuard = class AuthGuard {
-    canActivate(context) {
-        const request = context.switchToHttp().getRequest();
-        return true;
-    }
+const type_graphql_1 = require("type-graphql");
+let CredentialsInputs = class CredentialsInputs {
 };
 __decorate([
-    common_1.Inject(auth_service_1.AuthService),
-    __metadata("design:type", auth_service_1.AuthService)
-], AuthGuard.prototype, "authService", void 0);
-AuthGuard = __decorate([
-    common_1.Injectable()
-], AuthGuard);
-exports.AuthGuard = AuthGuard;
-//# sourceMappingURL=auth.guard.js.map
+    type_graphql_1.Field(type => String),
+    __metadata("design:type", String)
+], CredentialsInputs.prototype, "email", void 0);
+__decorate([
+    type_graphql_1.Field(type => String),
+    __metadata("design:type", String)
+], CredentialsInputs.prototype, "password", void 0);
+CredentialsInputs = __decorate([
+    type_graphql_1.InputType()
+], CredentialsInputs);
+exports.CredentialsInputs = CredentialsInputs;
+//# sourceMappingURL=auth.input.js.map

@@ -25,7 +25,7 @@ export class Privacy {
   @Field()
   loginFailedAttempts: number;
   @Field(type => [String])
-    roles: string[];
+  roles: string[];
 }
 
 @ObjectType()
@@ -99,3 +99,5 @@ export class Profile {
   @Field(type => GameStatus)
   gameStatus: GameStatus;
 }
+
+

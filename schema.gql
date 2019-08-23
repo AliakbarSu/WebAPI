@@ -8,6 +8,16 @@ type Answer {
   text: String!
 }
 
+type AuthModel {
+  profile: Profile!
+  token: String!
+}
+
+input CredentialsInputs {
+  email: String!
+  password: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -55,7 +65,8 @@ type Mutation {
 
 input NewProfileInput {
   personal: PersonalInput!
-  gameStatus: GameStatusInput
+  gameStatus: GameStatusInput!
+  privacy: PrivacyInput!
 }
 
 input NewQuestionInput {
@@ -79,7 +90,6 @@ input PersonalInput {
   firstName: String!
   lastName: String!
   username: String!
-  password: String!
   email: String!
 }
 
@@ -97,6 +107,10 @@ type Privacy {
   roles: [String!]!
 }
 
+input PrivacyInput {
+  password: String!
+}
+
 type Profile {
   _id: ID!
   personal: Personal!
@@ -109,6 +123,7 @@ type Query {
   question(id: String!): Question!
   profiles: [Profile!]!
   profile(id: String!): Profile!
+  authenticate(credentials: CredentialsInputs!): AuthModel!
 }
 
 type Question {

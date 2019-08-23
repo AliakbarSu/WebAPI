@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const class_validator_1 = require("class-validator");
 const type_graphql_1 = require("type-graphql");
+const profile_1 = require("../models/profile");
 let PersonalInput = class PersonalInput {
 };
 __decorate([
@@ -29,10 +30,6 @@ __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
 ], PersonalInput.prototype, "username", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], PersonalInput.prototype, "password", void 0);
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
@@ -66,6 +63,15 @@ __decorate([
 GameStatusInput = __decorate([
     type_graphql_1.InputType()
 ], GameStatusInput);
+let PrivacyInput = class PrivacyInput {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], PrivacyInput.prototype, "password", void 0);
+PrivacyInput = __decorate([
+    type_graphql_1.InputType()
+], PrivacyInput);
 let NewProfileInput = class NewProfileInput {
 };
 __decorate([
@@ -73,10 +79,13 @@ __decorate([
     __metadata("design:type", PersonalInput)
 ], NewProfileInput.prototype, "personal", void 0);
 __decorate([
-    type_graphql_1.Field(type => GameStatusInput, { nullable: true }),
-    class_validator_1.IsOptional(),
+    type_graphql_1.Field(type => GameStatusInput),
     __metadata("design:type", GameStatusInput)
 ], NewProfileInput.prototype, "gameStatus", void 0);
+__decorate([
+    type_graphql_1.Field(type => PrivacyInput),
+    __metadata("design:type", profile_1.Privacy)
+], NewProfileInput.prototype, "privacy", void 0);
 NewProfileInput = __decorate([
     type_graphql_1.InputType()
 ], NewProfileInput);

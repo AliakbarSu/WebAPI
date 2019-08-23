@@ -23,6 +23,8 @@ const update_profile_input_1 = require("./dto/update-profile.input");
 const platform_express_1 = require("@nestjs/platform-express");
 const auth_guard_1 = require("../guards/auth.guard");
 const roles_decorator_1 = require("../decorators/roles.decorator");
+const auth_input_1 = require("./dto/auth.input");
+const auth_model_1 = require("./models/auth.model");
 const pubSub = new apollo_server_express_1.PubSub();
 let ProfileResolver = class ProfileResolver {
     constructor(profileService) {
@@ -37,6 +39,13 @@ let ProfileResolver = class ProfileResolver {
     }
     profiles() {
         return this.profileService.findAll();
+    }
+    async authenticate(credentials) {
+        const auth = await this.profileService.authenticate(credentials);
+        if (auth) {
+            return auth;
+        }
+        return null;
     }
     privacy() {
         return {
@@ -66,7 +75,7 @@ let ProfileResolver = class ProfileResolver {
 __decorate([
     graphql_1.Query(returns => profile_1.Profile, { name: 'profile' }),
     roles_decorator_1.Roles('admin'),
-    common_1.UseGuards(new auth_guard_1.AuthGuard()),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, graphql_1.Args('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -78,6 +87,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProfileResolver.prototype, "profiles", null);
+__decorate([
+    graphql_1.Query(returns => auth_model_1.AuthModel),
+    __param(0, graphql_1.Args('credentials')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [auth_input_1.CredentialsInputs]),
+    __metadata("design:returntype", Promise)
+], ProfileResolver.prototype, "authenticate", null);
 __decorate([
     type_graphql_1.FieldResolver(),
     __metadata("design:type", Function),

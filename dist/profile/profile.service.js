@@ -20,12 +20,14 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const flat_1 = __importDefault(require("flat"));
+const auth_service_1 = require("../auth/auth.service");
 let ProfileService = class ProfileService {
-    constructor(profileModel) {
+    constructor(profileModel, authService) {
         this.profileModel = profileModel;
+        this.authService = authService;
     }
     async create(data) {
-        const createdProfile = new this.profileModel(data);
+        const createdProfile = new this.profileModel(Object.assign({}, data, { 'privacy.password': await this.authService.hashPassword(data.privacy.password) }));
         return await createdProfile.save();
     }
     async update(data) {
@@ -56,15 +58,22 @@ let ProfileService = class ProfileService {
     async findAll() {
         return [profileDummyData];
     }
+    async findByEmail(email) {
+        return await this.profileModel.findOne({ 'personal.email': email });
+    }
     async remove(id) {
         const removedProfile = this.profileModel.findOneAndDelete({ _id: id });
         return removedProfile;
+    }
+    async authenticate(credentials) {
+        return this.authService.authenticate(credentials);
     }
 };
 ProfileService = __decorate([
     common_1.Injectable(),
     __param(0, mongoose_2.InjectModel('Profile')),
-    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_1.Model !== "undefined" && mongoose_1.Model) === "function" ? _a : Object])
+    __param(1, common_1.Inject(common_1.forwardRef(() => auth_service_1.AuthService))),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_1.Model !== "undefined" && mongoose_1.Model) === "function" ? _a : Object, auth_service_1.AuthService])
 ], ProfileService);
 exports.ProfileService = ProfileService;
 const profileDummyData = {

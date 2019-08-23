@@ -10,6 +10,9 @@ import { UpdateLocationInput } from './dto/update-location.input';
 import {FileInterceptor} from '@nestjs/platform-express';
 import { AuthGuard } from '../guards/auth.guard';
 import { Roles } from '../decorators/roles.decorator';
+import { Auth } from '../auth/auth.service';
+import { CredentialsInputs } from './dto/auth.input';
+import { AuthModel } from './models/auth.model';
 
 const pubSub = new PubSub();
 
@@ -22,7 +25,7 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   // ************************
   @Query(returns => Profile, {name: 'profile'})
   @Roles('admin')
-  @UseGuards(new AuthGuard())
+  @UseGuards(AuthGuard)
   async getProfile(@Args('id') id: string): Promise<Profile> {
     const profile = await this.profileService.findOneById(id);
     if (!profile) {
@@ -34,6 +37,16 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   @Query(returns => [Profile])
   profiles(): Promise<Profile[]> {
     return this.profileService.findAll();
+  }
+
+  @Query(returns => AuthModel)
+  async authenticate(@Args('credentials') credentials: CredentialsInputs): Promise<Auth | null> {
+    const auth = await this.profileService.authenticate(credentials);
+    if (auth) {
+      return auth;
+    }
+    // return error
+    return null;
   }
 
   // ************************

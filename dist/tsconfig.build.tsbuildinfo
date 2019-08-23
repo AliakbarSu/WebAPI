@@ -2366,12 +2366,12 @@
         "signature": "575b8a73e314f733677c0aa7cdbd505a653d37684da24306b6110c6d9137e3ca"
       },
       "/volumes/development/click-collect-api/src/profile/models/profile.ts": {
-        "version": "f0c383faaad74272faae7b2e1e491d6851d2209ef5745f2269ed0de2de6c5ccc",
+        "version": "aa714a6f098aff0aea9b219fbd95fa0380177aef931ee6657f70e958f5e5e6a4",
         "signature": "249861fd47636ad10b9b403b7398476ff3ddeb214958595f15463888c90a4709"
       },
       "/volumes/development/click-collect-api/src/profile/dto/new-profile.input.ts": {
-        "version": "85b2ec7c2683c717196481b4b9f8e2ecdb154b23a9e015173d3b4564452e2bd0",
-        "signature": "232aaa4232b2845a1655989a7e3c2bcecd3b1c41782ffe6f30533220323c6bfd"
+        "version": "14c2db370754d30930754c9d8c3626254540b3407c9012c7ec168bef92b7b5a5",
+        "signature": "7d3332775b6d985a3135250f7e85fbd592c3cc840bd69e4a271cad095238e6b5"
       },
       "/volumes/development/click-collect-api/src/profile/dto/profile.args.ts": {
         "version": "ca376806297c51789a37f71af74c64a0ca2e85897d3479692e219f81ea36cffc",
@@ -2421,9 +2421,21 @@
         "version": "abd8fc4bd291389014c89b636dbccf8857465367bd45f79cac8fba4b29046709",
         "signature": "92cbd71365d305e1e272fb61d52eab0552394219caac0430c417a1b08e1e6db3"
       },
+      "/volumes/development/click-collect-api/node_modules/@types/jsonwebtoken/index.d.ts": {
+        "version": "a881efea97e10eed0ce8a2140240c6d79f0a5e655fc28b0c5fc50b819c6ad611",
+        "signature": "a881efea97e10eed0ce8a2140240c6d79f0a5e655fc28b0c5fc50b819c6ad611"
+      },
+      "/volumes/development/click-collect-api/node_modules/@types/bcrypt/index.d.ts": {
+        "version": "18b9a9702d2fc7d3766b0c8124133c761ad25a9d767925005777eb2c2cd8aeba",
+        "signature": "18b9a9702d2fc7d3766b0c8124133c761ad25a9d767925005777eb2c2cd8aeba"
+      },
+      "/volumes/development/click-collect-api/src/auth/auth.service.ts": {
+        "version": "f8baf1d4174e81cb795a0a1d35aa62060ce7979ac412c2ab98133efb4783c900",
+        "signature": "7f11f21e38348d0cd6c82d3ac6b4a80add1d73c36183e6e268c167b8a7d44356"
+      },
       "/volumes/development/click-collect-api/src/profile/profile.service.ts": {
-        "version": "81c327f00d8be0fc222c5e7bf9dc002b7c506305d9a68d9236768775e238707e",
-        "signature": "3f132ab4a3ad021cf4e892352e9e2c0ed71aa1c497a759812027dd9e3cc69e6a"
+        "version": "c3637e20523312a4a4eaa3af2106d815a80952edfc1af0c54cfe2e696ef1d321",
+        "signature": "88191a478f1919d6ec9d92f5aa55c1e805aa46b09e1f4bd745fb89bc954cc781"
       },
       "/volumes/development/click-collect-api/src/challengerequests/player.class.ts": {
         "version": "df549c28f19ab1fae3e2cac115a01408e522bd50e6ea372489f128771cd1723e",
@@ -2468,14 +2480,6 @@
       "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts": {
         "version": "16e20bb03bba115cd32bd25ed64df5b3e646cec31a2f42e62d8d925add8be099",
         "signature": "1b8be189798e10777b346e3069539b7e31b5e3a554a1c6f5967777f318dde4f3"
-      },
-      "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts": {
-        "version": "e97640a43e2e96ef537266c82e83b714734910e29b974c741fdae59c3df080fa",
-        "signature": "d47e1f27e4039e32898f2eddff8240947d90edb80ea34f5726b48a21ffd881cf"
-      },
-      "/volumes/development/click-collect-api/src/common.module.ts": {
-        "version": "bd0eded9692634584e8a58d7f1dc8b126519b6ac1436be291cf30ecc99350227",
-        "signature": "7214164cfa10573d2bf79da5174719e21aa58d3745730ba5464fd4491e9d5c6c"
       },
       "/volumes/development/click-collect-api/src/questions/mongoschema/questions.schema.ts": {
         "version": "28ba42ff6612f1df3edb4d0fce34bc217a3dd89b200f86f838750bd6e640c4c4",
@@ -3406,8 +3410,8 @@
         "signature": "131bdeef9b376ecc3306bb17ccc416735ac196fbecc80f72a4c72f24d3f4fa76"
       },
       "/volumes/development/click-collect-api/src/guards/auth.guard.ts": {
-        "version": "f74d3fad8ebcd55324f020eccc88d10568c93ced31ca43636816bb020f391bf0",
-        "signature": "166bdd3405888a0cae7b96d6e3a0c3e029967e59e8765a037e2f72a4887f6b6f"
+        "version": "faeef3944549c6fe951b392773d8165af9317aa1c98af95c82d63949410c05d5",
+        "signature": "c543309c070a526ebb591a84339731707b545a31a9b16177f07ac65118663abb"
       },
       "/volumes/development/click-collect-api/src/decorators/roles.decorator.ts": {
         "version": "8c07daae55db0b73ef35d67d6d0c212897351d1c3126fd1214dc30689f9432ba",
@@ -3420,10 +3424,6 @@
       "/volumes/development/click-collect-api/src/questions/questions.module.ts": {
         "version": "025d97e903ae6187d09ae31168b922fbd8ec6e9cfffa3d72a626a1606ccbf943",
         "signature": "bf42f7d8bc584a1f1987828a2f1dcc3b3d3367ae2864b8ce6d7cdb97facee0c6"
-      },
-      "/volumes/development/click-collect-api/src/challengerequests/index.module.ts": {
-        "version": "3458babe3c2f1f217965ce02a1dbce95bec51ece3921b218b9c97c4a6321748d",
-        "signature": "c78a2c90bba1871b6335b265d97efeba6341817bc0a237f6024168e0f454c79b"
       },
       "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/interfaces/serve-static-options.interface.d.ts": {
         "version": "cc0e17447fe6b14068adbde843ebcb7d72ddf0a9bfdd9a9666059fb92b10f69b",
@@ -3489,21 +3489,37 @@
         "version": "e3cd60be3c4f95c43420be67eaa21637585b7c1a8129f9b39983bbd294f9513c",
         "signature": "e3cd60be3c4f95c43420be67eaa21637585b7c1a8129f9b39983bbd294f9513c"
       },
+      "/volumes/development/click-collect-api/src/profile/dto/auth.input.ts": {
+        "version": "0fad44701feaaaa09273d3e9e3c03cf37befc5525099c305efa0067e8b15a416",
+        "signature": "3e1a2a2327261fc03374ddd93d7f9eba28f300b6ae32acd433b498845cf2e6f2"
+      },
+      "/volumes/development/click-collect-api/src/profile/models/auth.model.ts": {
+        "version": "4a9b03973bf8c16d65b3fbe1cbac7e615ac704c15f93689d0ba1c3dc81b01806",
+        "signature": "7d3879be5bccef85575913b4963715b63ba85bd8a0c3503e781720d5b21bf538"
+      },
       "/volumes/development/click-collect-api/src/profile/profile.resolver.ts": {
-        "version": "e8ef2cd505106cad2fab6265c130b4713e36379ba8e0a2e1d85bee29a61e767f",
-        "signature": "df039b55a3876617cc4d7ff2f8362c41005e63cfcf99dd0248b4e5d7c9c17b97"
+        "version": "1013a6c5938f5907318a285176f7f16e5750de146cbcda4a472932201fad8d35",
+        "signature": "7d8ba9bbec62d56322a680a50e4bf6fca3bf04a98080efc50be63453a63cdd04"
       },
-      "/volumes/development/click-collect-api/src/profile/profile.module.ts": {
-        "version": "f829f6b0b6370535c1ba2fbfb91f43c801ec2d74f9c3b5535583f65d3ee2d128",
-        "signature": "83da7b1eaa556717c6814a475b31579540dec5b93eee5869b6ca93866a08bd89"
+      "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts": {
+        "version": "e97640a43e2e96ef537266c82e83b714734910e29b974c741fdae59c3df080fa",
+        "signature": "d47e1f27e4039e32898f2eddff8240947d90edb80ea34f5726b48a21ffd881cf"
       },
-      "/volumes/development/click-collect-api/src/auth/auth.service.ts": {
-        "version": "3bd67fd799e596efa07bf84183bf451703b1eeb5c1f9e090e82c4da67cece72c",
-        "signature": "8fc77f803f9a22fcfa6774bc62386393e51129388118d497d0eb503ca3a9cf95"
+      "/volumes/development/click-collect-api/src/common.module.ts": {
+        "version": "78f27864870e590d2912b9be1e3a2516f593808cd4a822e7fa6344af92a107bd",
+        "signature": "7214164cfa10573d2bf79da5174719e21aa58d3745730ba5464fd4491e9d5c6c"
       },
       "/volumes/development/click-collect-api/src/auth/auth.module.ts": {
-        "version": "ffecd03c50080555fe0cdb5b8a48cfd018e2d6547725fc6d5c91c069746dc9e0",
+        "version": "1beffe853c7858baf787d3b075c6b28d3ec7b7a0647f91e8b72ddc578d120d5f",
         "signature": "a28b5c0c372fb375910b3fe3c3ce4331509bc18ccef7cc39c9ee9d8daf8225d1"
+      },
+      "/volumes/development/click-collect-api/src/profile/profile.module.ts": {
+        "version": "e18a631f45b42dce595c5d5cecf0f3ce9f5bd5b13f093f9c3fa20ffc034c96fb",
+        "signature": "83da7b1eaa556717c6814a475b31579540dec5b93eee5869b6ca93866a08bd89"
+      },
+      "/volumes/development/click-collect-api/src/challengerequests/index.module.ts": {
+        "version": "44b1e03dc618c74d0b8e6131da627cbe670b92466dcf96db29d74f79a9571d27",
+        "signature": "c78a2c90bba1871b6335b265d97efeba6341817bc0a237f6024168e0f454c79b"
       },
       "/volumes/development/click-collect-api/src/app.module.ts": {
         "version": "3c18ea138bedb25e3d7a13274e8a9c2223eb8206fa64e8e3942f49066088d752",
@@ -7398,6 +7414,25 @@
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/volumes/development/click-collect-api/node_modules/@types/jsonwebtoken/index.d.ts": [
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/index.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/node_modules/@types/bcrypt/index.d.ts": [
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/src/auth/auth.service.ts": [
+        "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
+        "/volumes/development/click-collect-api/node_modules/type-graphql/dist/index.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/jsonwebtoken/index.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/bcrypt/index.d.ts",
+        "/volumes/development/click-collect-api/src/profile/profile.service.ts",
+        "/volumes/development/click-collect-api/src/profile/models/profile.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/volumes/development/click-collect-api/src/profile/profile.service.ts": [
         "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
         "/volumes/development/click-collect-api/src/profile/dto/new-profile.input.ts",
@@ -7407,6 +7442,7 @@
         "/volumes/development/click-collect-api/src/profile/interfaces/profile.interface.ts",
         "/volumes/development/click-collect-api/src/profile/dto/update-profile.input.ts",
         "/volumes/development/click-collect-api/src/profile/dto/update-location.input.ts",
+        "/volumes/development/click-collect-api/src/auth/auth.service.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -7489,18 +7525,6 @@
         "/volumes/development/click-collect-api/src/challengerequests/request.class.ts",
         "/volumes/development/click-collect-api/src/challengerequests/game.class.ts",
         "/volumes/development/click-collect-api/src/questions/questionsservice/questions.service.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts": [
-        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/volumes/development/click-collect-api/src/common.module.ts": [
-        "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
-        "/volumes/development/click-collect-api/src/profile/profile.service.ts",
-        "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts",
-        "/volumes/development/click-collect-api/node_modules/@nestjs/mongoose/index.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -9043,6 +9067,7 @@
       "/volumes/development/click-collect-api/src/guards/auth.guard.ts": [
         "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
         "/volumes/development/click-collect-api/node_modules/rxjs/index.d.ts",
+        "/volumes/development/click-collect-api/src/auth/auth.service.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -9071,15 +9096,6 @@
         "/volumes/development/click-collect-api/src/questions/mongoschema/questions.schema.ts",
         "/volumes/development/click-collect-api/node_modules/@nestjs/mongoose/index.d.ts",
         "/volumes/development/click-collect-api/src/questions/questions.resolver.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/volumes/development/click-collect-api/src/challengerequests/index.module.ts": [
-        "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
-        "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts",
-        "/volumes/development/click-collect-api/src/common.module.ts",
-        "/volumes/development/click-collect-api/src/challengerequests/room.service.ts",
-        "/volumes/development/click-collect-api/src/questions/questions.module.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -9181,6 +9197,17 @@
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/volumes/development/click-collect-api/src/profile/dto/auth.input.ts": [
+        "/volumes/development/click-collect-api/node_modules/type-graphql/dist/index.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/src/profile/models/auth.model.ts": [
+        "/volumes/development/click-collect-api/node_modules/type-graphql/dist/index.d.ts",
+        "/volumes/development/click-collect-api/src/profile/models/profile.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/volumes/development/click-collect-api/src/profile/profile.resolver.ts": [
         "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
         "/volumes/development/click-collect-api/node_modules/@nestjs/graphql/index.d.ts",
@@ -9194,6 +9221,28 @@
         "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/index.d.ts",
         "/volumes/development/click-collect-api/src/guards/auth.guard.ts",
         "/volumes/development/click-collect-api/src/decorators/roles.decorator.ts",
+        "/volumes/development/click-collect-api/src/auth/auth.service.ts",
+        "/volumes/development/click-collect-api/src/profile/dto/auth.input.ts",
+        "/volumes/development/click-collect-api/src/profile/models/auth.model.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts": [
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/src/common.module.ts": [
+        "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
+        "/volumes/development/click-collect-api/src/profile/profile.service.ts",
+        "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts",
+        "/volumes/development/click-collect-api/node_modules/@nestjs/mongoose/index.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/src/auth/auth.module.ts": [
+        "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
+        "/volumes/development/click-collect-api/src/auth/auth.service.ts",
+        "/volumes/development/click-collect-api/src/profile/profile.module.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -9201,18 +9250,19 @@
         "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
         "/volumes/development/click-collect-api/src/profile/profile.resolver.ts",
         "/volumes/development/click-collect-api/src/common.module.ts",
+        "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts",
+        "/volumes/development/click-collect-api/node_modules/@nestjs/mongoose/index.d.ts",
+        "/volumes/development/click-collect-api/src/profile/profile.service.ts",
+        "/volumes/development/click-collect-api/src/auth/auth.module.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/volumes/development/click-collect-api/src/auth/auth.service.ts": [
+      "/volumes/development/click-collect-api/src/challengerequests/index.module.ts": [
         "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
-        "/volumes/development/click-collect-api/node_modules/type-graphql/dist/index.d.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/volumes/development/click-collect-api/src/auth/auth.module.ts": [
-        "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
-        "/volumes/development/click-collect-api/src/auth/auth.service.ts",
+        "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts",
+        "/volumes/development/click-collect-api/src/challengerequests/room.service.ts",
+        "/volumes/development/click-collect-api/src/questions/questions.module.ts",
+        "/volumes/development/click-collect-api/src/profile/profile.module.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -13097,8 +13147,22 @@
       "/volumes/development/click-collect-api/src/profile/dto/update-profile.input.ts": [
         "/volumes/development/click-collect-api/src/profile/dto/update-location.input.ts"
       ],
+      "/volumes/development/click-collect-api/node_modules/@types/jsonwebtoken/index.d.ts": [
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/index.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/node_modules/@types/bcrypt/index.d.ts": [
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/src/auth/auth.service.ts": [
+        "/volumes/development/click-collect-api/src/profile/models/profile.ts",
+        "/volumes/development/click-collect-api/src/profile/profile.service.ts"
+      ],
       "/volumes/development/click-collect-api/src/profile/profile.service.ts": [
         "/volumes/development/click-collect-api/src/profile/interfaces/profile.interface.ts",
+        "/volumes/development/click-collect-api/src/auth/auth.service.ts",
         "/volumes/development/click-collect-api/src/profile/dto/new-profile.input.ts",
         "/volumes/development/click-collect-api/src/profile/models/profile.ts",
         "/volumes/development/click-collect-api/src/profile/dto/update-profile.input.ts",
@@ -13110,6 +13174,9 @@
       ],
       "/volumes/development/click-collect-api/src/questions/dto/updatequestion.input.ts": [
         "/volumes/development/click-collect-api/src/questions/dto/newquestion.input.ts"
+      ],
+      "/volumes/development/click-collect-api/src/questions/customclass/question.class.ts": [
+        "/volumes/development/click-collect-api/src/questions/models/questions.model.ts"
       ],
       "/volumes/development/click-collect-api/src/questions/questionsservice/questions.service.ts": [
         "/volumes/development/click-collect-api/src/questions/interfaces/questions.interface.ts",
@@ -14776,9 +14843,14 @@
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/volumes/development/click-collect-api/src/profile/models/auth.model.ts": [
+        "/volumes/development/click-collect-api/src/profile/models/profile.ts"
+      ],
       "/volumes/development/click-collect-api/src/profile/profile.resolver.ts": [
         "/volumes/development/click-collect-api/src/profile/profile.service.ts",
         "/volumes/development/click-collect-api/src/profile/models/profile.ts",
+        "/volumes/development/click-collect-api/src/profile/dto/auth.input.ts",
+        "/volumes/development/click-collect-api/src/auth/auth.service.ts",
         "/volumes/development/click-collect-api/src/profile/dto/new-profile.input.ts",
         "/volumes/development/click-collect-api/src/profile/dto/update-profile.input.ts",
         "/volumes/development/click-collect-api/node_modules/type-graphql/dist/index.d.ts"
@@ -14902,9 +14974,6 @@
       "/volumes/development/click-collect-api/node_modules/@types/yargs/index.d.ts": [
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "/volumes/development/click-collect-api/src/questions/customclass/question.class.ts": [
-        "/volumes/development/click-collect-api/src/questions/models/questions.model.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -15513,14 +15582,21 @@
       "/volumes/development/click-collect-api/src/profile/interfaces/profile.interface.ts",
       "/volumes/development/click-collect-api/src/profile/dto/update-location.input.ts",
       "/volumes/development/click-collect-api/src/profile/dto/update-profile.input.ts",
+      "/volumes/development/click-collect-api/node_modules/@types/jsonwebtoken/index.d.ts",
+      "/volumes/development/click-collect-api/node_modules/@types/bcrypt/index.d.ts",
+      "/volumes/development/click-collect-api/src/auth/auth.service.ts",
       "/volumes/development/click-collect-api/src/profile/profile.service.ts",
       "/volumes/development/click-collect-api/src/challengerequests/player.class.ts",
       "/volumes/development/click-collect-api/src/challengerequests/request.class.ts",
       "/volumes/development/click-collect-api/src/questions/interfaces/questions.interface.ts",
       "/volumes/development/click-collect-api/src/questions/dto/newquestion.input.ts",
       "/volumes/development/click-collect-api/src/questions/dto/updatequestion.input.ts",
-      "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts",
-      "/volumes/development/click-collect-api/src/common.module.ts",
+      "/volumes/development/click-collect-api/src/questions/models/questions.model.ts",
+      "/volumes/development/click-collect-api/src/questions/customclass/question.class.ts",
+      "/volumes/development/click-collect-api/src/questions/questionsservice/questions.service.ts",
+      "/volumes/development/click-collect-api/src/challengerequests/game.class.ts",
+      "/volumes/development/click-collect-api/src/challengerequests/room.service.ts",
+      "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts",
       "/volumes/development/click-collect-api/src/questions/mongoschema/questions.schema.ts",
       "/volumes/development/click-collect-api/node_modules/@nestjs/graphql/dist/external/type-graphql.types.d.ts",
       "/volumes/development/click-collect-api/node_modules/@nestjs/graphql/dist/decorators/args.decorator.d.ts",
@@ -15753,8 +15829,8 @@
       "/volumes/development/click-collect-api/node_modules/@types/cors/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/apollo-server-express/dist/apolloserver.d.ts",
       "/volumes/development/click-collect-api/node_modules/apollo-server-express/dist/index.d.ts",
-      "/volumes/development/click-collect-api/src/guards/auth.guard.ts",
       "/volumes/development/click-collect-api/src/decorators/roles.decorator.ts",
+      "/volumes/development/click-collect-api/src/questions/questions.module.ts",
       "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/interfaces/serve-static-options.interface.d.ts",
       "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/adapters/express-adapter.d.ts",
       "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/adapters/index.d.ts",
@@ -15771,10 +15847,14 @@
       "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/multer/multer.module.d.ts",
       "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/multer/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/@nestjs/platform-express/index.d.ts",
-      "/volumes/development/click-collect-api/src/profile/profile.resolver.ts",
-      "/volumes/development/click-collect-api/src/profile/profile.module.ts",
-      "/volumes/development/click-collect-api/src/auth/auth.service.ts",
+      "/volumes/development/click-collect-api/src/profile/dto/auth.input.ts",
+      "/volumes/development/click-collect-api/src/profile/models/auth.model.ts",
+      "/volumes/development/click-collect-api/src/profile/mongoschema/profile.schema.ts",
+      "/volumes/development/click-collect-api/src/common.module.ts",
       "/volumes/development/click-collect-api/src/auth/auth.module.ts",
+      "/volumes/development/click-collect-api/src/profile/profile.module.ts",
+      "/volumes/development/click-collect-api/src/challengerequests/index.module.ts",
+      "/volumes/development/click-collect-api/src/app.module.ts",
       "/volumes/development/click-collect-api/src/main.ts",
       "/volumes/development/click-collect-api/src/common/scalars/date.scalar.ts",
       "/volumes/development/click-collect-api/node_modules/@babel/types/lib/index.d.ts",
@@ -15800,16 +15880,9 @@
       "/volumes/development/click-collect-api/node_modules/@types/superagent/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/@types/supertest/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/@types/yargs/index.d.ts",
-      "/volumes/development/click-collect-api/src/questions/models/questions.model.ts",
-      "/volumes/development/click-collect-api/src/questions/customclass/question.class.ts",
-      "/volumes/development/click-collect-api/src/questions/questionsservice/questions.service.ts",
-      "/volumes/development/click-collect-api/src/challengerequests/game.class.ts",
-      "/volumes/development/click-collect-api/src/challengerequests/room.service.ts",
-      "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts",
+      "/volumes/development/click-collect-api/src/guards/auth.guard.ts",
       "/volumes/development/click-collect-api/src/questions/questions.resolver.ts",
-      "/volumes/development/click-collect-api/src/questions/questions.module.ts",
-      "/volumes/development/click-collect-api/src/challengerequests/index.module.ts",
-      "/volumes/development/click-collect-api/src/app.module.ts"
+      "/volumes/development/click-collect-api/src/profile/profile.resolver.ts"
     ]
   },
   "version": "3.4.3"

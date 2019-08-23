@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { NewProfileInput } from './dto/new-profile.input';
 import { ProfileArgs } from './dto/profile.args';
 import { Profile } from './models/profile';
@@ -8,6 +8,7 @@ import {Profile as ProfileInterface} from './interfaces/profile.interface';
 import { UpdateProfileInput } from './dto/update-profile.input';
 import flatten from 'flat';
 import { UpdateLocationInput } from './dto/update-location.input';
+import { AuthService, Credentials, Auth } from '../auth/auth.service';
 
 @Injectable()
 export class ProfileService {
@@ -17,10 +18,17 @@ export class ProfileService {
    * Left for demonstration purposes
    */
 
-  constructor(@InjectModel('Profile') private readonly profileModel: Model<ProfileInterface>) {}
+  constructor(
+      @InjectModel('Profile') private readonly profileModel: Model<ProfileInterface>,
+      @Inject(forwardRef(() => AuthService))
+      private readonly authService: AuthService,
+    ) {}
 
   async create(data: NewProfileInput): Promise<Profile> {
-    const createdProfile = new this.profileModel(data);
+    const createdProfile = new this.profileModel({
+      ...data,
+      'privacy.password': await this.authService.hashPassword(data.privacy.password),
+    });
     return await createdProfile.save();
   }
 
@@ -59,9 +67,17 @@ export class ProfileService {
     return [profileDummyData] as any;
   }
 
+  async findByEmail(email: string): Promise<Profile> {
+    return await this.profileModel.findOne({'personal.email': email});
+  }
+
   async remove(id: string): Promise<Profile> {
     const removedProfile = this.profileModel.findOneAndDelete({_id: id});
     return removedProfile;
+  }
+
+  async authenticate(credentials: Credentials): Promise<Auth | false> {
+    return this.authService.authenticate(credentials);
   }
 }
 

@@ -4,13 +4,17 @@ import { Model } from 'mongoose';
 import { Profile as ProfileInterface } from './interfaces/profile.interface';
 import { UpdateProfileInput } from './dto/update-profile.input';
 import { UpdateLocationInput } from './dto/update-location.input';
+import { AuthService, Credentials, Auth } from '../auth/auth.service';
 export declare class ProfileService {
     private readonly profileModel;
-    constructor(profileModel: Model<ProfileInterface>);
+    private readonly authService;
+    constructor(profileModel: Model<ProfileInterface>, authService: AuthService);
     create(data: NewProfileInput): Promise<Profile>;
     update(data: UpdateProfileInput): Promise<Profile>;
     updateLocation(id: string, location: UpdateLocationInput): Promise<Profile[]>;
     findOneById(id: string): Promise<Profile>;
     findAll(): Promise<Profile[]>;
+    findByEmail(email: string): Promise<Profile>;
     remove(id: string): Promise<Profile>;
+    authenticate(credentials: Credentials): Promise<Auth | false>;
 }

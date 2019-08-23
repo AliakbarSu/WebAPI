@@ -1,6 +1,6 @@
 import { IsOptional, Length, MaxLength, MinLength } from 'class-validator';
 import { Field, InputType, Int } from 'type-graphql';
-import { Profile, Personal, GameStatus, Location } from '../models/profile';
+import { Profile, Personal, GameStatus, Location, Privacy } from '../models/profile';
 
 @InputType()
 class PersonalInput implements Partial<Personal> {
@@ -16,10 +16,6 @@ class PersonalInput implements Partial<Personal> {
 
   @Field()
   username: string;
-
-  @Field()
-  password: string;
-
   @Field()
   email: string;
 }
@@ -43,11 +39,20 @@ class GameStatusInput implements Partial<GameStatus> {
 }
 
 @InputType()
+class PrivacyInput implements Partial<Privacy> {
+  @Field()
+  password: string;
+}
+
+@InputType()
 export class NewProfileInput {
  @Field(type => PersonalInput)
  personal: PersonalInput;
 
- @Field(type => GameStatusInput, {nullable: true})
- @IsOptional()
+ @Field(type => GameStatusInput)
  gameStatus: GameStatusInput;
+
+ @Field(type => PrivacyInput)
+ privacy: Privacy;
+
 }

@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ChallengeRequestsGateway } from './index.gateway';
-import { CommonModule } from '../common.module';
 import { RoomService } from './room.service';
 import { QuestionsModule } from '../questions/questions.module';
-
+import { ProfileModule } from '../profile/profile.module';
 
 @Module({
-  imports: [CommonModule, QuestionsModule],
+  imports: [ProfileModule, QuestionsModule],
   providers: [RoomService, ChallengeRequestsGateway],
 })
 export class ChallengeRequestsModule {

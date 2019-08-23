@@ -8,15 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const profile_resolver_1 = require("./profile.resolver");
-const common_module_1 = require("../common.module");
+const profile_schema_1 = require("./MongoSchema/profile.schema");
+const mongoose_1 = require("@nestjs/mongoose");
+const profile_service_1 = require("./profile.service");
+const auth_module_1 = require("../auth/auth.module");
 let ProfileModule = class ProfileModule {
 };
 ProfileModule = __decorate([
     common_1.Module({
         imports: [
-            common_module_1.CommonModule,
+            common_1.forwardRef(() => auth_module_1.AuthModule),
+            mongoose_1.MongooseModule.forFeature([{ name: 'Profile', schema: profile_schema_1.ProfileSchema }]),
         ],
-        providers: [profile_resolver_1.ProfileResolver],
+        providers: [
+            profile_service_1.ProfileService,
+            profile_resolver_1.ProfileResolver,
+        ],
+        exports: [
+            profile_service_1.ProfileService,
+            mongoose_1.MongooseModule,
+        ],
     })
 ], ProfileModule);
 exports.ProfileModule = ProfileModule;
