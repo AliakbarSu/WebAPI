@@ -4,6 +4,7 @@ import jwt, { JwtHeader } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { ProfileService } from '../profile/profile.service';
 import { Profile } from '../profile/models/profile';
+import { JwtService } from '@nestjs/jwt';
 
 const SECRET_KEY = 'testing';
 const SALT_ROUNDS = 2;
@@ -28,25 +29,30 @@ export class AuthService {
     constructor(
         @Inject(forwardRef(() => ProfileService))
         private readonly profileService: ProfileService,
+        private readonly jwtService: JwtService,
     ) {}
 
-    async authenticate(credentials: Credentials): Promise<Auth | false> {
+    async validateUser(email: string, pass: string): Promise<Profile | null> {
         try {
-            const fetchedUser = await this.profileService.findByEmail(credentials.email);
-            if (!fetchedUser) { return false; }
-            if (!this._verifyPassword(fetchedUser.privacy.password, credentials.password)) {
-                return false;
+            const fetchedUser = await this.profileService.findByEmail(email);
+            if (!fetchedUser) { return null; }
+            if (!this._verifyPassword(fetchedUser.privacy.password, pass)) {
+                return null;
             }
 
-            return {
-                profile: fetchedUser,
-                token: this._generateToken(fetchedUser),
-            };
+            return fetchedUser;
 
         } catch (err) {
-            return false;
+            return null;
         }
     }
+
+    async login(user: any) {
+        const payload = { username: user.personal.username, sub: user._id };
+        return {
+          access_token: this.jwtService.sign(payload),
+        };
+      }
 
     isAuthenticated(token: string): Token | false {
         try {

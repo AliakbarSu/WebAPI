@@ -65,9 +65,6 @@ let ProfileService = class ProfileService {
         const removedProfile = this.profileModel.findOneAndDelete({ _id: id });
         return removedProfile;
     }
-    async authenticate(credentials) {
-        return this.authService.authenticate(credentials);
-    }
 };
 ProfileService = __decorate([
     common_1.Injectable(),

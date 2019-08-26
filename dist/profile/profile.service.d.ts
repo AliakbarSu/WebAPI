@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Profile as ProfileInterface } from './interfaces/profile.interface';
 import { UpdateProfileInput } from './dto/update-profile.input';
 import { UpdateLocationInput } from './dto/update-location.input';
-import { AuthService, Credentials, Auth } from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 export declare class ProfileService {
     private readonly profileModel;
     private readonly authService;
@@ -16,5 +16,4 @@ export declare class ProfileService {
     findAll(): Promise<Profile[]>;
     findByEmail(email: string): Promise<Profile>;
     remove(id: string): Promise<Profile>;
-    authenticate(credentials: Credentials): Promise<Auth | false>;
 }

@@ -19,29 +19,34 @@ const common_1 = require("@nestjs/common");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const profile_service_1 = require("../profile/profile.service");
+const jwt_1 = require("@nestjs/jwt");
 const SECRET_KEY = 'testing';
 const SALT_ROUNDS = 2;
 let AuthService = class AuthService {
-    constructor(profileService) {
+    constructor(profileService, jwtService) {
         this.profileService = profileService;
+        this.jwtService = jwtService;
     }
-    async authenticate(credentials) {
+    async validateUser(email, pass) {
         try {
-            const fetchedUser = await this.profileService.findByEmail(credentials.email);
+            const fetchedUser = await this.profileService.findByEmail(email);
             if (!fetchedUser) {
-                return false;
+                return null;
             }
-            if (!this._verifyPassword(fetchedUser.privacy.password, credentials.password)) {
-                return false;
+            if (!this._verifyPassword(fetchedUser.privacy.password, pass)) {
+                return null;
             }
-            return {
-                profile: fetchedUser,
-                token: this._generateToken(fetchedUser),
-            };
+            return fetchedUser;
         }
         catch (err) {
-            return false;
+            return null;
         }
+    }
+    async login(user) {
+        const payload = { username: user.personal.username, sub: user._id };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
     }
     isAuthenticated(token) {
         try {
@@ -96,7 +101,8 @@ let AuthService = class AuthService {
 AuthService = __decorate([
     common_1.Injectable(),
     __param(0, common_1.Inject(common_1.forwardRef(() => profile_service_1.ProfileService))),
-    __metadata("design:paramtypes", [profile_service_1.ProfileService])
+    __metadata("design:paramtypes", [profile_service_1.ProfileService,
+        jwt_1.JwtService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

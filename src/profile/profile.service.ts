@@ -76,9 +76,6 @@ export class ProfileService {
     return removedProfile;
   }
 
-  async authenticate(credentials: Credentials): Promise<Auth | false> {
-    return this.authService.authenticate(credentials);
-  }
 }
 
 const profileDummyData = {

@@ -2,7 +2,6 @@ import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PubSub } from 'apollo-server-express';
 import { ResolverInterface, FieldResolver } from 'type-graphql';
-import { AuthGuard } from '../guards/auth.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { Question, Answer } from './models/questions.model';
 import { QuestionsService } from './questionsService/questions.service';
@@ -20,7 +19,6 @@ export class QuestionsResolver implements ResolverInterface<Question> {
   // ************************
   @Query(returns => Question, {name: 'question'})
   @Roles('admin')
-  @UseGuards(new AuthGuard())
   async getQuestion(@Args('id') id: string): Promise<Question> {
     const question = await this.questionsService.findOneById(id);
     if (!question) {

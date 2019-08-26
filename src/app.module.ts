@@ -16,6 +16,7 @@ import { QuestionsModule } from './questions/questions.module';
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
+      context: ({ req }) => ({ req }),
     }),
     MongooseModule.forRoot('mongodb+srv://ali:123456khan@cluster0-5hifi.mongodb.net/test?retryWrites=true&w=majority'),
     AuthModule,

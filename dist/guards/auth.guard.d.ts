@@ -1,6 +1,6 @@
-import { CanActivate, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs';
-export declare class AuthGuard implements CanActivate {
-    private readonly authService;
-    canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean>;
+import { ExecutionContext } from '@nestjs/common';
+declare const CustomAuthGuard_base: import("@nestjs/passport").Type<import("@nestjs/passport").IAuthGuard>;
+export declare class CustomAuthGuard extends CustomAuthGuard_base {
+    getRequest(context: ExecutionContext): any;
 }
+export {};

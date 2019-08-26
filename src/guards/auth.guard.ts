@@ -1,15 +1,15 @@
-import { Injectable, CanActivate, ExecutionContext, Inject } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { Injectable, ExecutionContext } from '@nestjs/common';
+import { GqlExecutionContext } from '@nestjs/graphql';
+import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-  @Inject(AuthService)
-  private readonly authService: AuthService;
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
-    return true;
+export class CustomAuthGuard extends AuthGuard('jwt') {
+
+  getRequest(context: ExecutionContext) {
+    if (context.switchToHttp().getRequest() === undefined) {
+        return GqlExecutionContext.create(context).getContext().req;
+    } else {
+        return context.switchToHttp().getRequest();
+    }
   }
 }

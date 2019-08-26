@@ -7,20 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
-const graphql_1 = require("@nestjs/graphql");
 const passport_1 = require("@nestjs/passport");
-let CustomAuthGuard = class CustomAuthGuard extends passport_1.AuthGuard('jwt') {
+const graphql_1 = require("@nestjs/graphql");
+let GqlAuthGuard = class GqlAuthGuard extends passport_1.AuthGuard('jwt') {
     getRequest(context) {
-        if (context.switchToHttp().getRequest() === undefined) {
-            return graphql_1.GqlExecutionContext.create(context).getContext().req;
-        }
-        else {
-            return context.switchToHttp().getRequest();
-        }
+        const ctx = graphql_1.GqlExecutionContext.create(context);
+        return ctx.getContext().req;
     }
 };
-CustomAuthGuard = __decorate([
+GqlAuthGuard = __decorate([
     common_1.Injectable()
-], CustomAuthGuard);
-exports.CustomAuthGuard = CustomAuthGuard;
-//# sourceMappingURL=auth.guard.js.map
+], GqlAuthGuard);
+exports.GqlAuthGuard = GqlAuthGuard;
+//# sourceMappingURL=gql.gaurd.js.map

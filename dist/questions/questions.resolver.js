@@ -16,7 +16,6 @@ const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
-const auth_guard_1 = require("../guards/auth.guard");
 const roles_decorator_1 = require("../decorators/roles.decorator");
 const questions_model_1 = require("./models/questions.model");
 const questions_service_1 = require("./questionsService/questions.service");
@@ -54,7 +53,6 @@ let QuestionsResolver = class QuestionsResolver {
 __decorate([
     graphql_1.Query(returns => questions_model_1.Question, { name: 'question' }),
     roles_decorator_1.Roles('admin'),
-    common_1.UseGuards(new auth_guard_1.AuthGuard()),
     __param(0, graphql_1.Args('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

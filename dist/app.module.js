@@ -25,6 +25,7 @@ AppModule = __decorate([
             graphql_1.GraphQLModule.forRoot({
                 installSubscriptionHandlers: true,
                 autoSchemaFile: 'schema.gql',
+                context: ({ req }) => ({ req }),
             }),
             mongoose_1.MongooseModule.forRoot('mongodb+srv://ali:123456khan@cluster0-5hifi.mongodb.net/test?retryWrites=true&w=majority'),
             auth_module_1.AuthModule,
