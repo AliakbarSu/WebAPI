@@ -38,7 +38,7 @@ class Request {
     }
     addToAccepted(playerId) {
         if (this.acceptedRecipients.length !== 2 || playerId === this.sender.id) {
-            const player = this.reciepients.find((p) => p.id === playerId);
+            const player = this.reciepients.find((p) => p.id === String(playerId));
             this.acceptedRecipients.push(player);
         }
     }

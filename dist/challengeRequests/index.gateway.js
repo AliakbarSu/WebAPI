@@ -16,6 +16,9 @@ const player_class_1 = require("./player.class");
 const request_class_1 = require("./request.class");
 const game_class_1 = require("./game.class");
 const questions_service_1 = require("../questions/questionsService/questions.service");
+const common_1 = require("@nestjs/common");
+const roles_decorator_1 = require("../decorators/roles.decorator");
+const rolesAuth_gaurd_1 = require("../guards/rolesAuth.gaurd");
 let ChallengeRequestsGateway = class ChallengeRequestsGateway {
     constructor(profileService, roomService, questionsService) {
         this.profileService = profileService;
@@ -23,25 +26,32 @@ let ChallengeRequestsGateway = class ChallengeRequestsGateway {
         this.questionsService = questionsService;
     }
     async findNearest(client, data) {
-        const nearest = await this.profileService.updateLocation(data.userId, data.location);
-        const nearestIds = nearest.map(profile => profile._id.toString());
-        const request = new request_class_1.Request(new player_class_1.Player(data.userId, client.id), this.roomService.getReadyPlayers(nearestIds));
-        this.roomService.addToRequests(request);
-        request.eimit(this.server);
-        return nearest;
+        try {
+            const user = client.user;
+            const nearest = await this.profileService.updateLocation(String(user._id), data.location);
+            const nearestIds = nearest.map(profile => profile._id.toString());
+            const request = new request_class_1.Request(new player_class_1.Player(user._id, client.id), this.roomService.getReadyPlayers(nearestIds));
+            this.roomService.addToRequests(request);
+            request.eimit(this.server);
+            return nearest;
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
     handleConnection(server, data) {
-        server.userId = server.handshake.query.token;
-        const player = new player_class_1.Player(server.handshake.query.token, server.id);
+        server.userId = server.handshake.query.userId;
+        const player = new player_class_1.Player(server.handshake.query.userId, server.id);
         this.roomService.addToActive(player);
     }
     handleDisconnect(server) {
-        const id = server.userId = server.handshake.query.token;
+        const id = server.userId = server.handshake.query.userId;
         this.roomService.removeFromActive(id);
     }
     async acceptRequest(client, data) {
+        const user = client.user;
         const request = this.roomService.requestRoom.find((r) => r.id === data.request);
-        request.addToAccepted(data.userId);
+        request.addToAccepted(user._id);
         if (request && !request.isExpired && request.isReady()) {
             request.setState('ACTIVE');
             const game = new game_class_1.Game(this.questionsService, request);
@@ -70,12 +80,15 @@ __decorate([
     __metadata("design:type", Object)
 ], ChallengeRequestsGateway.prototype, "server", void 0);
 __decorate([
+    roles_decorator_1.Roles('player'),
+    common_1.UseGuards(rolesAuth_gaurd_1.RolesAuthGuard),
     websockets_1.SubscribeMessage('locationChanged'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ChallengeRequestsGateway.prototype, "findNearest", null);
 __decorate([
+    common_1.UseGuards(rolesAuth_gaurd_1.RolesAuthGuard),
     websockets_1.SubscribeMessage('onAcceptRequest'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
@@ -88,7 +101,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChallengeRequestsGateway.prototype, "submitAnswers", null);
 ChallengeRequestsGateway = __decorate([
-    websockets_1.WebSocketGateway({ path: '/challenge' }),
+    websockets_1.WebSocketGateway({ path: '/challenge', origins: '*:*' }),
     __metadata("design:paramtypes", [profile_service_1.ProfileService,
         room_service_1.RoomService,
         questions_service_1.QuestionsService])

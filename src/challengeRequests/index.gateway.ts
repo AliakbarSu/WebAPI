@@ -12,13 +12,17 @@ import { map } from 'rxjs/operators';
 import { Client, Server} from 'socket.io';
 import { ProfileService } from '../profile/profile.service';
 import { RoomService } from './room.service';
-import { Profile } from 'src/profile/models/profile';
+import { Profile } from '../profile/models/profile';
 import { Player } from './player.class';
 import { Request } from './request.class';
 import { Game } from './game.class';
 import { QuestionsService } from '../questions/questionsService/questions.service';
+import { UseGuards, Req } from '@nestjs/common';
+import { Roles } from '../decorators/roles.decorator';
+import { RolesAuthGuard } from '../guards/rolesAuth.gaurd';
+import { Request as RQ } from 'express';
 
-@WebSocketGateway({path: '/challenge'})
+@WebSocketGateway({path: '/challenge', origins: '*:*' })
 export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     constructor(
         private readonly profileService: ProfileService,
@@ -29,40 +33,51 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
     @WebSocketServer()
     server: Server;
 
+    @Roles('player')
+    @UseGuards(RolesAuthGuard)
     @SubscribeMessage('locationChanged')
     async findNearest(client: Client, data: any): Promise<any> {
-        const nearest = await this.profileService.updateLocation(data.userId, data.location);
-        const nearestIds: string[] = nearest.map(profile => profile._id.toString());
 
-        const request = new Request(
-            new Player(data.userId, client.id),
-            this.roomService.getReadyPlayers(nearestIds),
-        );
-        this.roomService.addToRequests(request);
-        request.eimit(this.server);
-        // console.log(this.roomService.readyRoom, this.roomService.activeRoom)
+        try {
+            const user = (client as any).user;
+            const nearest = await this.profileService.updateLocation(String(user._id), data.location);
+            const nearestIds: string[] = nearest.map(profile => profile._id.toString());
 
-        return nearest;
+            const request = new Request(
+                new Player(user._id, client.id),
+                this.roomService.getReadyPlayers(nearestIds),
+            );
+            this.roomService.addToRequests(request);
+            request.eimit(this.server);
+            // console.log(this.roomService.readyRoom, this.roomService.activeRoom)
+
+            return nearest;
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     handleConnection(server: any, data) {
-        server.userId = server.handshake.query.token;
+        server.userId = server.handshake.query.userId;
         const player = new Player(
-            server.handshake.query.token,
+            server.handshake.query.userId,
             server.id,
         );
         this.roomService.addToActive(player);
     }
 
     handleDisconnect(server: any) {
-        const id = server.userId = server.handshake.query.token;
+        const id = server.userId = server.handshake.query.userId;
         this.roomService.removeFromActive(id);
     }
 
+    // @Roles('player')
+    @UseGuards(RolesAuthGuard)
     @SubscribeMessage('onAcceptRequest')
     async acceptRequest(client: any, data: any): Promise<any> {
+        const user = client.user;
         const request: Request = this.roomService.requestRoom.find((r: Request) => r.id === data.request);
-        request.addToAccepted(data.userId);
+        request.addToAccepted(user._id);
         if (request && !request.isExpired && request.isReady()) {
             request.setState('ACTIVE');
             const game = new Game(this.questionsService, request);
@@ -72,6 +87,7 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
         } else {
             return 'Too late!';
         }
+
     }
 
     @SubscribeMessage('onAnswersSubmitted')

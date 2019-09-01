@@ -20,7 +20,7 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   // ************************
   // Query Section
   // ************************
-  @Roles('moderator')
+  @Roles('player')
   @UseGuards(RolesAuthGuard)
   @Query(returns => Profile, {name: 'profile'})
   async getProfile(@CurrentUser() user: Profile, @Args('id') id: string): Promise<Profile> {

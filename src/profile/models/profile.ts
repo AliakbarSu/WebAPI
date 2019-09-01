@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Int } from 'type-graphql';
+import { Field, ID, ObjectType, Int, Authorized } from 'type-graphql';
 
 @ObjectType()
 export class Personal {
@@ -96,8 +96,8 @@ export class Profile {
   privacy: Privacy;
   @Field(type => Points)
   points: Points;
+  @Authorized('owner')
   @Field(type => GameStatus)
   gameStatus: GameStatus;
 }
-
 

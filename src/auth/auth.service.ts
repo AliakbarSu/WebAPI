@@ -7,7 +7,7 @@ import { Profile } from '../profile/models/profile';
 import { JwtService } from '@nestjs/jwt';
 
 const SECRET_KEY = 'testing';
-const SALT_ROUNDS = 2;
+const SALT_ROUNDS = 4;
 
 export interface Token {
     id: string;
