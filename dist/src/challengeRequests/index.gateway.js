@@ -50,33 +50,33 @@ let ChallengeRequestsGateway = class ChallengeRequestsGateway {
     }
     async acceptRequest(client, data) {
         const user = client.user;
+        const request = this.roomService.requestRoom.find((r) => r.id === data.request);
+        request.addToAccepted(user._id);
+        if (request && !request.isExpired && request.isReady()) {
+            request.setState('ACTIVE');
+            const game = new game_class_1.Game(this.questionsService, request);
+            this.roomService.addToPlaying(game);
+            this.roomService.removeFromRequests(request.id);
+            game.start(this.server);
+        }
+        else {
+            return 'Too late!';
+        }
+    }
+    async submitAnswers(client, data) {
         try {
-            const request = this.roomService.requestRoom.find((r) => r.id === data.request);
-            request.addToAccepted(user._id);
-            if (request && !request.isExpired && request.isReady()) {
-                request.setState('ACTIVE');
-                const game = new game_class_1.Game(this.questionsService, request);
-                this.roomService.addToPlaying(game);
-                this.roomService.removeFromRequests(request.id);
-                game.start(this.server);
+            const game = this.roomService.getActiveGame(data.gameId);
+            if (game.state !== 'COMPLETED') {
+                game.submitAnswers(data.userId, data.answers);
             }
-            else {
-                return 'Too late!';
+            if (game.isGameOver) {
+                game.announanceResults();
+                game.finishGame();
+                this.roomService.removeFromPlaying(game.id);
             }
         }
         catch (err) {
             console.log(err);
-        }
-    }
-    async submitAnswers(client, data) {
-        const game = this.roomService.getActiveGame(data.gameId);
-        if (game.state !== 'COMPLETED') {
-            game.submitAnswers(data.userId, data.answers);
-        }
-        if (game.isGameOver) {
-            game.announanceResults();
-            game.finishGame();
-            this.roomService.removeFromPlaying(game.id);
         }
     }
 };
@@ -93,7 +93,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChallengeRequestsGateway.prototype, "findNearest", null);
 __decorate([
-    roles_decorator_1.Roles('player'),
     common_1.UseGuards(rolesAuth_gaurd_1.RolesAuthGuard),
     websockets_1.SubscribeMessage('onAcceptRequest'),
     __metadata("design:type", Function),
@@ -101,6 +100,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChallengeRequestsGateway.prototype, "acceptRequest", null);
 __decorate([
+    common_1.UseGuards(rolesAuth_gaurd_1.RolesAuthGuard),
     websockets_1.SubscribeMessage('onAnswersSubmitted'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),

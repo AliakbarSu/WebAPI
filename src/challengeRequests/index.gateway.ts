@@ -44,7 +44,7 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
             const nearestIds: string[] = nearest.map(profile => profile._id.toString());
 
             const request = new Request(
-                new Player(user._id, client.id),
+                new Player(this.profileService, user._id, client.id),
                 this.roomService.getReadyPlayers(nearestIds),
             );
             this.roomService.addToRequests(request);
@@ -60,6 +60,7 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
     handleConnection(server: any, data) {
         server.userId = server.handshake.query.userId;
         const player = new Player(
+            this.profileService,
             server.handshake.query.userId,
             server.id,
         );
@@ -90,16 +91,22 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
 
     }
 
+    @UseGuards(RolesAuthGuard)
     @SubscribeMessage('onAnswersSubmitted')
     async submitAnswers(client: any, data: any): Promise<any> {
-        const game: Game = this.roomService.getActiveGame(data.gameId);
-        if (game.state !== 'COMPLETED') {
-            game.submitAnswers(data.userId, data.answers);
+        try {
+            const game: Game = this.roomService.getActiveGame(data.gameId);
+            if (game.state !== 'COMPLETED') {
+                game.submitAnswers(client.user._id, data.answers);
+            }
+            if (game.isGameOver) {
+                game.announanceResults();
+                game.finishGame();
+                this.roomService.removeFromPlaying(game.id);
+            }
+        } catch(err) {
+            console.log(err)
         }
-        if (game.isGameOver) {
-            game.announanceResults();
-            game.finishGame();
-            this.roomService.removeFromPlaying(game.id);
-        }
+        
     }
 }

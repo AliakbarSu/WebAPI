@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import { QuestionsService } from '../questions/questionsService/questions.service';
 import { Question as QuestionModel, Answer } from '../questions/models/questions.model';
 import { Question } from '../questions/customClass/question.class';
+import { Points } from './points.class';
 const uuid = require('uuid/v1');
 
 export class Game {
@@ -11,11 +12,13 @@ export class Game {
     id: string = null;
     state: string = null;
     players: Player[] = [];
+    points: Points;
     questions: Question[] = [];
     constructor(private readonly questionService: QuestionsService, request: Request) {
         this.id = uuid();
         this.state = 'PLAYING';
         this.players = request.acceptedRecipients;
+        this.points = new Points(request.points);
     }
 
     start(server: Server) {
@@ -63,11 +66,15 @@ export class Game {
         return player;
     }
 
-    announanceResults() {
-        if (this.isGameOver) {
-            this._eimit('onGameResults', this.getWinner(), this.getWinner().socketId);
-            this._eimit('onGameResults', this.getLoser(), this.getLoser().socketId);
-        }
+    async announanceResults() {
+        // Update players' points and win and lost
+        const winner: Player = this.getLoser();
+        const loser: Player = this.getWinner();
+        await this.players.forEach(player => player.setPoints(player, this));
+        // if (this.isGameOver) {
+        this._eimit('onGameResults', 'you have won', winner.socketId);
+        this._eimit('onGameResults', 'you have lost', loser.socketId);
+        // }
     }
 
     finishGame() {
@@ -77,7 +84,7 @@ export class Game {
     }
 
     submitAnswers(playerId: string, answers: Answer[]) {
-        const player = this.players.find((p: Player) => p.id === playerId);
+        const player = this.players.find((p: Player) => p.id === String(playerId));
         const score = this._validateAnswers(answers).correct / this._validateAnswers(answers).total;
         player.setScore(score);
         player.submit();

@@ -20,32 +20,42 @@ let RolesAuthGuard = class RolesAuthGuard extends passport_1.AuthGuard('jwt') {
         this.context = null;
     }
     getRequest(context) {
-        this.context = context;
-        if (context.switchToWs().getClient() !== undefined) {
-            const request = context.switchToHttp().getRequest();
-            request.headers = { authorization: `Bearer ${context.switchToWs().getData().token}` };
-            return request;
+        try {
+            this.context = context;
+            if (context.switchToWs().getClient() !== undefined) {
+                const request = context.switchToHttp().getRequest();
+                request.headers = { authorization: `Bearer ${context.switchToWs().getData().token}` };
+                return request;
+            }
+            else if (context.switchToHttp().getRequest() === undefined) {
+                return graphql_1.GqlExecutionContext.create(context).getContext().req;
+            }
+            else {
+                return context.switchToHttp().getRequest();
+            }
         }
-        else if (context.switchToHttp().getRequest() === undefined) {
-            return graphql_1.GqlExecutionContext.create(context).getContext().req;
-        }
-        else {
-            return context.switchToHttp().getRequest();
+        catch (err) {
+            console.log(err);
         }
     }
     handleRequest(err, user, info) {
-        if (err || !user) {
-            throw err || new common_1.UnauthorizedException();
-        }
-        const roles = this.reflector.get('roles', this.context.getHandler());
-        if (!roles) {
+        try {
+            if (err || !user) {
+                throw err || new common_1.UnauthorizedException();
+            }
+            const roles = this.reflector.get('roles', this.context.getHandler());
+            if (!roles) {
+                return user;
+            }
+            const hasRole = () => user.privacy.roles.some((role) => roles.includes(role));
+            if (!(user && user.privacy.roles && hasRole())) {
+                throw new common_1.UnauthorizedException();
+            }
             return user;
         }
-        const hasRole = () => user.privacy.roles.some((role) => roles.includes(role));
-        if (!(user && user.privacy.roles && hasRole())) {
-            throw new common_1.UnauthorizedException();
+        catch (err) {
+            console.log(err);
         }
-        return user;
     }
 };
 RolesAuthGuard = __decorate([

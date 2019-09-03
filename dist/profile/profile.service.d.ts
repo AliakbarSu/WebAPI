@@ -11,6 +11,7 @@ export declare class ProfileService {
     constructor(profileModel: Model<ProfileInterface>, authService: AuthService);
     create(data: NewProfileInput): Promise<Profile>;
     update(data: UpdateProfileInput): Promise<Profile>;
+    updateGameStatus(data: UpdateProfileInput): Promise<Profile>;
     updateLocation(id: string, location: UpdateLocationInput): Promise<Profile[]>;
     findOneById(id: string): Promise<Profile>;
     findAll(): Promise<Profile[]>;

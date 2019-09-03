@@ -34,6 +34,10 @@ let ProfileService = class ProfileService {
         const updatedProfile = this.profileModel.findOneAndUpdate({ _id: data._id }, flat_1.default(Object.assign({}, data)), { new: true });
         return await updatedProfile.exec();
     }
+    async updateGameStatus(data) {
+        const updatedProfile = this.profileModel.findOneAndUpdate({ _id: data._id }, Object.assign({}, data));
+        return await updatedProfile.exec();
+    }
     async updateLocation(id, location) {
         await this.update({ _id: id, gameStatus: { location } });
         const fetchedLocation = this.profileModel.find({

@@ -38,6 +38,11 @@ export class ProfileService {
     return await updatedProfile.exec();
   }
 
+  async updateGameStatus(data: UpdateProfileInput): Promise<Profile> {
+    const updatedProfile = this.profileModel.findOneAndUpdate({_id: data._id}, {...data});
+    return await updatedProfile.exec();
+  }
+
   async updateLocation(id: string, location: UpdateLocationInput): Promise<Profile[]> {
     await this.update({_id: id, gameStatus: {location}});
     const fetchedLocation = this.profileModel.find(

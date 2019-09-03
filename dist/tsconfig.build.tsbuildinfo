@@ -1958,8 +1958,8 @@
         "signature": "92cbd71365d305e1e272fb61d52eab0552394219caac0430c417a1b08e1e6db3"
       },
       "/volumes/development/click-collect-api/src/profile/profile.service.ts": {
-        "version": "3571e74b9a467bbaca593bbae8c7e772e2c4b028101d5e6c2d5622d6a010e193",
-        "signature": "2ecd5e6548b94b16d7c36c9b866a4163aa4400366d688cae066d7967e77bdc9d"
+        "version": "6b4dd098f1edd4c8b83bfc6493fe91cacf96beeda61c6ac8a626abfc86c0aadf",
+        "signature": "90606f386f5ade2a3a5b256b07ac391f682a1db41c3138b2a6a5704d6c8c982b"
       },
       "/volumes/development/click-collect-api/node_modules/@nestjs/jwt/node_modules/@types/jsonwebtoken/index.d.ts": {
         "version": "3ee1c4479498ce568cf7789174c181a68a7f7f16f7b338132ded0daf24a8a971",
@@ -3421,13 +3421,9 @@
         "version": "2768abfccd13a3e8353f221244e40ea3133281dc7f77425718fea20c91515fc9",
         "signature": "2768abfccd13a3e8353f221244e40ea3133281dc7f77425718fea20c91515fc9"
       },
-      "/volumes/development/click-collect-api/src/challengerequests/player.class.ts": {
-        "version": "df549c28f19ab1fae3e2cac115a01408e522bd50e6ea372489f128771cd1723e",
-        "signature": "72621077ee83b3e358658d8ef9ff078270a610b46cbf43b0f1d8835015f0921e"
-      },
       "/volumes/development/click-collect-api/src/challengerequests/request.class.ts": {
-        "version": "9d28cda3c24ccf74044a743935cbd563af6871e287223ff9e1d672770abf97c1",
-        "signature": "9f0fe70ab204fae4a6564010a235e220d2820a23f3ec443e8ec2ec9d56d21470"
+        "version": "344c517e490796f227c356f3be3c2da1957c9ded7bffec779332d9193dc3d9df",
+        "signature": "64d2e351d17edfb513de86ff8d60b7383396f06e6318b6da596d14f58429440b"
       },
       "/volumes/development/click-collect-api/src/questions/interfaces/questions.interface.ts": {
         "version": "7341a767420a9b912e75a66409b9b8eb5237d40f5d2afb2be539967ff3709f36",
@@ -3453,16 +3449,24 @@
         "version": "7cf3632debc4424a88aedc495e61d5df57d3ee0e87fd7afb41aa064dc1975cae",
         "signature": "e9fcd4cdcaba763a6710ca18cb55db9fba5decb81daaae0d77c7cb35ac9b37f2"
       },
+      "/volumes/development/click-collect-api/src/challengerequests/points.class.ts": {
+        "version": "2f39457bf4079d8eb0aa77792233d572e6f686d1c57edb1b15cbd1483dde8f0b",
+        "signature": "755572050a306970998ead6bb6e0b3681aaaf4ded7b6715ffa90fc8b184923a5"
+      },
       "/volumes/development/click-collect-api/src/challengerequests/game.class.ts": {
-        "version": "9a85ed1ec6d5ebaf45566a688e80ed92add238fab2a1383c1cf2a037ac68d5d9",
-        "signature": "5aff779b03ec42453c4e2e5a16404f45ff561b68c7b40442359e3bf4e78efab0"
+        "version": "ab347e54bdc8bc5e054a0fcf6702644d2a76b0334511eddea12a384fd1e93791",
+        "signature": "9ae82c2ae6a00f380b9ad1268eea6ca51f2a2019036a409da7a502c4f3fba177"
+      },
+      "/volumes/development/click-collect-api/src/challengerequests/player.class.ts": {
+        "version": "05a5cbc72dd3dc9c55de691cc38013cb1788107b5fd40579345135a6ee19808c",
+        "signature": "922a016336c7620b2fbe28ef8bcfd32ce3d5e19aee4a4cb63936c7a173e9843d"
       },
       "/volumes/development/click-collect-api/src/challengerequests/room.service.ts": {
         "version": "b588deca64bc0225bf665bf315425a44d3cd5017a45a2164604d89ac468445c8",
         "signature": "75fa92db83e6f08e0c82a00ce78ec3f7bafba9443cbb2a7358568b73f3af553d"
       },
       "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts": {
-        "version": "074de1d9fc07f66a9c482bf1b22a561bd7ef2aefcf3ef3d72e6cd8768d713f8e",
+        "version": "a87beec8be57662e35515fe6e4b4460f157335d84b6e3c4aad19d0675da0bd40",
         "signature": "1b8be189798e10777b346e3069539b7e31b5e3a554a1c6f5967777f318dde4f3"
       },
       "/volumes/development/click-collect-api/src/questions/mongoschema/questions.schema.ts": {
@@ -9179,10 +9183,6 @@
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "/volumes/development/click-collect-api/src/challengerequests/player.class.ts": [
-        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
-        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "/volumes/development/click-collect-api/src/challengerequests/request.class.ts": [
         "/volumes/development/click-collect-api/src/challengerequests/player.class.ts",
         "/volumes/development/click-collect-api/node_modules/@types/socket.io/index.d.ts",
@@ -9226,6 +9226,10 @@
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "/volumes/development/click-collect-api/src/challengerequests/points.class.ts": [
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "/volumes/development/click-collect-api/src/challengerequests/game.class.ts": [
         "/volumes/development/click-collect-api/src/challengerequests/player.class.ts",
         "/volumes/development/click-collect-api/src/challengerequests/request.class.ts",
@@ -9233,6 +9237,14 @@
         "/volumes/development/click-collect-api/src/questions/questionsservice/questions.service.ts",
         "/volumes/development/click-collect-api/src/questions/models/questions.model.ts",
         "/volumes/development/click-collect-api/src/questions/customclass/question.class.ts",
+        "/volumes/development/click-collect-api/src/challengerequests/points.class.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
+        "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "/volumes/development/click-collect-api/src/challengerequests/player.class.ts": [
+        "/volumes/development/click-collect-api/src/profile/profile.service.ts",
+        "/volumes/development/click-collect-api/src/challengerequests/game.class.ts",
+        "/volumes/development/click-collect-api/node_modules/@nestjs/common/index.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/util.d.ts",
         "/volumes/development/click-collect-api/node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -15093,10 +15105,16 @@
       "/volumes/development/click-collect-api/src/challengerequests/game.class.ts": [
         "/volumes/development/click-collect-api/node_modules/@types/socket.io/index.d.ts",
         "/volumes/development/click-collect-api/src/challengerequests/player.class.ts",
+        "/volumes/development/click-collect-api/src/challengerequests/points.class.ts",
         "/volumes/development/click-collect-api/src/questions/customclass/question.class.ts",
         "/volumes/development/click-collect-api/src/questions/questionsservice/questions.service.ts",
         "/volumes/development/click-collect-api/src/challengerequests/request.class.ts",
         "/volumes/development/click-collect-api/src/questions/models/questions.model.ts"
+      ],
+      "/volumes/development/click-collect-api/src/challengerequests/player.class.ts": [
+        "/volumes/development/click-collect-api/src/profile/models/profile.ts",
+        "/volumes/development/click-collect-api/src/profile/profile.service.ts",
+        "/volumes/development/click-collect-api/src/challengerequests/game.class.ts"
       ],
       "/volumes/development/click-collect-api/src/challengerequests/room.service.ts": [
         "/volumes/development/click-collect-api/src/challengerequests/player.class.ts",
@@ -16283,7 +16301,6 @@
       "/volumes/development/click-collect-api/node_modules/rxjs/internal/operators/zipall.d.ts",
       "/volumes/development/click-collect-api/node_modules/rxjs/operators/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/@types/socket.io/index.d.ts",
-      "/volumes/development/click-collect-api/src/challengerequests/player.class.ts",
       "/volumes/development/click-collect-api/src/challengerequests/request.class.ts",
       "/volumes/development/click-collect-api/src/questions/interfaces/questions.interface.ts",
       "/volumes/development/click-collect-api/src/questions/dto/newquestion.input.ts",
@@ -16291,8 +16308,10 @@
       "/volumes/development/click-collect-api/src/questions/models/questions.model.ts",
       "/volumes/development/click-collect-api/src/questions/customclass/question.class.ts",
       "/volumes/development/click-collect-api/src/questions/questionsservice/questions.service.ts",
-      "/volumes/development/click-collect-api/src/challengerequests/game.class.ts",
+      "/volumes/development/click-collect-api/src/challengerequests/points.class.ts",
+      "/volumes/development/click-collect-api/src/challengerequests/player.class.ts",
       "/volumes/development/click-collect-api/src/challengerequests/room.service.ts",
+      "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts",
       "/volumes/development/click-collect-api/src/questions/mongoschema/questions.schema.ts",
       "/volumes/development/click-collect-api/node_modules/apollo-server-express/node_modules/@types/express/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/@types/cors/index.d.ts",
@@ -16362,7 +16381,7 @@
       "/volumes/development/click-collect-api/node_modules/@types/superagent/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/@types/supertest/index.d.ts",
       "/volumes/development/click-collect-api/node_modules/@types/yargs/index.d.ts",
-      "/volumes/development/click-collect-api/src/challengerequests/index.gateway.ts"
+      "/volumes/development/click-collect-api/src/challengerequests/game.class.ts"
     ]
   },
   "version": "3.4.3"

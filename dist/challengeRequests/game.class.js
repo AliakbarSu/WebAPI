@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const question_class_1 = require("../questions/customClass/question.class");
+const points_class_1 = require("./points.class");
 const uuid = require('uuid/v1');
 class Game {
     constructor(questionService, request) {
@@ -12,6 +13,7 @@ class Game {
         this.id = uuid();
         this.state = 'PLAYING';
         this.players = request.acceptedRecipients;
+        this.points = new points_class_1.Points(request.points);
     }
     start(server) {
         this.server = server;
@@ -43,11 +45,12 @@ class Game {
         player.state = 'LOST';
         return player;
     }
-    announanceResults() {
-        if (this.isGameOver) {
-            this._eimit('onGameResults', this.getWinner(), this.getWinner().socketId);
-            this._eimit('onGameResults', this.getLoser(), this.getLoser().socketId);
-        }
+    async announanceResults() {
+        const winner = this.getLoser();
+        const loser = this.getWinner();
+        await this.players.forEach(player => player.setPoints(player, this));
+        this._eimit('onGameResults', 'you have won', winner.socketId);
+        this._eimit('onGameResults', 'you have lost', loser.socketId);
     }
     finishGame() {
         if (this.isGameOver) {
@@ -55,7 +58,7 @@ class Game {
         }
     }
     submitAnswers(playerId, answers) {
-        const player = this.players.find((p) => p.id === playerId);
+        const player = this.players.find((p) => p.id === String(playerId));
         const score = this._validateAnswers(answers).correct / this._validateAnswers(answers).total;
         player.setScore(score);
         player.submit();

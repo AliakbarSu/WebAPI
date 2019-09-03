@@ -4,12 +4,14 @@ import { Server } from 'socket.io';
 import { QuestionsService } from '../questions/questionsService/questions.service';
 import { Answer } from '../questions/models/questions.model';
 import { Question } from '../questions/customClass/question.class';
+import { Points } from './points.class';
 export declare class Game {
     private readonly questionService;
     server: Server;
     id: string;
     state: string;
     players: Player[];
+    points: Points;
     questions: Question[];
     constructor(questionService: QuestionsService, request: Request);
     start(server: Server): void;

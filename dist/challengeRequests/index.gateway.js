@@ -30,7 +30,7 @@ let ChallengeRequestsGateway = class ChallengeRequestsGateway {
             const user = client.user;
             const nearest = await this.profileService.updateLocation(String(user._id), data.location);
             const nearestIds = nearest.map(profile => profile._id.toString());
-            const request = new request_class_1.Request(new player_class_1.Player(user._id, client.id), this.roomService.getReadyPlayers(nearestIds));
+            const request = new request_class_1.Request(new player_class_1.Player(this.profileService, user._id, client.id), this.roomService.getReadyPlayers(nearestIds));
             this.roomService.addToRequests(request);
             request.eimit(this.server);
             return nearest;
@@ -41,7 +41,7 @@ let ChallengeRequestsGateway = class ChallengeRequestsGateway {
     }
     handleConnection(server, data) {
         server.userId = server.handshake.query.userId;
-        const player = new player_class_1.Player(server.handshake.query.userId, server.id);
+        const player = new player_class_1.Player(this.profileService, server.handshake.query.userId, server.id);
         this.roomService.addToActive(player);
     }
     handleDisconnect(server) {
@@ -64,14 +64,19 @@ let ChallengeRequestsGateway = class ChallengeRequestsGateway {
         }
     }
     async submitAnswers(client, data) {
-        const game = this.roomService.getActiveGame(data.gameId);
-        if (game.state !== 'COMPLETED') {
-            game.submitAnswers(data.userId, data.answers);
+        try {
+            const game = this.roomService.getActiveGame(data.gameId);
+            if (game.state !== 'COMPLETED') {
+                game.submitAnswers(client.user._id, data.answers);
+            }
+            if (game.isGameOver) {
+                game.announanceResults();
+                game.finishGame();
+                this.roomService.removeFromPlaying(game.id);
+            }
         }
-        if (game.isGameOver) {
-            game.announanceResults();
-            game.finishGame();
-            this.roomService.removeFromPlaying(game.id);
+        catch (err) {
+            console.log(err);
         }
     }
 };
@@ -95,6 +100,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChallengeRequestsGateway.prototype, "acceptRequest", null);
 __decorate([
+    common_1.UseGuards(rolesAuth_gaurd_1.RolesAuthGuard),
     websockets_1.SubscribeMessage('onAnswersSubmitted'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),

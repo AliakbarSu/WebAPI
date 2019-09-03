@@ -9,6 +9,7 @@ export class Request {
     sender: Player = null;
     reciepients: Player[] = [];
     acceptedRecipients: Player[] = [];
+    points: number = 0;
     createdAt: number = null;
     constructor(sender: Player, reciepients: Player[]) {
         this.id = uuid();
@@ -16,6 +17,7 @@ export class Request {
         this.reciepients = reciepients;
         this.state = 'READY';
         this.createdAt = new Date().getTime();
+        this.points = 100;
     }
 
     eimit(server: Server): null {

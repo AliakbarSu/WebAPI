@@ -9,12 +9,14 @@ class Request {
         this.sender = null;
         this.reciepients = [];
         this.acceptedRecipients = [];
+        this.points = 0;
         this.createdAt = null;
         this.id = uuid();
         this.sender = sender;
         this.reciepients = reciepients;
         this.state = 'READY';
         this.createdAt = new Date().getTime();
+        this.points = 100;
     }
     eimit(server) {
         this.server = server;

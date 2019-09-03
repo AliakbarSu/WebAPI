@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const question_class_1 = require("../questions/customClass/question.class");
+const points_class_1 = require("./points.class");
 const uuid = require('uuid/v1');
 class Game {
     constructor(questionService, request) {
@@ -12,6 +13,7 @@ class Game {
         this.id = uuid();
         this.state = 'PLAYING';
         this.players = request.acceptedRecipients;
+        this.points = new points_class_1.Points(request.points);
     }
     start(server) {
         this.server = server;
@@ -44,6 +46,7 @@ class Game {
         return player;
     }
     announanceResults() {
+        this.players.forEach(player => player.setPoints(player, this));
         if (this.isGameOver) {
             this._eimit('onGameResults', this.getWinner(), this.getWinner().socketId);
             this._eimit('onGameResults', this.getLoser(), this.getLoser().socketId);

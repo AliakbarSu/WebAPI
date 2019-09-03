@@ -7,6 +7,7 @@ export declare class Request {
     sender: Player;
     reciepients: Player[];
     acceptedRecipients: Player[];
+    points: number;
     createdAt: number;
     constructor(sender: Player, reciepients: Player[]);
     eimit(server: Server): null;
