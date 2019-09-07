@@ -23,12 +23,15 @@ class Player {
     }
     async setPoints(player, game) {
         const isLost = player.state.toLowerCase() === 'lost';
+        const profile = await this.profileService.findOneById(player.id);
+        const points = profile.points.points;
+        const updatedPoints = isLost ? points.splice(0, game.points.length) : points.concat(game.points);
         return this.profileService.updateGameStatus({ _id: player.id,
             $inc: {
                 'gameStatus.win': isLost ? 0 : 1,
                 'gameStatus.lost': isLost ? 1 : 0,
-                'points.points': isLost ? -game.points.amount : game.points.amount,
             },
+            'points.points': updatedPoints,
         });
     }
 }

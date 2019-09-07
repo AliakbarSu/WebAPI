@@ -16,7 +16,11 @@ export interface Profile extends Document {
     },
   };
   readonly points: {
-    points: number,
+    points: [{
+      amount: number;
+      sendable: boolean;
+      createdAt: boolean;
+    }],
     redeemedPoints: number,
     recievedPoints: RecievePoints;
     sentPoints: SendPoints;

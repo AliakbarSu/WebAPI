@@ -11,11 +11,12 @@ const index_gateway_1 = require("./index.gateway");
 const room_service_1 = require("./room.service");
 const questions_module_1 = require("../questions/questions.module");
 const profile_module_1 = require("../profile/profile.module");
+const points_module_1 = require("../points/points.module");
 let ChallengeRequestsModule = class ChallengeRequestsModule {
 };
 ChallengeRequestsModule = __decorate([
     common_1.Module({
-        imports: [profile_module_1.ProfileModule, questions_module_1.QuestionsModule],
+        imports: [profile_module_1.ProfileModule, questions_module_1.QuestionsModule, points_module_1.PointsModule],
         providers: [room_service_1.RoomService, index_gateway_1.ChallengeRequestsGateway],
     })
 ], ChallengeRequestsModule);

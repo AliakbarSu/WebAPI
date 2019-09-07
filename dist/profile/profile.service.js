@@ -21,13 +21,14 @@ const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const flat_1 = __importDefault(require("flat"));
 const auth_service_1 = require("../auth/auth.service");
+const points_class_1 = require("../points/points.class");
 let ProfileService = class ProfileService {
     constructor(profileModel, authService) {
         this.profileModel = profileModel;
         this.authService = authService;
     }
     async create(data) {
-        const createdProfile = new this.profileModel(Object.assign({}, data, { 'privacy.password': await this.authService.hashPassword(data.privacy.password) }));
+        const createdProfile = new this.profileModel(Object.assign({}, data, { 'privacy.password': await this.authService.hashPassword(data.privacy.password), 'points.points': [new points_class_1.Points(50, false)] }));
         return await createdProfile.save();
     }
     async update(data) {
@@ -39,9 +40,10 @@ let ProfileService = class ProfileService {
         return await updatedProfile.exec();
     }
     async updateLocation(id, location) {
-        await this.update({ _id: id, gameStatus: { location } });
+        const updatedProfile = await this.update({ _id: id, gameStatus: { location } });
         const fetchedLocation = this.profileModel.find({
             $and: [
+                { 'gameStatus.level': updatedProfile.gameStatus.level },
                 { 'gameStatus.location': {
                         $near: {
                             $geometry: {
@@ -60,7 +62,7 @@ let ProfileService = class ProfileService {
         return await this.profileModel.findById(id);
     }
     async findAll() {
-        return [profileDummyData];
+        return await this.profileModel.find();
     }
     async findByEmail(email) {
         return await this.profileModel.findOne({ 'personal.email': email });
@@ -77,36 +79,4 @@ ProfileService = __decorate([
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_1.Model !== "undefined" && mongoose_1.Model) === "function" ? _a : Object, auth_service_1.AuthService])
 ], ProfileService);
 exports.ProfileService = ProfileService;
-const profileDummyData = {
-    _id: 'jfkl;sjfsfj',
-    personal: {
-        firstName: 'asfjksfj',
-        lastName: 'fjksafj',
-        username: 'fjklsafjs;f',
-        phone: '93993838',
-        email: 'fjklas;fjsfjkf',
-    },
-    points: {
-        points: 22,
-        recievedPoints: {
-            id: 'fjsafjskfj',
-            sender: 'jfaksfjsf',
-            amount: 22,
-            timestamp: new Date(),
-        },
-        sentPoints: {
-            id: 'fjsafjskfj',
-            recipient: 'jfaksfjsf',
-            amount: 22,
-            timestamp: new Date(),
-        },
-        redeemedPoints: 222,
-    },
-    gameStatus: {
-        status: 1,
-        win: 0,
-        lost: 0,
-        level: 1,
-    },
-};
 //# sourceMappingURL=profile.service.js.map

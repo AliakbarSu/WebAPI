@@ -35,8 +35,13 @@ export declare class SendPoints {
     amount: number;
     timestamp: Date;
 }
+export declare class Point {
+    amount: number;
+    sendable: boolean;
+    createdAt: number;
+}
 export declare class Points {
-    points: number;
+    points: Point[];
     redeemedPoints: number;
     recievedPoints: RecievePoints;
     sentPoints: SendPoints;

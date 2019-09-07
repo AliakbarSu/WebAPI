@@ -40,7 +40,12 @@ exports.ProfileSchema = new mongoose.Schema({
         },
     },
     points: {
-        points: { $type: Number, default: 0 },
+        points: [{
+                amount: Number,
+                sendable: Boolean,
+                createdAt: Number,
+            }],
+        targetPoints: { $type: Number, default: 10 },
         redeemedPoints: { $type: Number, default: 0 },
         recievedPoints: [{
                 id: String,

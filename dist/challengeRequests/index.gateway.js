@@ -19,11 +19,13 @@ const questions_service_1 = require("../questions/questionsService/questions.ser
 const common_1 = require("@nestjs/common");
 const roles_decorator_1 = require("../decorators/roles.decorator");
 const rolesAuth_gaurd_1 = require("../guards/rolesAuth.gaurd");
+const points_service_1 = require("../points/points.service");
 let ChallengeRequestsGateway = class ChallengeRequestsGateway {
-    constructor(profileService, roomService, questionsService) {
+    constructor(profileService, roomService, questionsService, pointsService) {
         this.profileService = profileService;
         this.roomService = roomService;
         this.questionsService = questionsService;
+        this.pointsService = pointsService;
     }
     async findNearest(client, data) {
         try {
@@ -54,7 +56,7 @@ let ChallengeRequestsGateway = class ChallengeRequestsGateway {
         request.addToAccepted(user._id);
         if (request && !request.isExpired && request.isReady()) {
             request.setState('ACTIVE');
-            const game = new game_class_1.Game(this.questionsService, request);
+            const game = new game_class_1.Game(this.questionsService, this.pointsService, request);
             this.roomService.addToPlaying(game);
             this.roomService.removeFromRequests(request.id);
             game.start(this.server);
@@ -110,7 +112,8 @@ ChallengeRequestsGateway = __decorate([
     websockets_1.WebSocketGateway({ path: '/challenge', origins: '*:*' }),
     __metadata("design:paramtypes", [profile_service_1.ProfileService,
         room_service_1.RoomService,
-        questions_service_1.QuestionsService])
+        questions_service_1.QuestionsService,
+        points_service_1.PointsService])
 ], ChallengeRequestsGateway);
 exports.ChallengeRequestsGateway = ChallengeRequestsGateway;
 //# sourceMappingURL=index.gateway.js.map

@@ -75,9 +75,17 @@ export class SendPoints {
 }
 
 @ObjectType()
-export class Points {
+export class Point {
   @Field()
-  points: number;
+  amount: number;
+  sendable: boolean;
+  createdAt: number;
+}
+
+@ObjectType()
+export class Points {
+  @Field(type => [Point])
+  points: Point[];
   @Field()
   redeemedPoints: number;
   @Field()

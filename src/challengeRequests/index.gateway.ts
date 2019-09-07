@@ -21,6 +21,7 @@ import { UseGuards, Req } from '@nestjs/common';
 import { Roles } from '../decorators/roles.decorator';
 import { RolesAuthGuard } from '../guards/rolesAuth.gaurd';
 import { Request as RQ } from 'express';
+import { PointsService } from '../points/points.service';
 
 @WebSocketGateway({path: '/challenge', origins: '*:*' })
 export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -28,6 +29,7 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
         private readonly profileService: ProfileService,
         private readonly roomService: RoomService,
         private readonly questionsService: QuestionsService,
+        private readonly pointsService: PointsService,
         ) {}
 
     @WebSocketServer()
@@ -81,7 +83,7 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
         request.addToAccepted(user._id);
         if (request && !request.isExpired && request.isReady()) {
             request.setState('ACTIVE');
-            const game = new Game(this.questionsService, request);
+            const game = new Game(this.questionsService, this.pointsService, request);
             this.roomService.addToPlaying(game);
             this.roomService.removeFromRequests(request.id);
             game.start(this.server);

@@ -12,7 +12,6 @@ export class RolesAuthGuard extends AuthGuard('jwt') {
   }
 
   getRequest(context: ExecutionContext) {
-    try {
       this.context = context;
       if (context.switchToWs().getClient() !== undefined) {
         const request = context.switchToHttp().getRequest();
@@ -23,33 +22,22 @@ export class RolesAuthGuard extends AuthGuard('jwt') {
       } else {
         return context.switchToHttp().getRequest();
       }
-    } catch(err) {
-      console.log(err)
-    }
-    
   }
 
   handleRequest(err, user, info: Error) {
     // don't throw 401 error when unauthenticated
-    try {
-        if (err || !user) {
-          throw err || new UnauthorizedException();
-      }
-
-      const roles = this.reflector.get<string[]>('roles', this.context.getHandler());
-      if (!roles) {
-        return user;
-      }
-
-      const hasRole = () => user.privacy.roles.some((role) => roles.includes(role));
-      if (!(user && user.privacy.roles && hasRole())) {
-          throw new UnauthorizedException();
-      }
-    
-      return user;
-    }catch(err) {
-      console.log(err)
+    if (err || !user) {
+      throw err || new UnauthorizedException();
     }
-    
+    const roles = this.reflector.get<string[]>('roles', this.context.getHandler());
+    if (!roles) {
+      return user;
+    }
+
+    const hasRole = () => user.privacy.roles.some((role) => roles.includes(role));
+    if (!(user && user.privacy.roles && hasRole())) {
+        throw new UnauthorizedException();
+    }
+    return user;
   }
 }

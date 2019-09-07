@@ -1,5 +1,5 @@
-import { ProfileService } from "../profile/profile.service";
-import { Game } from "./game.class";
+import { ProfileService } from '../profile/profile.service';
+import { Game } from './game.class';
 export declare class Player {
     id: string;
     socketId: string;

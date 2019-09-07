@@ -29,7 +29,7 @@ let AuthService = class AuthService {
     }
     async validateUser(email, pass) {
         try {
-            const fetchedUser = await this.profileService.findByEmail(email);
+            const fetchedUser = await this.profileService.findByEmail(email.toLowerCase());
             if (!fetchedUser) {
                 return null;
             }

@@ -146,11 +146,21 @@ SendPoints = __decorate([
     type_graphql_1.ObjectType()
 ], SendPoints);
 exports.SendPoints = SendPoints;
-let Points = class Points {
+let Point = class Point {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", Number)
+], Point.prototype, "amount", void 0);
+Point = __decorate([
+    type_graphql_1.ObjectType()
+], Point);
+exports.Point = Point;
+let Points = class Points {
+};
+__decorate([
+    type_graphql_1.Field(type => [Point]),
+    __metadata("design:type", Array)
 ], Points.prototype, "points", void 0);
 __decorate([
     type_graphql_1.Field(),

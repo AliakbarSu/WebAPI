@@ -9,15 +9,10 @@ import { UpdateProfileInput } from './dto/update-profile.input';
 import flatten from 'flat';
 import { UpdateLocationInput } from './dto/update-location.input';
 import { AuthService, Credentials, Auth } from '../auth/auth.service';
+import { Points } from '../points/points.class';
 
 @Injectable()
 export class ProfileService {
-  /**
-   * MOCK
-   * Put some real business logic here
-   * Left for demonstration purposes
-   */
-
   constructor(
       @InjectModel('Profile') private readonly profileModel: Model<ProfileInterface>,
       @Inject(forwardRef(() => AuthService))
@@ -28,6 +23,8 @@ export class ProfileService {
     const createdProfile = new this.profileModel({
       ...data,
       'privacy.password': await this.authService.hashPassword(data.privacy.password),
+      // Each user has a starting points of 50
+      'points.points': [new Points(50, false)],
     });
     return await createdProfile.save();
   }
@@ -44,10 +41,11 @@ export class ProfileService {
   }
 
   async updateLocation(id: string, location: UpdateLocationInput): Promise<Profile[]> {
-    await this.update({_id: id, gameStatus: {location}});
+    const updatedProfile = await this.update({_id: id, gameStatus: {location}});
     const fetchedLocation = this.profileModel.find(
       {
         $and: [
+          {'gameStatus.level': updatedProfile.gameStatus.level},
           // {_id: {$ne : id}},
           {'gameStatus.location': {
             $near: {
@@ -69,7 +67,7 @@ export class ProfileService {
   }
 
   async findAll(): Promise<Profile[]> {
-    return [profileDummyData] as any;
+    return await this.profileModel.find();
   }
 
   async findByEmail(email: string): Promise<Profile> {
@@ -83,35 +81,4 @@ export class ProfileService {
 
 }
 
-const profileDummyData = {
-  _id: 'jfkl;sjfsfj',
-  personal: {
-    firstName: 'asfjksfj',
-    lastName: 'fjksafj',
-    username: 'fjklsafjs;f',
-    phone: '93993838',
-    email: 'fjklas;fjsfjkf',
-  },
-  points: {
-    points: 22,
-    recievedPoints: {
-      id: 'fjsafjskfj',
-      sender: 'jfaksfjsf',
-      amount: 22,
-      timestamp: new Date(),
-    },
-    sentPoints: {
-      id: 'fjsafjskfj',
-      recipient: 'jfaksfjsf',
-      amount: 22,
-      timestamp: new Date(),
-    },
-    redeemedPoints: 222,
-  },
-  gameStatus: {
-    status: 1,
-    win: 0,
-    lost: 0,
-    level: 1,
-  },
-};
+

@@ -83,8 +83,12 @@ input PersonalInput {
   email: String!
 }
 
+type Point {
+  amount: Float!
+}
+
 type Points {
-  points: Float!
+  points: [Point!]!
   redeemedPoints: Float!
   recievedPoints: RecievePoints!
   sentPoints: SendPoints!

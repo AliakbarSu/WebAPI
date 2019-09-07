@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const question_class_1 = require("../questions/customClass/question.class");
-const points_class_1 = require("./points.class");
 const uuid = require('uuid/v1');
 class Game {
-    constructor(questionService, request) {
+    constructor(questionService, pointsService, request) {
         this.questionService = questionService;
+        this.pointsService = pointsService;
         this.id = null;
         this.state = null;
         this.players = [];
@@ -13,7 +13,7 @@ class Game {
         this.id = uuid();
         this.state = 'PLAYING';
         this.players = request.acceptedRecipients;
-        this.points = new points_class_1.Points(request.points);
+        this.points = this.pointsService.newPoints(request.points, true);
     }
     start(server) {
         this.server = server;

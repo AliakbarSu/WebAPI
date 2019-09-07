@@ -1,0 +1,1 @@
+//# sourceMappingURL=points.schema.js.map

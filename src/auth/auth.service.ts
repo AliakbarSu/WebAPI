@@ -34,7 +34,7 @@ export class AuthService {
 
     async validateUser(email: string, pass: string): Promise<Profile | null> {
         try {
-            const fetchedUser = await this.profileService.findByEmail(email);
+            const fetchedUser = await this.profileService.findByEmail(email.toLowerCase());
             if (!fetchedUser) { return null; }
             if (!this._verifyPassword(fetchedUser.privacy.password, pass)) {
                 return null;
