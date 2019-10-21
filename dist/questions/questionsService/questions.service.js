@@ -21,6 +21,7 @@ const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const flat_1 = __importDefault(require("flat"));
 const question_class_1 = require("../customClass/question.class");
+const mongoose_3 = __importDefault(require("mongoose"));
 const uuid = require('uuid');
 let QuestionsService = class QuestionsService {
     constructor(questionModel) {
@@ -45,6 +46,16 @@ let QuestionsService = class QuestionsService {
     }
     findAll() {
         return this.questionModel.find();
+    }
+    findByIds(ids) {
+        return this.questionModel.find({
+            '_id': { $in: ids.map(id => mongoose_3.default.Types.ObjectId(String(id))) },
+        });
+    }
+    async validateAnswers(questionIds, answerIds) {
+        const questions = await this.findByIds(questionIds);
+        const results = questions.map(question => answerIds.includes(String(question.correctAnswerId)));
+        return results;
     }
     async generateQuestion(limit, diff_level, category) {
         return await this.questionModel.find({ diff_level, category }).limit(limit);

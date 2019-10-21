@@ -17,6 +17,8 @@ const auth_module_1 = require("./auth/auth.module");
 const questions_module_1 = require("./questions/questions.module");
 const gqlFieldAuthChecker_1 = require("./auth/gqlFieldAuthChecker");
 const points_module_1 = require("./points/points.module");
+const game_module_1 = require("./game/game.module");
+const apollo_server_express_1 = require("apollo-server-express");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -27,7 +29,9 @@ AppModule = __decorate([
             graphql_1.GraphQLModule.forRoot({
                 installSubscriptionHandlers: true,
                 autoSchemaFile: 'schema.gql',
-                context: ({ req }) => ({ req }),
+                context: ({ req, connection }) => {
+                    return connection ? { req: { headers: connection.context.headers } } : { req };
+                },
                 buildSchemaOptions: {
                     authChecker: gqlFieldAuthChecker_1.gqlFieldAuthChecker,
                     authMode: 'null',
@@ -37,9 +41,16 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             questions_module_1.QuestionsModule,
             points_module_1.PointsModule,
+            game_module_1.GameModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [
+            {
+                provide: 'PUB_SUB',
+                useValue: new apollo_server_express_1.PubSub(),
+            },
+            app_service_1.AppService,
+        ],
     })
 ], AppModule);
 exports.AppModule = AppModule;

@@ -11,6 +11,8 @@ export declare class QuestionsService {
     remove(id: string): Promise<Question>;
     findOneById(id: string): Promise<Question>;
     findAll(): Promise<Question[]>;
+    findByIds(ids: string[]): Promise<Question[]>;
+    validateAnswers(questionIds: string[], answerIds: string[]): Promise<boolean[]>;
     generateQuestion(limit: number, diff_level: number, category: string): Promise<Question[]>;
     private _getCorrectAnswrId;
     private _covertAnswers;

@@ -1,11 +1,9 @@
 import { Answer } from "../models/questions.model";
+import { AnswerClass } from "./Answer.class";
 export declare class Question {
     id: string;
     question: string;
-    answers: Array<{
-        id: string;
-        text: string;
-    }>;
+    answers: AnswerClass[];
     correctAnswerId: string;
     diff_level: number;
     category: string;

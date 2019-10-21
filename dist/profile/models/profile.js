@@ -197,7 +197,6 @@ __decorate([
     __metadata("design:type", Points)
 ], Profile.prototype, "points", void 0);
 __decorate([
-    type_graphql_1.Authorized('owner'),
     type_graphql_1.Field(type => GameStatus),
     __metadata("design:type", GameStatus)
 ], Profile.prototype, "gameStatus", void 0);

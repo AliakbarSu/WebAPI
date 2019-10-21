@@ -12,31 +12,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const class_validator_1 = require("class-validator");
 const type_graphql_1 = require("type-graphql");
 const update_location_input_1 = require("./update-location.input");
-let Request = class Request {
+let InputRequest = class InputRequest {
 };
 __decorate([
     type_graphql_1.Field(type => String, { nullable: true }),
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
-], Request.prototype, "status", void 0);
+], InputRequest.prototype, "status", void 0);
 __decorate([
     type_graphql_1.Field(type => String, { nullable: true }),
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
-], Request.prototype, "opponent", void 0);
+], InputRequest.prototype, "opponent", void 0);
 __decorate([
     type_graphql_1.Field(type => Number, { nullable: true }),
     class_validator_1.IsOptional(),
     __metadata("design:type", Number)
-], Request.prototype, "created_at", void 0);
+], InputRequest.prototype, "created_at", void 0);
 __decorate([
     type_graphql_1.Field(type => Number, { nullable: true }),
     class_validator_1.IsOptional(),
     __metadata("design:type", Number)
-], Request.prototype, "updated_at", void 0);
-Request = __decorate([
+], InputRequest.prototype, "updated_at", void 0);
+InputRequest = __decorate([
     type_graphql_1.InputType()
-], Request);
+], InputRequest);
 let GameStatusType = class GameStatusType {
 };
 __decorate([
@@ -55,9 +55,9 @@ __decorate([
     __metadata("design:type", update_location_input_1.UpdateLocationInput)
 ], GameStatusType.prototype, "location", void 0);
 __decorate([
-    type_graphql_1.Field(type => Request, { nullable: true }),
+    type_graphql_1.Field(type => InputRequest, { nullable: true }),
     class_validator_1.IsOptional(),
-    __metadata("design:type", Request)
+    __metadata("design:type", InputRequest)
 ], GameStatusType.prototype, "request", void 0);
 GameStatusType = __decorate([
     type_graphql_1.InputType()

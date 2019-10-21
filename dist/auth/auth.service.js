@@ -21,7 +21,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const profile_service_1 = require("../profile/profile.service");
 const jwt_1 = require("@nestjs/jwt");
 const SECRET_KEY = 'testing';
-const SALT_ROUNDS = 4;
+const SALT_ROUNDS = 12;
 let AuthService = class AuthService {
     constructor(profileService, jwtService) {
         this.profileService = profileService;
@@ -45,6 +45,7 @@ let AuthService = class AuthService {
     async login(user) {
         const payload = { username: user.personal.username, sub: user._id };
         return {
+            id: user._id,
             access_token: this.jwtService.sign(payload),
         };
     }

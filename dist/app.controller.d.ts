@@ -6,6 +6,7 @@ export declare class AppController {
     constructor(appService: AppService, authService: AuthService);
     getHello(): string;
     login(req: any): Promise<{
+        id: any;
         access_token: string;
     }>;
 }

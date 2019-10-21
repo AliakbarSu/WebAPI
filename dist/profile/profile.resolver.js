@@ -21,9 +21,7 @@ const profile_service_1 = require("./profile.service");
 const type_graphql_1 = require("type-graphql");
 const update_profile_input_1 = require("./dto/update-profile.input");
 const platform_express_1 = require("@nestjs/platform-express");
-const roles_decorator_1 = require("../decorators/roles.decorator");
 const currentUser_decorator_1 = require("../decorators/currentUser.decorator");
-const rolesAuth_gaurd_1 = require("../guards/rolesAuth.gaurd");
 const pubSub = new apollo_server_express_1.PubSub();
 let ProfileResolver = class ProfileResolver {
     constructor(profileService) {
@@ -65,8 +63,6 @@ let ProfileResolver = class ProfileResolver {
     }
 };
 __decorate([
-    roles_decorator_1.Roles('player'),
-    common_1.UseGuards(rolesAuth_gaurd_1.RolesAuthGuard),
     graphql_1.Query(returns => profile_1.Profile, { name: 'profile' }),
     __param(0, currentUser_decorator_1.CurrentUser()), __param(1, graphql_1.Args('id')),
     __metadata("design:type", Function),

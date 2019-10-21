@@ -1,5 +1,5 @@
 import { UpdateLocationInput } from './update-location.input';
-declare class Request {
+declare class InputRequest {
     status?: string;
     opponent?: string;
     created_at?: number;
@@ -9,7 +9,7 @@ declare class GameStatusType {
     level?: number;
     status?: number;
     location?: UpdateLocationInput;
-    request?: Request;
+    request?: InputRequest;
 }
 export declare class UpdateProfileInput {
     _id: string;

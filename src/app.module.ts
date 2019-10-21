@@ -12,14 +12,26 @@ import { gqlFieldAuthChecker } from './auth/gqlFieldAuthChecker';
 import { BuildSchemaOptions } from '@nestjs/graphql/dist/external/type-graphql.types';
 import { AuthChecker } from 'type-graphql';
 import { PointsModule } from './points/points.module';
-
-
+import { GameModule } from './game/game.module';
+import { PubSub } from 'apollo-server-express';
 
 export interface TypeGraphQLBuildSchemaOptions extends BuildSchemaOptions {
  authChecker: AuthChecker<any, any>;
 }
 
-
+// const graphQLModuleFactory = async (config: ConfigService) => ({
+//   subscriptions: {
+//     onConnect: async (connParams, websocket) => {
+//       const tokenHeader = "jwtToken";
+//       const token = connParams["jwtToken"];
+//       if (token) {
+//         jwt.verify(token, config.jwtSecret) as JwtPayload;
+//       } else {
+//         throw new UnauthorizedException("Unauthorized", "User not authorized to connect.");
+//       }
+//     },
+//   },
+// }) as GqlModuleOptions;
 
 @Module({
   imports: [
@@ -28,7 +40,9 @@ export interface TypeGraphQLBuildSchemaOptions extends BuildSchemaOptions {
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
-      context: ({ req }) => ({ req }),
+      context: ({ req, connection }) => {
+        return connection ? { req: { headers: connection.context.headers } } : { req };
+      },
       buildSchemaOptions: {
         authChecker: gqlFieldAuthChecker,
         authMode: 'null',
@@ -38,8 +52,15 @@ export interface TypeGraphQLBuildSchemaOptions extends BuildSchemaOptions {
     AuthModule,
     QuestionsModule,
     PointsModule,
+    GameModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: 'PUB_SUB',
+      useValue: new PubSub(),
+    },
+    AppService,
+  ],
 })
 export class AppModule {}

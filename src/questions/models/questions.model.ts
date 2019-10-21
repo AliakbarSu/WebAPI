@@ -10,8 +10,8 @@ export class Answer {
 
 @ObjectType()
 export class Question {
-  @Field(type => ID)
-  _id: string;
+  @Field(type => String)
+  id: string;
   @Field()
   question: string;
   @Field(type => [Answer])

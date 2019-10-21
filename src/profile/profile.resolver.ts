@@ -20,8 +20,8 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   // ************************
   // Query Section
   // ************************
-  @Roles('player')
-  @UseGuards(RolesAuthGuard)
+  // @Roles('player')
+  // @UseGuards(RolesAuthGuard)
   @Query(returns => Profile, {name: 'profile'})
   async getProfile(@CurrentUser() user: Profile, @Args('id') id: string): Promise<Profile> {
     const profile = await this.profileService.findOneById(id);
@@ -35,6 +35,7 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   profiles(): Promise<Profile[]> {
     return this.profileService.findAll();
   }
+
 
   // @Query(returns => AuthModel)
   // async authenticate(@Args('credentials') credentials: CredentialsInputs): Promise<Auth | null> {

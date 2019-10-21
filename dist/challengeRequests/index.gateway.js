@@ -13,7 +13,6 @@ const websockets_1 = require("@nestjs/websockets");
 const profile_service_1 = require("../profile/profile.service");
 const room_service_1 = require("./room.service");
 const player_class_1 = require("./player.class");
-const request_class_1 = require("./request.class");
 const game_class_1 = require("./game.class");
 const questions_service_1 = require("../questions/questionsService/questions.service");
 const common_1 = require("@nestjs/common");
@@ -28,18 +27,6 @@ let ChallengeRequestsGateway = class ChallengeRequestsGateway {
         this.pointsService = pointsService;
     }
     async findNearest(client, data) {
-        try {
-            const user = client.user;
-            const nearest = await this.profileService.updateLocation(String(user._id), data.location);
-            const nearestIds = nearest.map(profile => profile._id.toString());
-            const request = new request_class_1.Request(new player_class_1.Player(this.profileService, user._id, client.id), this.roomService.getReadyPlayers(nearestIds));
-            this.roomService.addToRequests(request);
-            request.eimit(this.server);
-            return nearest;
-        }
-        catch (err) {
-            console.log(err);
-        }
     }
     handleConnection(server, data) {
         server.userId = server.handshake.query.userId;

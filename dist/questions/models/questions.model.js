@@ -27,9 +27,9 @@ exports.Answer = Answer;
 let Question = class Question {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field(type => String),
     __metadata("design:type", String)
-], Question.prototype, "_id", void 0);
+], Question.prototype, "id", void 0);
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)

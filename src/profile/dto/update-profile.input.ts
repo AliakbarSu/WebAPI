@@ -4,7 +4,7 @@ import { UpdateLocationInput } from './update-location.input';
 
 
 @InputType()
-class Request {
+class InputRequest {
   @Field(type => String, {nullable: true})
   @IsOptional()
   status?: string;
@@ -35,9 +35,9 @@ class GameStatusType {
     @IsOptional()
     location?: UpdateLocationInput;
 
-    @Field(type => Request, {nullable: true})
+    @Field(type => InputRequest, {nullable: true})
     @IsOptional()
-    request?: Request;
+    request?: InputRequest;
 }
 
 

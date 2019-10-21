@@ -3,7 +3,7 @@ export declare class Answer {
     text: string;
 }
 export declare class Question {
-    _id: string;
+    id: string;
     question: string;
     answers: Answer[];
     correctAnswerId: string;

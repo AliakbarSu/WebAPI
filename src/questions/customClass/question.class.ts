@@ -1,11 +1,12 @@
 import { Answer } from "../models/questions.model";
+import { AnswerClass } from "./Answer.class";
 
 const uuid = require('uuid');
 
 export class Question {
     id: string = null;
     question: string = null;
-    answers: Array<{id: string, text: string}> = [];
+    answers: AnswerClass[] = [];
     correctAnswerId: string = null;
     diff_level: number;
     category: string;
@@ -23,7 +24,7 @@ export class Question {
         category = 'general') {
             this.id = uuid();
             this.question = question;
-            this.answers = answers;
+            this.answers = [{id: 'fskfjsf', text: 'fksfjskfjk'}];
             this.correctAnswerId = correctAnswerId;
             this.category = category;
             this.diff_level = diff_level;

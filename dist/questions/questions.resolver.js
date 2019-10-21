@@ -33,7 +33,7 @@ let QuestionsResolver = class QuestionsResolver {
         }
         return question;
     }
-    async profiles() {
+    async questions() {
         return await this.questionsService.findAll();
     }
     answers() {
@@ -63,7 +63,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], QuestionsResolver.prototype, "profiles", null);
+], QuestionsResolver.prototype, "questions", null);
 __decorate([
     type_graphql_1.FieldResolver(),
     __metadata("design:type", Function),

@@ -13,6 +13,38 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type ExpiredRequest {
+  sender: String!
+  status: Boolean!
+}
+
+type Game {
+  _id: String!
+  questions: [GameQuestion!]!
+  opponents: [Opponent!]!
+  createdAt: String!
+  time: Float!
+}
+
+input GameFilter {
+  _id: String!
+  level: Int!
+  points: Int!
+}
+
+type GameQuestion {
+  _id: String!
+  id: String!
+  question: String!
+  answers: [Answer!]!
+  correctAnswerId: String!
+  diff_level: Float!
+  category: String!
+  createdAt: Float!
+  updatedAt: Float!
+  createdBy: String!
+}
+
 type GameStatus {
   win: Float!
   lost: Float!
@@ -30,7 +62,19 @@ input GameStatusType {
   level: Float
   status: Float
   location: UpdateLocationInput
-  request: Request
+  request: InputRequest
+}
+
+type GameToken {
+  token: String!
+  players: [String!]!
+}
+
+input InputRequest {
+  status: String
+  opponent: String
+  created_at: Float
+  updated_at: Float
 }
 
 type Location {
@@ -51,6 +95,11 @@ type Mutation {
   updateProfile(data: UpdateProfileInput!): Profile!
   removeProfile(id: String!): Profile!
   updateAvatar: Profile!
+  SubmitAnswers(answerIds: [String!]!, questionIds: [String!]!, token: String!, _id: String!): PlaceHolderResult!
+  rejectRequest(token: String!, id: String!): PlaceHolderResult!
+  giveUp(token: String!, id: String!): Results!
+  acceptRequest(token: String!, id: String!): Boolean!
+  updateLocation(data: UpdateProfileInput!): [Profile!]!
 }
 
 input NewProfileInput {
@@ -67,6 +116,11 @@ input NewQuestionInput {
   category: String
 }
 
+type Opponent {
+  _id: String!
+  username: String!
+}
+
 type Personal {
   firstName: String!
   lastName: String!
@@ -81,6 +135,10 @@ input PersonalInput {
   lastName: String!
   username: String!
   email: String!
+}
+
+type PlaceHolderResult {
+  status: Boolean!
 }
 
 type Point {
@@ -115,12 +173,13 @@ type Profile {
 
 type Query {
   question(id: String!): Question!
-  profiles: [Profile!]!
+  questions: [Question!]!
   profile(id: String!): Profile!
+  profiles: [Profile!]!
 }
 
 type Question {
-  _id: ID!
+  id: String!
   question: String!
   answers: [Answer!]!
   correctAnswerId: String!
@@ -138,11 +197,21 @@ type RecievePoints {
   timestamp: DateTime!
 }
 
-input Request {
-  status: String
-  opponent: String
-  created_at: Float
-  updated_at: Float
+type Request {
+  _id: String!
+  points: Float!
+  sender: Profile!
+  level: Float!
+  opponents: Profile!
+  token: String!
+  time: Float!
+  createdAt: String!
+}
+
+type Results {
+  won: Boolean!
+  points: Float!
+  winner: String!
 }
 
 type SendPoints {
@@ -154,6 +223,13 @@ type SendPoints {
 
 type Subscription {
   recipeAdded: Profile!
+  onRequestRejected(id: String!): PlaceHolderResult!
+  onGameStarted(token: String!, id: String!): Game!
+  onRequestAccepted: Boolean!
+  onChallengeFound(filter: GameFilter!): Request!
+  onGameEnds(id: String!): Results!
+  onRequestExpired(id: String!): ExpiredRequest!
+  onReceivingToken(id: String!): GameToken!
 }
 
 input UpdateLocationInput {

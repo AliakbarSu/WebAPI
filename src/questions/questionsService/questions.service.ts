@@ -7,6 +7,7 @@ import flatten from 'flat';
 import { Question, Answer } from '../models/questions.model';
 import { NewQuestionInput } from '../dto/newQuestion.input';
 import {Question as QuestionObj} from '../customClass/question.class';
+import mongoose from 'mongoose';
 const uuid = require('uuid');
 
 @Injectable()
@@ -44,6 +45,18 @@ export class QuestionsService {
 
     findAll(): Promise<Question[]> {
         return this.questionModel.find();
+    }
+
+    findByIds(ids: string[]): Promise<Question[]> {
+        return this.questionModel.find({
+            '_id': { $in: ids.map(id => mongoose.Types.ObjectId(String(id)))},
+        });
+    }
+
+    async validateAnswers(questionIds: string[], answerIds: string[]): Promise<boolean[]> {
+        const questions: Question[] = await this.findByIds(questionIds);
+        const results = questions.map(question => answerIds.includes(String(question.correctAnswerId)));
+        return results;
     }
 
     async generateQuestion(limit: number, diff_level: number, category: string): Promise<Question[]> {

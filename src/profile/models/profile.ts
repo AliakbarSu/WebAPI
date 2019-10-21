@@ -104,7 +104,7 @@ export class Profile {
   privacy: Privacy;
   @Field(type => Points)
   points: Points;
-  @Authorized('owner')
+  // @Authorized('owner')
   @Field(type => GameStatus)
   gameStatus: GameStatus;
 }

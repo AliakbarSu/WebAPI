@@ -7,7 +7,7 @@ import { Profile } from '../profile/models/profile';
 import { JwtService } from '@nestjs/jwt';
 
 const SECRET_KEY = 'testing';
-const SALT_ROUNDS = 4;
+const SALT_ROUNDS = 12;
 
 export interface Token {
     id: string;
@@ -50,6 +50,7 @@ export class AuthService {
     async login(user: any) {
         const payload = { username: user.personal.username, sub: user._id };
         return {
+          id: user._id,
           access_token: this.jwtService.sign(payload),
         };
       }

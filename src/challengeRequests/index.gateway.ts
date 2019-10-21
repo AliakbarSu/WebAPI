@@ -40,23 +40,23 @@ export class ChallengeRequestsGateway implements OnGatewayConnection, OnGatewayD
     @SubscribeMessage('locationChanged')
     async findNearest(client: Client, data: any): Promise<any> {
 
-        try {
-            const user = (client as any).user;
-            const nearest = await this.profileService.updateLocation(String(user._id), data.location);
-            const nearestIds: string[] = nearest.map(profile => profile._id.toString());
+        // try {
+        //     const user = (client as any).user;
+        //     const nearest = await this.profileService.updateLocation(String(user._id), data.location);
+        //     const nearestIds: string[] = nearest.map(profile => profile._id.toString());
 
-            const request = new Request(
-                new Player(this.profileService, user._id, client.id),
-                this.roomService.getReadyPlayers(nearestIds),
-            );
-            this.roomService.addToRequests(request);
-            request.eimit(this.server);
-            // console.log(this.roomService.readyRoom, this.roomService.activeRoom)
+        //     const request = new Request(
+        //         new Player(this.profileService, user._id, client.id),
+        //         this.roomService.getReadyPlayers(nearestIds),
+        //     );
+        //     this.roomService.addToRequests(request);
+        //     request.eimit(this.server);
+        //     // console.log(this.roomService.readyRoom, this.roomService.activeRoom)
 
-            return nearest;
-        } catch (err) {
-            console.log(err)
-        }
+        //     return nearest;
+        // } catch (err) {
+        //     console.log(err)
+        // }
     }
 
     handleConnection(server: any, data) {

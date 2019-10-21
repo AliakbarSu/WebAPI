@@ -39,18 +39,19 @@ let ProfileService = class ProfileService {
         const updatedProfile = this.profileModel.findOneAndUpdate({ _id: data._id }, Object.assign({}, data));
         return await updatedProfile.exec();
     }
-    async updateLocation(id, location) {
-        const updatedProfile = await this.update({ _id: id, gameStatus: { location } });
+    async updateLocation(data) {
+        const updatedProfile = await this.update(data);
         const fetchedLocation = this.profileModel.find({
             $and: [
                 { 'gameStatus.level': updatedProfile.gameStatus.level },
+                { 'gameStatus.status': 1 },
                 { 'gameStatus.location': {
                         $near: {
                             $geometry: {
                                 type: 'Point',
-                                coordinates: location.coordinates,
+                                coordinates: data.gameStatus.location.coordinates,
                             },
-                            $maxDistance: 20,
+                            $maxDistance: 50,
                         },
                     },
                 }

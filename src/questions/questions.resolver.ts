@@ -28,7 +28,7 @@ export class QuestionsResolver implements ResolverInterface<Question> {
   }
 
   @Query(returns => [Question])
-  async profiles(): Promise<Question[]> {
+  async questions(): Promise<Question[]> {
     return await this.questionsService.findAll();
   }
 

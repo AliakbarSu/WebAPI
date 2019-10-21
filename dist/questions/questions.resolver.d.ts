@@ -7,7 +7,7 @@ export declare class QuestionsResolver implements ResolverInterface<Question> {
     private readonly questionsService;
     constructor(questionsService: QuestionsService);
     getQuestion(id: string): Promise<Question>;
-    profiles(): Promise<Question[]>;
+    questions(): Promise<Question[]>;
     answers(): any;
     addQuestion(newQuestion: NewQuestionInput): Promise<Question>;
     updateQuestion(data: UpdateQuestionInput): Promise<Question>;

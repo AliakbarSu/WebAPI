@@ -7,12 +7,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
+const apollo_server_express_1 = require("apollo-server-express");
 let CommonModule = class CommonModule {
 };
 CommonModule = __decorate([
     common_1.Module({
-        providers: [],
-        exports: [],
+        providers: [
+            {
+                provide: 'PUB_SUB',
+                useValue: new apollo_server_express_1.PubSub(),
+            },
+        ],
+        exports: [
+            'PUB_SUB',
+        ],
     })
 ], CommonModule);
 exports.CommonModule = CommonModule;

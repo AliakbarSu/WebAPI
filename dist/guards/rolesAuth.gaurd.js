@@ -20,42 +20,22 @@ let RolesAuthGuard = class RolesAuthGuard extends passport_1.AuthGuard('jwt') {
         this.context = null;
     }
     getRequest(context) {
-        try {
-            this.context = context;
-            if (context.switchToWs().getClient() !== undefined) {
-                const request = context.switchToHttp().getRequest();
-                request.headers = { authorization: `Bearer ${context.switchToWs().getData().token}` };
-                return request;
-            }
-            else if (context.switchToHttp().getRequest() === undefined) {
-                return graphql_1.GqlExecutionContext.create(context).getContext().req;
-            }
-            else {
-                return context.switchToHttp().getRequest();
-            }
+        this.context = context;
+        if (context.switchToWs().getClient() !== undefined) {
+            const request = context.switchToHttp().getRequest();
+            request.headers = { authorization: `Bearer ${context.switchToWs().getData().token}` };
+            return request;
         }
-        catch (err) {
-            console.log(err);
+        else if (context.switchToHttp().getRequest() === undefined) {
+            const ctx = graphql_1.GqlExecutionContext.create(context).getContext().req;
+            return ctx;
+        }
+        else {
+            return context.switchToHttp().getRequest();
         }
     }
     handleRequest(err, user, info) {
-        try {
-            if (err || !user) {
-                throw err || new common_1.UnauthorizedException();
-            }
-            const roles = this.reflector.get('roles', this.context.getHandler());
-            if (!roles) {
-                return user;
-            }
-            const hasRole = () => user.privacy.roles.some((role) => roles.includes(role));
-            if (!(user && user.privacy.roles && hasRole())) {
-                throw new common_1.UnauthorizedException();
-            }
-            return user;
-        }
-        catch (err) {
-            console.log(err);
-        }
+        return user;
     }
 };
 RolesAuthGuard = __decorate([
