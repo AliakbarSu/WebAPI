@@ -9,4 +9,8 @@ export declare class AppController {
         id: any;
         access_token: string;
     }>;
+    signup(body: any): Promise<{
+        id: any;
+        access_token: string;
+    }>;
 }

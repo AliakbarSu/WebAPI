@@ -22,6 +22,10 @@ export declare class AuthService {
         id: any;
         access_token: string;
     }>;
+    signup(data: any): Promise<{
+        id: any;
+        access_token: string;
+    }>;
     isAuthenticated(token: string): Token | false;
     isAuthorized(token: string, roles: string[]): boolean;
     private _verifyPassword;

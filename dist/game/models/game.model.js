@@ -65,20 +65,20 @@ ExpiredRequest = __decorate([
     type_graphql_1.ObjectType()
 ], ExpiredRequest);
 exports.ExpiredRequest = ExpiredRequest;
-let GameToken = class GameToken {
+let GqlToken = class GqlToken {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], GameToken.prototype, "token", void 0);
+], GqlToken.prototype, "token", void 0);
 __decorate([
     type_graphql_1.Field(type => [String]),
     __metadata("design:type", Array)
-], GameToken.prototype, "players", void 0);
-GameToken = __decorate([
+], GqlToken.prototype, "players", void 0);
+GqlToken = __decorate([
     type_graphql_1.ObjectType()
-], GameToken);
-exports.GameToken = GameToken;
+], GqlToken);
+exports.GqlToken = GqlToken;
 let GameQuestion = class GameQuestion {
 };
 __decorate([

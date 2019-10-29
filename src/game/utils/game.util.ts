@@ -59,10 +59,11 @@ export class GameUtil {
         return false;
     }
 
-    static getWinner(scores: Array<{playerId: string, score: number}>): string {
+    static players(scores: Array<{playerId: string, score: number}>): {winner: string, loser: string} {
         const winnerScore = Math.max(...scores.map(s => s.score));
         const player = scores.find(s => s.score === winnerScore);
-        return String(player.playerId);
+        const loser = scores.filter(s => s.playerId !== player.playerId)[0];
+        return {winner: String(player.playerId), loser: loser.playerId};
     }
 
     // async announanceResults() {

@@ -53,10 +53,14 @@ export class QuestionsService {
         });
     }
 
-    async validateAnswers(questionIds: string[], answerIds: string[]): Promise<boolean[]> {
+    async validateAnswers(questionIds: string[], answerIds: string[]): Promise<number> {
         const questions: Question[] = await this.findByIds(questionIds);
         const results = questions.map(question => answerIds.includes(String(question.correctAnswerId)));
-        return results;
+        return this._getScore(results);
+    }
+
+    private _getScore(result: boolean[]): number {
+        return result.filter(v => v).length;
     }
 
     async generateQuestion(limit: number, diff_level: number, category: string): Promise<Question[]> {

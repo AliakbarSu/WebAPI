@@ -46,7 +46,7 @@ let ProfileResolver = class ProfileResolver {
         };
     }
     async addProfile(newProfileData) {
-        const profile = await this.profileService.create(newProfileData);
+        const profile = await this.profileService.create(newProfileData.personal.username, newProfileData.personal.email, newProfileData.privacy.password);
         return profile;
     }
     async updateProfile(data) {

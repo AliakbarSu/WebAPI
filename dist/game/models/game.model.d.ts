@@ -14,7 +14,7 @@ export declare class ExpiredRequest {
     sender: string;
     status: boolean;
 }
-export declare class GameToken {
+export declare class GqlToken {
     token: string;
     players: string[];
 }

@@ -9,16 +9,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
 exports.GameSchema = new mongoose.Schema({
-    opponents: [String],
-    questions: [{
-            _id: String,
-            question: String,
-            answers: [{
-                    _id: String,
-                    text: String,
-                    isCorrect: Boolean,
-                }],
-        }],
-    createdAt: Date,
+    players: [mongoose.Schema.Types.ObjectId],
+    playedAt: String,
+    winner: mongoose.Schema.Types.ObjectId,
+    points: Number,
 }, { typeKey: '$type' });
 //# sourceMappingURL=game.schema.js.map

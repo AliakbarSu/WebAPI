@@ -49,6 +49,10 @@ let AuthService = class AuthService {
             access_token: this.jwtService.sign(payload),
         };
     }
+    async signup(data) {
+        const createdProfile = await this.profileService.create(data.username, data.email.toLowerCase(), data.password);
+        return this.login(createdProfile);
+    }
     isAuthenticated(token) {
         try {
             const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);

@@ -1,4 +1,33 @@
 import * as mongoose from 'mongoose';
+import moment from 'moment';
+
+const currentDate = moment().format();
+const defaultPoints = [
+  {
+    amount: 1,
+    sendable: false,
+    created_at: currentDate,
+  }, {
+    amount: 1,
+    sendable: false,
+    created_at: currentDate,
+  },
+  {
+    amount: 1,
+    sendable: false,
+    created_at: currentDate,
+  },
+  {
+    amount: 1,
+    sendable: false,
+    created_at: currentDate,
+  },
+  {
+    amount: 1,
+    sendable: false,
+    created_at: currentDate,
+  }
+];
 
 export const ProfileSchema = new mongoose.Schema({
   personal: {
@@ -18,11 +47,16 @@ export const ProfileSchema = new mongoose.Schema({
   gameStatus: {
     win: { $type: Number, default: 0 },
     lost: { $type: Number, default: 0 },
-    status: { $type: Number, default: 0 },
+    status: {
+      online: {$type: Number, default: 0},
+      lastOnline: {$type: Date, default: currentDate},
+      lastLoggedIn: {$type: Date, default: currentDate},
+      onlineTime: {$type: Number, default: 0}, // time in seconds
+     },
     level: { $type: Number, default: 0 },
     location: {
-      type: String,
-      coordinates: {$type: [Number]},
+      type: {$type: String, default: 'Point'},
+      coordinates: {$type: [Number], default: [(Math.random() * (179) + 1).toFixed(6), (Math.random() * (89) + 1).toFixed(6)]},
     },
     request: {
       status: String,
@@ -32,11 +66,11 @@ export const ProfileSchema = new mongoose.Schema({
     },
   },
   points: {
-    points: [{
-      amount: Number,
-      sendable: Boolean,
-      createdAt: Number,
-    }],
+    points: {$type: [{
+        amount: Number,
+        sendable: Boolean,
+        createdAt: Number,
+      }], default: defaultPoints},
     targetPoints: {$type: Number, default: 10},
     redeemedPoints: { $type: Number, default: 0 },
     recievedPoints: [{
@@ -53,3 +87,5 @@ export const ProfileSchema = new mongoose.Schema({
     }],
   },
 }, {typeKey: '$type'});
+
+ProfileSchema.index({ 'gameStatus.location': '2dsphere' });

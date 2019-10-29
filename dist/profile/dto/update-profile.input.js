@@ -16,27 +16,45 @@ let InputRequest = class InputRequest {
 };
 __decorate([
     type_graphql_1.Field(type => String, { nullable: true }),
-    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], InputRequest.prototype, "status", void 0);
 __decorate([
     type_graphql_1.Field(type => String, { nullable: true }),
-    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], InputRequest.prototype, "opponent", void 0);
 __decorate([
     type_graphql_1.Field(type => Number, { nullable: true }),
-    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], InputRequest.prototype, "created_at", void 0);
 __decorate([
     type_graphql_1.Field(type => Number, { nullable: true }),
-    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], InputRequest.prototype, "updated_at", void 0);
 InputRequest = __decorate([
     type_graphql_1.InputType()
 ], InputRequest);
+let OnlineStatusInput = class OnlineStatusInput {
+};
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Number)
+], OnlineStatusInput.prototype, "online", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], OnlineStatusInput.prototype, "lastOnline", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], OnlineStatusInput.prototype, "lastLoggedIn", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Number)
+], OnlineStatusInput.prototype, "onlineTime", void 0);
+OnlineStatusInput = __decorate([
+    type_graphql_1.InputType()
+], OnlineStatusInput);
+exports.OnlineStatusInput = OnlineStatusInput;
 let GameStatusType = class GameStatusType {
 };
 __decorate([
@@ -45,9 +63,9 @@ __decorate([
     __metadata("design:type", Number)
 ], GameStatusType.prototype, "level", void 0);
 __decorate([
-    type_graphql_1.Field({ nullable: true }),
+    type_graphql_1.Field(type => OnlineStatusInput, { nullable: true }),
     class_validator_1.IsOptional(),
-    __metadata("design:type", Number)
+    __metadata("design:type", OnlineStatusInput)
 ], GameStatusType.prototype, "status", void 0);
 __decorate([
     type_graphql_1.Field(type => update_location_input_1.UpdateLocationInput, { nullable: true }),
@@ -62,6 +80,90 @@ __decorate([
 GameStatusType = __decorate([
     type_graphql_1.InputType()
 ], GameStatusType);
+let InputRecievePoints = class InputRecievePoints {
+};
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], InputRecievePoints.prototype, "id", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], InputRecievePoints.prototype, "sender", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Number)
+], InputRecievePoints.prototype, "amount", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Date)
+], InputRecievePoints.prototype, "timestamp", void 0);
+InputRecievePoints = __decorate([
+    type_graphql_1.InputType()
+], InputRecievePoints);
+exports.InputRecievePoints = InputRecievePoints;
+let InputSendPoints = class InputSendPoints {
+};
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], InputSendPoints.prototype, "id", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], InputSendPoints.prototype, "recipient", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Number)
+], InputSendPoints.prototype, "amount", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Date)
+], InputSendPoints.prototype, "timestamp", void 0);
+InputSendPoints = __decorate([
+    type_graphql_1.InputType()
+], InputSendPoints);
+exports.InputSendPoints = InputSendPoints;
+let InputPoint = class InputPoint {
+};
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Number)
+], InputPoint.prototype, "amount", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Boolean)
+], InputPoint.prototype, "sendable", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Number)
+], InputPoint.prototype, "createdAt", void 0);
+InputPoint = __decorate([
+    type_graphql_1.InputType()
+], InputPoint);
+exports.InputPoint = InputPoint;
+let InputPoints = class InputPoints {
+};
+__decorate([
+    type_graphql_1.Field(type => [InputPoint]),
+    __metadata("design:type", Array)
+], InputPoints.prototype, "points", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", Number)
+], InputPoints.prototype, "redeemedPoints", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", InputRecievePoints)
+], InputPoints.prototype, "recievedPoints", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", InputSendPoints)
+], InputPoints.prototype, "sentPoints", void 0);
+InputPoints = __decorate([
+    type_graphql_1.InputType()
+], InputPoints);
+exports.InputPoints = InputPoints;
 let UpdateProfileInput = class UpdateProfileInput {
 };
 __decorate([
@@ -95,6 +197,10 @@ __decorate([
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], UpdateProfileInput.prototype, "password", void 0);
+__decorate([
+    type_graphql_1.Field(type => InputPoints, { nullable: true }),
+    __metadata("design:type", InputPoints)
+], UpdateProfileInput.prototype, "points", void 0);
 __decorate([
     type_graphql_1.Field({ nullable: true }),
     class_validator_1.IsOptional(),

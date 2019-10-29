@@ -16,4 +16,6 @@ export class Results {
 export class PlaceHolderResult {
   @Field(type => Boolean)
   status: boolean;
+  @Field({nullable: true})
+  sender?: string;
 }

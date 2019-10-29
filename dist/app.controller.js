@@ -29,6 +29,9 @@ let AppController = class AppController {
     async login(req) {
         return this.authService.login(req.user);
     }
+    async signup(body) {
+        return this.authService.signup(body);
+    }
 };
 __decorate([
     roles_decorator_1.Roles('moderator'),
@@ -46,6 +49,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "login", null);
+__decorate([
+    common_1.Post('signup'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "signup", null);
 AppController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [app_service_1.AppService,

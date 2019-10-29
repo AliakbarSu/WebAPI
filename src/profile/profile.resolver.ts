@@ -69,7 +69,8 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   async addProfile(
     @Args('data') newProfileData: NewProfileInput,
   ): Promise<Profile> {
-    const profile = await this.profileService.create(newProfileData);
+    const profile = await this.profileService.create(newProfileData.personal.username,
+      newProfileData.personal.email, newProfileData.privacy.password);
     // pubSub.publish('recipeAdded', { recipeAdded: recipe });
     return profile;
   }

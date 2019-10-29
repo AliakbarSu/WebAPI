@@ -5,7 +5,7 @@ export interface Profile extends Document {
   readonly gameStatus: {
     win: number,
     lost: number,
-    status: number,
+    status: OnlineStatus,
     level: number,
     location: LocationType,
     request: {
@@ -58,4 +58,11 @@ interface SendPoints {
 interface LocationType {
   type: string;
   coordinates: number[];
+}
+
+interface OnlineStatus {
+  online: number;
+  lastOnline: Date;
+  lastLoggedIn: Date;
+  onlineTime: number;
 }

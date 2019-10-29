@@ -14,8 +14,11 @@ export declare class GameUtil {
         playerId: string;
         score: number;
     }>, playerId: string): boolean;
-    static getWinner(scores: Array<{
+    static players(scores: Array<{
         playerId: string;
         score: number;
-    }>): string;
+    }>): {
+        winner: string;
+        loser: string;
+    };
 }

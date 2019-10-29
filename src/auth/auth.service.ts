@@ -55,6 +55,11 @@ export class AuthService {
         };
       }
 
+    async signup(data: any) {
+        const createdProfile = await this.profileService.create(data.username, data.email.toLowerCase(), data.password);
+        return this.login(createdProfile);
+    }
+
     isAuthenticated(token: string): Token | false {
         try {
             const decoded: any = jwt.verify(token, SECRET_KEY);

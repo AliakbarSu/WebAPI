@@ -34,6 +34,10 @@ __decorate([
     type_graphql_1.Field(type => Boolean),
     __metadata("design:type", Boolean)
 ], PlaceHolderResult.prototype, "status", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], PlaceHolderResult.prototype, "sender", void 0);
 PlaceHolderResult = __decorate([
     type_graphql_1.ObjectType()
 ], PlaceHolderResult);

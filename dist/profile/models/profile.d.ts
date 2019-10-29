@@ -1,6 +1,6 @@
 export declare class Personal {
-    firstName: string;
-    lastName: string;
+    firstName?: string;
+    lastName?: string;
     avatar: string;
     username: string;
     email: string;
@@ -16,10 +16,16 @@ export declare class Location {
     type: string;
     coordinates: number[];
 }
+export declare class OnlineStatus {
+    online: number;
+    lastOnline: string;
+    lastLoggedIn: string;
+    onlineTime: number;
+}
 export declare class GameStatus {
     win: number;
     lost: number;
-    status: number;
+    status: OnlineStatus;
     level: number;
     location: Location;
 }

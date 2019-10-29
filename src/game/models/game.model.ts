@@ -34,7 +34,7 @@ export class ExpiredRequest {
 }
 
 @ObjectType()
-export class GameToken {
+export class GqlToken {
   @Field()
   token: string;
   @Field(type => [String])
@@ -64,3 +64,4 @@ class GameQuestion {
   @Field()
   createdBy: string;
 }
+

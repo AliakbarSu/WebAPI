@@ -5,4 +5,5 @@ export declare class Results {
 }
 export declare class PlaceHolderResult {
     status: boolean;
+    sender?: string;
 }

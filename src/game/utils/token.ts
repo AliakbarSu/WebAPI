@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 
 export class Tokeniser {
-    static tokenise(data, noExpiry = false): string {
+    static tokenise(data, noExpiry = false): any {
         if (!noExpiry) {
             return jwt.sign({...data}, 'secret', {expiresIn: '500000'});
         } else {

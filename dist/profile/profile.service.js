@@ -21,14 +21,17 @@ const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const flat_1 = __importDefault(require("flat"));
 const auth_service_1 = require("../auth/auth.service");
-const points_class_1 = require("../points/points.class");
 let ProfileService = class ProfileService {
     constructor(profileModel, authService) {
         this.profileModel = profileModel;
         this.authService = authService;
     }
-    async create(data) {
-        const createdProfile = new this.profileModel(Object.assign({}, data, { 'privacy.password': await this.authService.hashPassword(data.privacy.password), 'points.points': [new points_class_1.Points(50, false)] }));
+    async create(username, email, password) {
+        const createdProfile = new this.profileModel({
+            'personal.username': username,
+            'personal.email': email,
+            'privacy.password': await this.authService.hashPassword(password),
+        });
         return await createdProfile.save();
     }
     async update(data) {
@@ -40,18 +43,18 @@ let ProfileService = class ProfileService {
         return await updatedProfile.exec();
     }
     async updateLocation(data) {
-        const updatedProfile = await this.update(data);
+        const updatedProfile = await this.update(Object.assign({}, data, { gameStatus: { location: data.gameStatus.location, status: { online: 1 } } }));
         const fetchedLocation = this.profileModel.find({
             $and: [
                 { 'gameStatus.level': updatedProfile.gameStatus.level },
-                { 'gameStatus.status': 1 },
+                { 'gameStatus.status.online': 1 },
                 { 'gameStatus.location': {
                         $near: {
                             $geometry: {
                                 type: 'Point',
                                 coordinates: data.gameStatus.location.coordinates,
                             },
-                            $maxDistance: 50,
+                            $maxDistance: 200,
                         },
                     },
                 }
@@ -60,10 +63,10 @@ let ProfileService = class ProfileService {
         return fetchedLocation;
     }
     async findOneById(id) {
-        return await this.profileModel.findById(id);
+        return await this.profileModel.findOne({ '_id': id });
     }
-    async findAll() {
-        return await this.profileModel.find();
+    async findAll(conditions) {
+        return await this.profileModel.find(conditions);
     }
     async findByEmail(email) {
         return await this.profileModel.findOne({ 'personal.email': email });
@@ -71,6 +74,13 @@ let ProfileService = class ProfileService {
     async remove(id) {
         const removedProfile = this.profileModel.findOneAndDelete({ _id: id });
         return removedProfile;
+    }
+    async addPoints(points, id) {
+        return this.profileModel.updateOne({ _id: id }, { $push: { 'points.points': { $each: points } } }, { upsert: true });
+    }
+    async removePoints(points, id) {
+        return;
+        return this.profileModel.update({ _id: id }, { $pull: { 'points.points': { amount: 1 } } }, { limit: points });
     }
 };
 ProfileService = __decorate([

@@ -55,7 +55,10 @@ let QuestionsService = class QuestionsService {
     async validateAnswers(questionIds, answerIds) {
         const questions = await this.findByIds(questionIds);
         const results = questions.map(question => answerIds.includes(String(question.correctAnswerId)));
-        return results;
+        return this._getScore(results);
+    }
+    _getScore(result) {
+        return result.filter(v => v).length;
     }
     async generateQuestion(limit, diff_level, category) {
         return await this.questionModel.find({ diff_level, category }).limit(limit);

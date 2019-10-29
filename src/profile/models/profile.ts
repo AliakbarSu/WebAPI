@@ -2,10 +2,10 @@ import { Field, ID, ObjectType, Int, Authorized } from 'type-graphql';
 
 @ObjectType()
 export class Personal {
-  @Field()
-  firstName: string;
-  @Field()
-  lastName: string;
+  @Field({nullable: true})
+  firstName?: string;
+  @Field({nullable: true})
+  lastName?: string;
   @Field()
   avatar: string;
   @Field()
@@ -37,13 +37,25 @@ export class Location {
 }
 
 @ObjectType()
+export class OnlineStatus {
+  @Field()
+  online: number;
+  @Field(type => String)
+  lastOnline: string;
+  @Field()
+  lastLoggedIn: string;
+  @Field()
+  onlineTime: number;
+}
+
+@ObjectType()
 export class GameStatus {
   @Field()
   win: number;
   @Field()
   lost: number;
-  @Field()
-  status: number;
+  @Field(type => OnlineStatus)
+  status: OnlineStatus;
   @Field()
   level: number;
   @Field(type => Location)

@@ -12,7 +12,8 @@ export declare class QuestionsService {
     findOneById(id: string): Promise<Question>;
     findAll(): Promise<Question[]>;
     findByIds(ids: string[]): Promise<Question[]>;
-    validateAnswers(questionIds: string[], answerIds: string[]): Promise<boolean[]>;
+    validateAnswers(questionIds: string[], answerIds: string[]): Promise<number>;
+    private _getScore;
     generateQuestion(limit: number, diff_level: number, category: string): Promise<Question[]>;
     private _getCorrectAnswrId;
     private _covertAnswers;

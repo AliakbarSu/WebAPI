@@ -13,11 +13,11 @@ const type_graphql_1 = require("type-graphql");
 let Personal = class Personal {
 };
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field({ nullable: true }),
     __metadata("design:type", String)
 ], Personal.prototype, "firstName", void 0);
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field({ nullable: true }),
     __metadata("design:type", String)
 ], Personal.prototype, "lastName", void 0);
 __decorate([
@@ -76,6 +76,28 @@ Location = __decorate([
     type_graphql_1.ObjectType()
 ], Location);
 exports.Location = Location;
+let OnlineStatus = class OnlineStatus {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], OnlineStatus.prototype, "online", void 0);
+__decorate([
+    type_graphql_1.Field(type => String),
+    __metadata("design:type", String)
+], OnlineStatus.prototype, "lastOnline", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], OnlineStatus.prototype, "lastLoggedIn", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], OnlineStatus.prototype, "onlineTime", void 0);
+OnlineStatus = __decorate([
+    type_graphql_1.ObjectType()
+], OnlineStatus);
+exports.OnlineStatus = OnlineStatus;
 let GameStatus = class GameStatus {
 };
 __decorate([
@@ -87,8 +109,8 @@ __decorate([
     __metadata("design:type", Number)
 ], GameStatus.prototype, "lost", void 0);
 __decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", Number)
+    type_graphql_1.Field(type => OnlineStatus),
+    __metadata("design:type", OnlineStatus)
 ], GameStatus.prototype, "status", void 0);
 __decorate([
     type_graphql_1.Field(),
