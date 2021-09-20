@@ -35,7 +35,7 @@ let ProfileService = class ProfileService {
         return await createdProfile.save();
     }
     async update(data) {
-        const updatedProfile = this.profileModel.findOneAndUpdate({ _id: data._id }, flat_1.default(Object.assign({}, data)), { new: true });
+        const updatedProfile = this.profileModel.findOneAndUpdate({ _id: data.id }, flat_1.default(Object.assign({}, data)), { new: true });
         return await updatedProfile.exec();
     }
     async updateGameStatus(data) {
@@ -43,7 +43,7 @@ let ProfileService = class ProfileService {
         return await updatedProfile.exec();
     }
     async updateLocation(data) {
-        const updatedProfile = await this.update(Object.assign({}, data, { gameStatus: { location: data.gameStatus.location, status: { online: 1 } } }));
+        const updatedProfile = await this.update(Object.assign({}, data, { gameStatus: { location: { coordinates: data.coordinates }, status: { online: 1 } } }));
         const fetchedLocation = this.profileModel.find({
             $and: [
                 { 'gameStatus.level': updatedProfile.gameStatus.level },
@@ -52,7 +52,7 @@ let ProfileService = class ProfileService {
                         $near: {
                             $geometry: {
                                 type: 'Point',
-                                coordinates: data.gameStatus.location.coordinates,
+                                coordinates: data.coordinates,
                             },
                             $maxDistance: 200,
                         },
@@ -65,8 +65,8 @@ let ProfileService = class ProfileService {
     async findOneById(id) {
         return await this.profileModel.findOne({ '_id': id });
     }
-    async findAll(conditions) {
-        return await this.profileModel.find(conditions);
+    async findAll(conditions, conditions2) {
+        return await this.profileModel.find(conditions, conditions2);
     }
     async findByEmail(email) {
         return await this.profileModel.findOne({ 'personal.email': email });

@@ -36,10 +36,32 @@ __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
 ], Personal.prototype, "phone", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Personal.prototype, "notificationEmail", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Personal.prototype, "country", void 0);
 Personal = __decorate([
     type_graphql_1.ObjectType()
 ], Personal);
 exports.Personal = Personal;
+let Payment = class Payment {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Payment.prototype, "bankAccountName", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Payment.prototype, "bankAccountNumber", void 0);
+Payment = __decorate([
+    type_graphql_1.ObjectType()
+], Payment);
+exports.Payment = Payment;
 let Privacy = class Privacy {
 };
 __decorate([
@@ -214,6 +236,10 @@ __decorate([
     type_graphql_1.Field(type => Privacy),
     __metadata("design:type", Privacy)
 ], Profile.prototype, "privacy", void 0);
+__decorate([
+    type_graphql_1.Field(type => Payment),
+    __metadata("design:type", Payment)
+], Profile.prototype, "payment", void 0);
 __decorate([
     type_graphql_1.Field(type => Points),
     __metadata("design:type", Points)

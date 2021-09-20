@@ -92,36 +92,29 @@ export class InputPoints {
 }
 
 @InputType()
+export class UpdatePersonalInput {
+  @Field()
+  notificationEmail: string;
+  @Field()
+  phone: string;
+}
+
+@InputType()
+export class UpdatePaymentType {
+  @Field()
+  bankAccountName: string;
+  @Field()
+  bankAccountNumber: string;
+  @Field()
+  stripeCustomerId: string;
+}
+
+@InputType()
 export class UpdateProfileInput  {
   @Field()
-  _id: string;
-
-  @Field({ nullable: true })
-  @MaxLength(30)
-  @IsOptional()
-  firstName?: string;
-
-  @Field(type => GameStatusType, { nullable: true })
-  @IsOptional()
-  gameStatus?: GameStatusType;
-
-  @Field({ nullable: true })
-  @MaxLength(30)
-  @IsOptional()
-  lastName?: string;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  username?: string;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  password?: string;
-
-  @Field(type => InputPoints, {nullable: true})
-  points?: InputPoints;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  email?: string;
+  id: string;
+  @Field(type => UpdatePersonalInput)
+  personal: UpdatePersonalInput;
+  @Field(type => UpdatePaymentType)
+  payment: UpdatePaymentType;
 }

@@ -5,11 +5,12 @@ import { Profile, Point } from './models/profile';
 import { Model } from 'mongoose';
 import { InjectModel} from '@nestjs/mongoose';
 import {Profile as ProfileInterface} from './interfaces/profile.interface';
-import { UpdateProfileInput } from './dto/update-profile.input';
+import { InputUpdateProfile } from './types/input/profile.update';
 import flatten from 'flat';
 import { UpdateLocationInput } from './dto/update-location.input';
 import { AuthService, Credentials, Auth } from '../auth/auth.service';
 import { Points } from '../points/points.class';
+import { UpdateLocation } from './dto/updateLocation.input';
 
 @Injectable()
 export class ProfileService {
@@ -30,19 +31,19 @@ export class ProfileService {
     return await createdProfile.save();
   }
 
-  async update(data: UpdateProfileInput): Promise<Profile> {
-    const updatedProfile = this.profileModel.findOneAndUpdate({_id: data._id},
+  async update(data: any): Promise<Profile> {
+    const updatedProfile = this.profileModel.findOneAndUpdate({_id: data.id},
       flatten({...data}), {new: true});
     return await updatedProfile.exec();
   }
 
-  async updateGameStatus(data: UpdateProfileInput): Promise<Profile> {
+  async updateGameStatus(data: Pick<InputUpdateProfile, 'gameStatus' | '_id'>): Promise<Profile> {
     const updatedProfile = this.profileModel.findOneAndUpdate({_id: data._id}, {...data});
     return await updatedProfile.exec();
   }
 
-  async updateLocation(data: UpdateProfileInput): Promise<Profile[]> {
-    const updatedProfile = await this.update({...data, gameStatus: {location: data.gameStatus.location, status: {online: 1}}});
+  async updateLocation(data: UpdateLocation): Promise<Profile[]> {
+    const updatedProfile = await this.update({...data, gameStatus: {location: {coordinates: data.coordinates}, status: {online: 1}}});
     const fetchedLocation = this.profileModel.find(
       {
         $and: [
@@ -54,7 +55,7 @@ export class ProfileService {
             $near: {
               $geometry: {
                 type: 'Point',
-                coordinates: data.gameStatus.location.coordinates,
+                coordinates: data.coordinates,
               },
               $maxDistance: 200,
               // $minDistance: 0,
@@ -69,8 +70,8 @@ export class ProfileService {
     return await this.profileModel.findOne({'_id': id});
   }
 
-  async findAll(conditions?): Promise<Profile[]> {
-    return await this.profileModel.find(conditions);
+  async findAll(conditions?, conditions2?): Promise<Profile[]> {
+    return await this.profileModel.find(conditions, conditions2);
   }
 
   async findByEmail(email: string): Promise<Profile> {

@@ -19,9 +19,10 @@ const new_profile_input_1 = require("./dto/new-profile.input");
 const profile_1 = require("./models/profile");
 const profile_service_1 = require("./profile.service");
 const type_graphql_1 = require("type-graphql");
-const update_profile_input_1 = require("./dto/update-profile.input");
 const platform_express_1 = require("@nestjs/platform-express");
 const currentUser_decorator_1 = require("../decorators/currentUser.decorator");
+const updateProfile_input_1 = require("./dto/updateProfile.input");
+const exceptionLogger_1 = require("./filters/exceptionLogger");
 const pubSub = new apollo_server_express_1.PubSub();
 let ProfileResolver = class ProfileResolver {
     constructor(profileService) {
@@ -37,6 +38,9 @@ let ProfileResolver = class ProfileResolver {
     profiles() {
         return this.profileService.findAll();
     }
+    usernames(username) {
+        return this.profileService.findAll({ $text: { $search: username } }, { score: { '$meta': 'textScore' } });
+    }
     privacy() {
         return {
             password: 'fkafjskl;fj',
@@ -50,7 +54,18 @@ let ProfileResolver = class ProfileResolver {
         return profile;
     }
     async updateProfile(data) {
-        const profile = await this.profileService.update(data);
+        const profile = await this.profileService.update({
+            id: data.id,
+            personal: {
+                phone: data.phoneNumber,
+                notificationEmail: data.notificationEmail,
+                country: data.country
+            },
+            payment: {
+                bankAccountName: data.bankAccountName,
+                bankAccountNumber: data.bankAccountNumber
+            }
+        });
         return profile;
     }
     async removeProfile(id) {
@@ -76,6 +91,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileResolver.prototype, "profiles", null);
 __decorate([
+    graphql_1.Query(returns => [profile_1.Profile]),
+    __param(0, graphql_1.Args('username')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProfileResolver.prototype, "usernames", null);
+__decorate([
     type_graphql_1.FieldResolver(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -90,9 +112,10 @@ __decorate([
 ], ProfileResolver.prototype, "addProfile", null);
 __decorate([
     graphql_1.Mutation(returns => profile_1.Profile),
-    __param(0, graphql_1.Args('data')),
+    common_1.UseFilters(new exceptionLogger_1.ExceptionsLogger()),
+    __param(0, graphql_1.Args('data', new common_1.ValidationPipe({ skipMissingProperties: true, skipNullProperties: true }))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_profile_input_1.UpdateProfileInput]),
+    __metadata("design:paramtypes", [updateProfile_input_1.UpdateProfile]),
     __metadata("design:returntype", Promise)
 ], ProfileResolver.prototype, "updateProfile", null);
 __decorate([

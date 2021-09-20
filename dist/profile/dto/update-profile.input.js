@@ -164,48 +164,52 @@ InputPoints = __decorate([
     type_graphql_1.InputType()
 ], InputPoints);
 exports.InputPoints = InputPoints;
+let UpdatePersonalInput = class UpdatePersonalInput {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], UpdatePersonalInput.prototype, "notificationEmail", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], UpdatePersonalInput.prototype, "phone", void 0);
+UpdatePersonalInput = __decorate([
+    type_graphql_1.InputType()
+], UpdatePersonalInput);
+exports.UpdatePersonalInput = UpdatePersonalInput;
+let UpdatePaymentType = class UpdatePaymentType {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], UpdatePaymentType.prototype, "bankAccountName", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], UpdatePaymentType.prototype, "bankAccountNumber", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], UpdatePaymentType.prototype, "stripeCustomerId", void 0);
+UpdatePaymentType = __decorate([
+    type_graphql_1.InputType()
+], UpdatePaymentType);
+exports.UpdatePaymentType = UpdatePaymentType;
 let UpdateProfileInput = class UpdateProfileInput {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], UpdateProfileInput.prototype, "_id", void 0);
+], UpdateProfileInput.prototype, "id", void 0);
 __decorate([
-    type_graphql_1.Field({ nullable: true }),
-    class_validator_1.MaxLength(30),
-    class_validator_1.IsOptional(),
-    __metadata("design:type", String)
-], UpdateProfileInput.prototype, "firstName", void 0);
+    type_graphql_1.Field(type => UpdatePersonalInput),
+    __metadata("design:type", UpdatePersonalInput)
+], UpdateProfileInput.prototype, "personal", void 0);
 __decorate([
-    type_graphql_1.Field(type => GameStatusType, { nullable: true }),
-    class_validator_1.IsOptional(),
-    __metadata("design:type", GameStatusType)
-], UpdateProfileInput.prototype, "gameStatus", void 0);
-__decorate([
-    type_graphql_1.Field({ nullable: true }),
-    class_validator_1.MaxLength(30),
-    class_validator_1.IsOptional(),
-    __metadata("design:type", String)
-], UpdateProfileInput.prototype, "lastName", void 0);
-__decorate([
-    type_graphql_1.Field({ nullable: true }),
-    class_validator_1.IsOptional(),
-    __metadata("design:type", String)
-], UpdateProfileInput.prototype, "username", void 0);
-__decorate([
-    type_graphql_1.Field({ nullable: true }),
-    class_validator_1.IsOptional(),
-    __metadata("design:type", String)
-], UpdateProfileInput.prototype, "password", void 0);
-__decorate([
-    type_graphql_1.Field(type => InputPoints, { nullable: true }),
-    __metadata("design:type", InputPoints)
-], UpdateProfileInput.prototype, "points", void 0);
-__decorate([
-    type_graphql_1.Field({ nullable: true }),
-    class_validator_1.IsOptional(),
-    __metadata("design:type", String)
-], UpdateProfileInput.prototype, "email", void 0);
+    type_graphql_1.Field(type => UpdatePaymentType),
+    __metadata("design:type", UpdatePaymentType)
+], UpdateProfileInput.prototype, "payment", void 0);
 UpdateProfileInput = __decorate([
     type_graphql_1.InputType()
 ], UpdateProfileInput);

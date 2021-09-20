@@ -37,12 +37,19 @@ export const ProfileSchema = new mongoose.Schema({
     username: String,
     email: String,
     phone: String,
+    notificationEmail: String,
+    country: String
   },
   privacy: {
     password: String,
     resetPasswordToken: String,
     loginFailedAttempts: Number,
     roles: {$type: [String], default: 'player'},
+  },
+  payment: {
+    bankAccountNumber: {$type: String, default: ''},
+    bankAccountName: {$type: String, default: ''},
+    stripeCustomerId: {$type: String, default: ''},
   },
   gameStatus: {
     win: { $type: Number, default: 0 },

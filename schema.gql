@@ -58,50 +58,9 @@ input GameStatusInput {
   location: LocationInput!
 }
 
-input GameStatusType {
-  level: Float
-  status: OnlineStatusInput
-  location: UpdateLocationInput
-  request: InputRequest
-}
-
 type GqlToken {
   token: String!
   players: [String!]!
-}
-
-input InputPoint {
-  amount: Float
-  sendable: Boolean
-  createdAt: Float
-}
-
-input InputPoints {
-  points: [InputPoint!]!
-  redeemedPoints: Float
-  recievedPoints: InputRecievePoints
-  sentPoints: InputSendPoints
-}
-
-input InputRecievePoints {
-  id: String
-  sender: String
-  amount: Float
-  timestamp: DateTime
-}
-
-input InputRequest {
-  status: String
-  opponent: String
-  created_at: Float
-  updated_at: Float
-}
-
-input InputSendPoints {
-  id: String
-  recipient: String
-  amount: Float
-  timestamp: DateTime
 }
 
 type Location {
@@ -119,15 +78,16 @@ type Mutation {
   updateQuestion(data: UpdateQuestionInput!): Question!
   removeQuestion(id: String!): Question!
   addProfile(data: NewProfileInput!): Profile!
-  updateProfile(data: UpdateProfileInput!): Profile!
+  updateProfile(data: UpdateProfile!): Profile!
   removeProfile(id: String!): Profile!
   updateAvatar: Profile!
-  updateLocation(data: UpdateProfileInput!): [Profile!]!
-  updateActivity(sender: String!, id: String!): Profile!
+  updateLocation(data: UpdateLocation!): [Profile!]!
+  sendChallengeRequest(data: SendChallengeRequest!): [Profile!]!
   acceptRequest(token: String!, id: String!): Boolean!
   rejectRequest(token: String!, id: String!): PlaceHolderResult!
-  giveUp(token: String!, id: String!): Results!
+  updateActivity(sender: String!, id: String!): Profile!
   SubmitAnswers(answerIds: [String!]!, questionIds: [String!]!, token: String!, _id: String!): PlaceHolderResult!
+  giveUp(token: String!, id: String!): Results!
 }
 
 input NewProfileInput {
@@ -151,16 +111,14 @@ type OnlineStatus {
   onlineTime: Float!
 }
 
-input OnlineStatusInput {
-  online: Float
-  lastOnline: String
-  lastLoggedIn: String
-  onlineTime: Float
-}
-
 type Opponent {
   _id: String!
   username: String!
+}
+
+type Payment {
+  bankAccountName: String!
+  bankAccountNumber: String!
 }
 
 type Personal {
@@ -170,6 +128,8 @@ type Personal {
   username: String!
   email: String!
   phone: String!
+  notificationEmail: String!
+  country: String!
 }
 
 input PersonalInput {
@@ -210,6 +170,7 @@ type Profile {
   _id: ID!
   personal: Personal!
   privacy: Privacy!
+  payment: Payment!
   points: Points!
   gameStatus: GameStatus!
 }
@@ -219,6 +180,7 @@ type Query {
   questions: [Question!]!
   profile(id: String!): Profile!
   profiles: [Profile!]!
+  usernames(username: String!): [Profile!]!
 }
 
 type Question {
@@ -257,6 +219,13 @@ type Results {
   winner: String!
 }
 
+input SendChallengeRequest {
+  id: String!
+  username: String!
+  level: Float!
+  points: Float!
+}
+
 type SendPoints {
   id: String!
   recipient: String!
@@ -266,30 +235,28 @@ type SendPoints {
 
 type Subscription {
   recipeAdded: Profile!
-  onChallengeFound(filter: GameFilter!): Request!
+  onReceivingToken(id: String!): GqlToken!
   onActivityResponse(id: String!): PlaceHolderResult!
+  onChallengeFound(filter: GameFilter!): Request!
   onRequestAccepted: Boolean!
   onRequestRejected(id: String!): PlaceHolderResult!
   onRequestExpired(id: String!): ExpiredRequest!
   onGameStarted(token: String!, id: String!): Game!
   onGameEnds(id: String!): Results!
-  onReceivingToken(id: String!): GqlToken!
 }
 
-input UpdateLocationInput {
-  type: String!
+input UpdateLocation {
+  id: String!
   coordinates: [Float!]!
 }
 
-input UpdateProfileInput {
-  _id: String!
-  firstName: String
-  gameStatus: GameStatusType
-  lastName: String
-  username: String
-  password: String
-  points: InputPoints
-  email: String
+input UpdateProfile {
+  id: String!
+  notificationEmail: String
+  phoneNumber: String
+  country: String
+  bankAccountName: String
+  bankAccountNumber: String
 }
 
 input UpdateQuestionInput {

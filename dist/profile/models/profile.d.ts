@@ -5,6 +5,13 @@ export declare class Personal {
     username: string;
     email: string;
     phone: string;
+    notificationEmail: string;
+    country: string;
+}
+export declare class Payment {
+    bankAccountName: string;
+    bankAccountNumber: string;
+    stripeCustomerId: string;
 }
 export declare class Privacy {
     password: string;
@@ -56,6 +63,7 @@ export declare class Profile {
     _id: string;
     personal: Personal;
     privacy: Privacy;
+    payment: Payment;
     points: Points;
     gameStatus: GameStatus;
 }

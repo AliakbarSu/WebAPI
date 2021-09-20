@@ -1,6 +1,6 @@
 import { Resolver, Subscription, Args, Mutation} from '@nestjs/graphql';
 import { PubSub } from 'apollo-server-express';
-import {Inject, UseGuards} from '@nestjs/common';
+import {Inject, UseGuards, ValidationPipe} from '@nestjs/common';
 import { Profile } from '../profile/models/profile';
 import { ProfileService } from '../profile/profile.service';
 import { UpdateProfileInput } from '../profile/dto/update-profile.input';
@@ -21,6 +21,11 @@ import { GameDB } from './models/game.db';
 import mongoose from 'mongoose';
 const uuid = require('uuid/v1');
 import moment from 'moment';
+import { InputUpdateProfile } from '../profile/types/input/profile.update';
+import { UpdateLocation } from '../profile/dto/updateLocation.input';
+import { SendChallengeRequest } from './dto/sendChallengeRequest';
+
+
 
 @Resolver('Game')
 export class GameResolver {
@@ -49,34 +54,43 @@ export class GameResolver {
     /*----------------------------------
         * MUTATION SECTION
     ----------------------------------*/
+
+    /*+++++++++++++++++++++++++++
+        * LOCATION_SECTION
+    ++++++++++++++++++++++++++++*/
     @Mutation(returns => [Profile])
-    async updateLocation(@Args('data') data: UpdateProfileInput): Promise<Profile[]> {
+    async updateLocation(@Args('data') data: UpdateLocation): Promise<Profile[]> {
         const opponents = await this.profileService.updateLocation(data);
-        const sender = opponents.find(player => String(player._id) === String(data._id));
+        const sender = opponents.find(player => String(player._id) === String(data.id));
         if (opponents.length > 1) {
             this.pubSub.publish('onActivityResponse', {onActivityResponse: {_id: new mongoose.Types.ObjectId(), sender,
-                opponents: opponents.filter(op => String(op._id) !== String(data._id)),
+                opponents: opponents.filter(op => String(op._id) !== String(data.id)),
             }});
         }
         return opponents;
     }
 
-    /*----------------------------------
-        * MUTATION SECTION
-    ----------------------------------*/
-    @Mutation(returns => Profile)
-    async updateActivity(@Args('id') id: string, @Args('sender') sender: string): Promise<Profile> {
-
-        const updatedProfile = await this.profileService.update({_id: id, gameStatus: {
-            status: {
-                lastOnline: moment().format()
+    /*+++++++++++++++++++++++++++
+        * REQUEST_SECTION
+    ++++++++++++++++++++++++++++*/
+    @Mutation(input => [Profile])
+    async sendChallengeRequest(
+        @Args('data', new ValidationPipe({skipMissingProperties: true, skipNullProperties: true})) data: SendChallengeRequest) {
+            const opponents = await this.profileService.findAll(
+                {
+                    'gameStatus.status.online': 1,
+                    'personal.username': data.username,
+                    'gameStatus.level': data.level,
+                    // 'points.points': {$size: {$gt: data.points}}
+                }
+            );
+            const sender = await this.profileService.findOneById(data.id);
+            if (opponents.length === 1) {
+                this.pubSub.publish('onActivityResponse', {onActivityResponse: {_id: new mongoose.Types.ObjectId(), sender,
+                    opponents: opponents.filter(op => String(op._id) !== String(data.id)),
+                }});
             }
-        }});
-
-        this.pubSub.publish('onActivityResponseReceived', {onActivityResponseReceived: {id, sender}});
-
-        return updatedProfile;
-
+            return opponents;
     }
 
     @Mutation(returns => Boolean)
@@ -133,27 +147,28 @@ export class GameResolver {
         return {status: true};
     }
 
-    @Mutation(returns => Results)
-    async giveUp(@Args('id') id: string, @Args('token') token: string): Promise<any> {
+    /*+++++++++++++++++++++++++++
+        * ACTIVITY_SECTION
+    ++++++++++++++++++++++++++++*/
 
-        let parsedToken: GameToken = null;
+    @Mutation(returns => Profile)
+    async updateActivity(@Args('id') id: string, @Args('sender') sender: string): Promise<Profile> {
+        const updatedProfile = await this.profileService.update({_id: id, gameStatus: {
+            status: {
+                lastOnline: moment().format()
+            }
+        }});
 
-        if (!Tokeniser.verify(token)) {
 
-            this.pubSub.publish('onRequestExpired', {onRequestExpired: {sender: id, status: false}});
+        this.pubSub.publish('onActivityResponseReceived', {onActivityResponseReceived: {id, sender}});
 
-            return {status: false};
-        }
+        return updatedProfile;
 
-        // Needs modification
-        parsedToken = Tokeniser.parse(token);
-        const results = {scores: 0, players: parsedToken.players, points: parsedToken.points};
-        const playersResult = GameUtil.players(parsedToken.scores);
-        const winner = await this.profileService.findOneById(playersResult.winner);
-        this.pubSub.publish('onGameEnds', {onGameEnds: {...results, winner: winner.personal.username}});
-        return results;
     }
 
+    /*+++++++++++++++++++++++++++
+        * ANSWERS_SECTION
+    ++++++++++++++++++++++++++++*/
     @Mutation(returns => PlaceHolderResult)
     async SubmitAnswers(
         @Args('_id') id: string,
@@ -204,19 +219,70 @@ export class GameResolver {
             } catch (err ) {
                 console.log(err)
             }
-           
-
             this.pubSub.publish('onGameEnds', {onGameEnds: {...results, winner: winner.personal.username}});
         }
 
         return {status: true};
     }
 
+    @Mutation(returns => Results)
+    async giveUp(@Args('id') id: string, @Args('token') token: string): Promise<any> {
+
+        let parsedToken: GameToken = null;
+
+        if (!Tokeniser.verify(token)) {
+
+            this.pubSub.publish('onRequestExpired', {onRequestExpired: {sender: id, status: false}});
+
+            return {status: false};
+        }
+
+        // Needs modification
+        parsedToken = Tokeniser.parse(token);
+        const results = {scores: 0, players: parsedToken.players, points: parsedToken.points};
+        const playersResult = GameUtil.players(parsedToken.scores);
+        const winner = await this.profileService.findOneById(playersResult.winner);
+        this.pubSub.publish('onGameEnds', {onGameEnds: {...results, winner: winner.personal.username}});
+        return results;
+    }
+
     /*----------------------------------
         * SUBSCRIPTION SECTION
     ----------------------------------*/
+     /*+++++++++++++++++++++++++++
+        * TOKEN_SECTION
+    ++++++++++++++++++++++++++++*/
+    @Subscription(returns => GqlToken, {
+        filter: (payload, variables) => {
+            return payload.onReceivingToken.players.includes(String(variables.id));
+        },
+    })
+    onReceivingToken(@Args('id') id: string) {
+        return this.pubSub.asyncIterator('onReceivingToken');
+    }
 
     /*+++++++++++++++++++++++++++
+        * ACTIVITY_SECTION
+        * ON_ACTIVITY_RESPONSE
+    ++++++++++++++++++++++++++++*/
+    @Subscription(returns => PlaceHolderResult, {
+        filter: (payload, variables) => {
+            return payload.onActivityResponse.opponents.map(p => String(p._id)).includes(String(variables.id))
+            || String(variables.id) === String(payload.onActivityResponse.sender._id);
+        },
+        resolve: (value, variables) => {
+           return {
+               status: true,
+               sender: value.onActivityResponse.sender._id
+           };
+        },
+    })
+    onActivityResponse(@Args('id') id: string) {
+        return this.pubSub.asyncIterator('onActivityResponse');
+    }
+
+    /*+++++++++++++++++++++++++++
+        * CHALLENGE_REQUEST_SECTION
         * ON_CHALLENGE_FOUND
     ++++++++++++++++++++++++++++*/
     @Subscription(returns => Request, {
@@ -252,25 +318,6 @@ export class GameResolver {
     })
     onChallengeFound(@Args('filter') filter: GameFilter) {
         return this.pubSub.asyncIterator('onChallengeFound');
-    }
-
-    /*+++++++++++++++++++++++++++
-        * ON_ACTIVITY_RESPONSE
-    ++++++++++++++++++++++++++++*/
-    @Subscription(returns => PlaceHolderResult, {
-        filter: (payload, variables) => {
-            return payload.onActivityResponse.opponents.map(p => String(p._id)).includes(String(variables.id))
-            || String(variables.id) === String(payload.onActivityResponse.sender._id);
-        },
-        resolve: (value, variables) => {
-           return {
-               status: true,
-               sender: value.onActivityResponse.sender._id
-           };
-        },
-    })
-    onActivityResponse(@Args('id') id: string) {
-        return this.pubSub.asyncIterator('onActivityResponse');
     }
 
     /*+++++++++++++++++++++++++++
@@ -315,6 +362,7 @@ export class GameResolver {
     }
 
     /*+++++++++++++++++++++++++++
+        * GAME_SECTION
         * ON_GAME_STARTED
     ++++++++++++++++++++++++++++*/
     @Subscription(returns => Game, {
@@ -355,17 +403,6 @@ export class GameResolver {
     })
     onGameEnds(@Args('id') id: string) {
         return this.pubSub.asyncIterator('onGameEnds');
-    }
-    /*+++++++++++++++++++++++++++
-        * ON_RECEIVING_TOKEN
-    ++++++++++++++++++++++++++++*/
-    @Subscription(returns => GqlToken, {
-        filter: (payload, variables) => {
-            return payload.onReceivingToken.players.includes(String(variables.id));
-        },
-    })
-    onReceivingToken(@Args('id') id: string) {
-        return this.pubSub.asyncIterator('onReceivingToken');
     }
 }
 

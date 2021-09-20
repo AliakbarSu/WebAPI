@@ -1,4 +1,4 @@
-import { NotFoundException, UseInterceptors, UploadedFile, Body, Query as Qer, Req, UseGuards, Request } from '@nestjs/common';
+import { NotFoundException, UseInterceptors, UploadedFile, Body, Query as Qer, Req, UseGuards, Request, ValidationPipe, UsePipes, UseFilters } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription, Context } from '@nestjs/graphql';
 import { PubSub } from 'apollo-server-express';
 import { NewProfileInput } from './dto/new-profile.input';
@@ -10,6 +10,8 @@ import {FileInterceptor} from '@nestjs/platform-express';
 import { Roles } from '../decorators/roles.decorator';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import { RolesAuthGuard } from '../guards/rolesAuth.gaurd';
+import { UpdateProfile } from './dto/updateProfile.input';
+import { ExceptionsLogger } from './filters/exceptionLogger';
 
 const pubSub = new PubSub();
 
@@ -36,6 +38,10 @@ export class ProfileResolver implements ResolverInterface<Profile> {
     return this.profileService.findAll();
   }
 
+  @Query(returns => [Profile])
+  usernames(@Args('username') username: string): Promise<Profile[]> {
+    return this.profileService.findAll({$text: {$search: username}}, {score: {'$meta': 'textScore'}})
+  }
 
   // @Query(returns => AuthModel)
   // async authenticate(@Args('credentials') credentials: CredentialsInputs): Promise<Auth | null> {
@@ -76,8 +82,21 @@ export class ProfileResolver implements ResolverInterface<Profile> {
   }
 
   @Mutation(returns => Profile)
-  async updateProfile(@Args('data') data: UpdateProfileInput): Promise<Profile> {
-    const profile = await this.profileService.update(data);
+  @UseFilters(new ExceptionsLogger())
+  async updateProfile(@Args('data', new ValidationPipe({skipMissingProperties: true, skipNullProperties: true})) data: UpdateProfile): Promise<Profile> {
+    const profile = await this.profileService.update(
+      {
+        id: data.id,
+        personal: {
+          phone: data.phoneNumber,
+          notificationEmail: data.notificationEmail,
+          country: data.country
+        },
+        payment: {
+          bankAccountName: data.bankAccountName,
+          bankAccountNumber: data.bankAccountNumber
+        }
+      });
     return profile;
   }
 

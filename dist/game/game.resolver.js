@@ -20,7 +20,6 @@ const apollo_server_express_1 = require("apollo-server-express");
 const common_1 = require("@nestjs/common");
 const profile_1 = require("../profile/models/profile");
 const profile_service_1 = require("../profile/profile.service");
-const update_profile_input_1 = require("../profile/dto/update-profile.input");
 const game_model_1 = require("./models/game.model");
 const questions_service_1 = require("../questions/questionsService/questions.service");
 const request_model_1 = require("./models/request.model");
@@ -33,6 +32,8 @@ const game_service_1 = require("./game.service");
 const mongoose_1 = __importDefault(require("mongoose"));
 const uuid = require('uuid/v1');
 const moment_1 = __importDefault(require("moment"));
+const updateLocation_input_1 = require("../profile/dto/updateLocation.input");
+const sendChallengeRequest_1 = require("./dto/sendChallengeRequest");
 let GameResolver = class GameResolver {
     constructor(pubSub, profileService, questionService, pointsService, gameService) {
         this.pubSub = pubSub;
@@ -55,22 +56,27 @@ let GameResolver = class GameResolver {
     }
     async updateLocation(data) {
         const opponents = await this.profileService.updateLocation(data);
-        const sender = opponents.find(player => String(player._id) === String(data._id));
+        const sender = opponents.find(player => String(player._id) === String(data.id));
         if (opponents.length > 1) {
             this.pubSub.publish('onActivityResponse', { onActivityResponse: { _id: new mongoose_1.default.Types.ObjectId(), sender,
-                    opponents: opponents.filter(op => String(op._id) !== String(data._id)),
+                    opponents: opponents.filter(op => String(op._id) !== String(data.id)),
                 } });
         }
         return opponents;
     }
-    async updateActivity(id, sender) {
-        const updatedProfile = await this.profileService.update({ _id: id, gameStatus: {
-                status: {
-                    lastOnline: moment_1.default().format()
-                }
-            } });
-        this.pubSub.publish('onActivityResponseReceived', { onActivityResponseReceived: { id, sender } });
-        return updatedProfile;
+    async sendChallengeRequest(data) {
+        const opponents = await this.profileService.findAll({
+            'gameStatus.status.online': 1,
+            'personal.username': data.username,
+            'gameStatus.level': data.level,
+        });
+        const sender = await this.profileService.findOneById(data.id);
+        if (opponents.length === 1) {
+            this.pubSub.publish('onActivityResponse', { onActivityResponse: { _id: new mongoose_1.default.Types.ObjectId(), sender,
+                    opponents: opponents.filter(op => String(op._id) !== String(data.id)),
+                } });
+        }
+        return opponents;
     }
     async acceptRequest(id, token) {
         if (!token_1.Tokeniser.verify(token)) {
@@ -106,18 +112,14 @@ let GameResolver = class GameResolver {
         this.pubSub.publish('onRequestRejected', { onRequestRejected: { players: parsedToken.players } });
         return { status: true };
     }
-    async giveUp(id, token) {
-        let parsedToken = null;
-        if (!token_1.Tokeniser.verify(token)) {
-            this.pubSub.publish('onRequestExpired', { onRequestExpired: { sender: id, status: false } });
-            return { status: false };
-        }
-        parsedToken = token_1.Tokeniser.parse(token);
-        const results = { scores: 0, players: parsedToken.players, points: parsedToken.points };
-        const playersResult = game_util_1.GameUtil.players(parsedToken.scores);
-        const winner = await this.profileService.findOneById(playersResult.winner);
-        this.pubSub.publish('onGameEnds', { onGameEnds: Object.assign({}, results, { winner: winner.personal.username }) });
-        return results;
+    async updateActivity(id, sender) {
+        const updatedProfile = await this.profileService.update({ _id: id, gameStatus: {
+                status: {
+                    lastOnline: moment_1.default().format()
+                }
+            } });
+        this.pubSub.publish('onActivityResponseReceived', { onActivityResponseReceived: { id, sender } });
+        return updatedProfile;
     }
     async SubmitAnswers(id, token, questionsIds, answerIds) {
         let newToken = null;
@@ -161,11 +163,27 @@ let GameResolver = class GameResolver {
         }
         return { status: true };
     }
-    onChallengeFound(filter) {
-        return this.pubSub.asyncIterator('onChallengeFound');
+    async giveUp(id, token) {
+        let parsedToken = null;
+        if (!token_1.Tokeniser.verify(token)) {
+            this.pubSub.publish('onRequestExpired', { onRequestExpired: { sender: id, status: false } });
+            return { status: false };
+        }
+        parsedToken = token_1.Tokeniser.parse(token);
+        const results = { scores: 0, players: parsedToken.players, points: parsedToken.points };
+        const playersResult = game_util_1.GameUtil.players(parsedToken.scores);
+        const winner = await this.profileService.findOneById(playersResult.winner);
+        this.pubSub.publish('onGameEnds', { onGameEnds: Object.assign({}, results, { winner: winner.personal.username }) });
+        return results;
+    }
+    onReceivingToken(id) {
+        return this.pubSub.asyncIterator('onReceivingToken');
     }
     onActivityResponse(id) {
         return this.pubSub.asyncIterator('onActivityResponse');
+    }
+    onChallengeFound(filter) {
+        return this.pubSub.asyncIterator('onChallengeFound');
     }
     onRequestAccepted() {
         return true;
@@ -182,24 +200,21 @@ let GameResolver = class GameResolver {
     onGameEnds(id) {
         return this.pubSub.asyncIterator('onGameEnds');
     }
-    onReceivingToken(id) {
-        return this.pubSub.asyncIterator('onReceivingToken');
-    }
 };
 __decorate([
     graphql_1.Mutation(returns => [profile_1.Profile]),
     __param(0, graphql_1.Args('data')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_profile_input_1.UpdateProfileInput]),
+    __metadata("design:paramtypes", [updateLocation_input_1.UpdateLocation]),
     __metadata("design:returntype", Promise)
 ], GameResolver.prototype, "updateLocation", null);
 __decorate([
-    graphql_1.Mutation(returns => profile_1.Profile),
-    __param(0, graphql_1.Args('id')), __param(1, graphql_1.Args('sender')),
+    graphql_1.Mutation(input => [profile_1.Profile]),
+    __param(0, graphql_1.Args('data', new common_1.ValidationPipe({ skipMissingProperties: true, skipNullProperties: true }))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [sendChallengeRequest_1.SendChallengeRequest]),
     __metadata("design:returntype", Promise)
-], GameResolver.prototype, "updateActivity", null);
+], GameResolver.prototype, "sendChallengeRequest", null);
 __decorate([
     graphql_1.Mutation(returns => Boolean),
     __param(0, graphql_1.Args('id')), __param(1, graphql_1.Args('token')),
@@ -215,12 +230,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], GameResolver.prototype, "rejectRequest", null);
 __decorate([
-    graphql_1.Mutation(returns => result_model_1.Results),
-    __param(0, graphql_1.Args('id')), __param(1, graphql_1.Args('token')),
+    graphql_1.Mutation(returns => profile_1.Profile),
+    __param(0, graphql_1.Args('id')), __param(1, graphql_1.Args('sender')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
-], GameResolver.prototype, "giveUp", null);
+], GameResolver.prototype, "updateActivity", null);
 __decorate([
     graphql_1.Mutation(returns => result_model_1.PlaceHolderResult),
     __param(0, graphql_1.Args('_id')),
@@ -231,6 +246,42 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Array, Array]),
     __metadata("design:returntype", Promise)
 ], GameResolver.prototype, "SubmitAnswers", null);
+__decorate([
+    graphql_1.Mutation(returns => result_model_1.Results),
+    __param(0, graphql_1.Args('id')), __param(1, graphql_1.Args('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], GameResolver.prototype, "giveUp", null);
+__decorate([
+    graphql_1.Subscription(returns => game_model_1.GqlToken, {
+        filter: (payload, variables) => {
+            return payload.onReceivingToken.players.includes(String(variables.id));
+        },
+    }),
+    __param(0, graphql_1.Args('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], GameResolver.prototype, "onReceivingToken", null);
+__decorate([
+    graphql_1.Subscription(returns => result_model_1.PlaceHolderResult, {
+        filter: (payload, variables) => {
+            return payload.onActivityResponse.opponents.map(p => String(p._id)).includes(String(variables.id))
+                || String(variables.id) === String(payload.onActivityResponse.sender._id);
+        },
+        resolve: (value, variables) => {
+            return {
+                status: true,
+                sender: value.onActivityResponse.sender._id
+            };
+        },
+    }),
+    __param(0, graphql_1.Args('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], GameResolver.prototype, "onActivityResponse", null);
 __decorate([
     graphql_1.Subscription(returns => request_model_1.Request, {
         filter: (payload, variables) => {
@@ -266,24 +317,6 @@ __decorate([
     __metadata("design:paramtypes", [game_filter_1.GameFilter]),
     __metadata("design:returntype", void 0)
 ], GameResolver.prototype, "onChallengeFound", null);
-__decorate([
-    graphql_1.Subscription(returns => result_model_1.PlaceHolderResult, {
-        filter: (payload, variables) => {
-            return payload.onActivityResponse.opponents.map(p => String(p._id)).includes(String(variables.id))
-                || String(variables.id) === String(payload.onActivityResponse.sender._id);
-        },
-        resolve: (value, variables) => {
-            return {
-                status: true,
-                sender: value.onActivityResponse.sender._id
-            };
-        },
-    }),
-    __param(0, graphql_1.Args('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], GameResolver.prototype, "onActivityResponse", null);
 __decorate([
     graphql_1.Subscription(returns => Boolean, {
         filter: (payload, variables) => {
@@ -354,17 +387,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], GameResolver.prototype, "onGameEnds", null);
-__decorate([
-    graphql_1.Subscription(returns => game_model_1.GqlToken, {
-        filter: (payload, variables) => {
-            return payload.onReceivingToken.players.includes(String(variables.id));
-        },
-    }),
-    __param(0, graphql_1.Args('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], GameResolver.prototype, "onReceivingToken", null);
 GameResolver = __decorate([
     graphql_1.Resolver('Game'),
     __param(0, common_1.Inject('PUB_SUB')),

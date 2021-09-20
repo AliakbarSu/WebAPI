@@ -14,6 +14,19 @@ export class Personal {
   email: string;
   @Field()
   phone: string;
+  @Field()
+  notificationEmail: string;
+  @Field()
+  country: string;
+}
+
+@ObjectType()
+export class Payment {
+  @Field()
+  bankAccountName: string;
+  @Field()
+  bankAccountNumber: string;
+  stripeCustomerId: string;
 }
 
 @ObjectType()
@@ -114,6 +127,8 @@ export class Profile {
   personal: Personal;
   @Field(type => Privacy)
   privacy: Privacy;
+  @Field(type => Payment)
+  payment: Payment;
   @Field(type => Points)
   points: Points;
   // @Authorized('owner')

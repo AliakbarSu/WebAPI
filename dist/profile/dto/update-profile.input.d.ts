@@ -1,21 +1,8 @@
-import { UpdateLocationInput } from './update-location.input';
-declare class InputRequest {
-    status?: string;
-    opponent?: string;
-    created_at?: number;
-    updated_at?: number;
-}
 export declare class OnlineStatusInput {
     online?: number;
     lastOnline?: string;
     lastLoggedIn?: string;
     onlineTime?: number;
-}
-declare class GameStatusType {
-    level?: number;
-    status?: OnlineStatusInput;
-    location?: UpdateLocationInput;
-    request?: InputRequest;
 }
 export declare class InputRecievePoints {
     id: string;
@@ -40,14 +27,17 @@ export declare class InputPoints {
     recievedPoints?: InputRecievePoints;
     sentPoints?: InputSendPoints;
 }
-export declare class UpdateProfileInput {
-    _id: string;
-    firstName?: string;
-    gameStatus?: GameStatusType;
-    lastName?: string;
-    username?: string;
-    password?: string;
-    points?: InputPoints;
-    email?: string;
+export declare class UpdatePersonalInput {
+    notificationEmail: string;
+    phone: string;
 }
-export {};
+export declare class UpdatePaymentType {
+    bankAccountName: string;
+    bankAccountNumber: string;
+    stripeCustomerId: string;
+}
+export declare class UpdateProfileInput {
+    id: string;
+    personal: UpdatePersonalInput;
+    payment: UpdatePaymentType;
+}

@@ -19,6 +19,7 @@ const gqlFieldAuthChecker_1 = require("./auth/gqlFieldAuthChecker");
 const points_module_1 = require("./points/points.module");
 const game_module_1 = require("./game/game.module");
 const apollo_server_express_1 = require("apollo-server-express");
+require('dotenv').config();
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -30,27 +31,29 @@ AppModule = __decorate([
                 installSubscriptionHandlers: true,
                 autoSchemaFile: 'schema.gql',
                 context: ({ req, connection }) => {
-                    return connection ? { req: { headers: connection.context.headers } } : { req };
+                    return connection
+                        ? { req: { headers: connection.context.headers } }
+                        : { req };
                 },
                 buildSchemaOptions: {
                     authChecker: gqlFieldAuthChecker_1.gqlFieldAuthChecker,
-                    authMode: 'null',
-                },
+                    authMode: 'null'
+                }
             }),
-            mongoose_1.MongooseModule.forRoot('mongodb+srv://ali:123456khan@cluster0-5hifi.mongodb.net/test?retryWrites=true&w=majority'),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
             auth_module_1.AuthModule,
             questions_module_1.QuestionsModule,
             points_module_1.PointsModule,
-            game_module_1.GameModule,
+            game_module_1.GameModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [
             {
                 provide: 'PUB_SUB',
-                useValue: new apollo_server_express_1.PubSub(),
+                useValue: new apollo_server_express_1.PubSub()
             },
-            app_service_1.AppService,
-        ],
+            app_service_1.AppService
+        ]
     })
 ], AppModule);
 exports.AppModule = AppModule;

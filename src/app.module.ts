@@ -1,22 +1,22 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ChallengeRequestsModule } from './challengeRequests/index.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ProfileModule } from './profile/profile.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from './auth/auth.module';
-import { ProfileService } from './profile/profile.service';
-import { QuestionsModule } from './questions/questions.module';
-import { gqlFieldAuthChecker } from './auth/gqlFieldAuthChecker';
-import { BuildSchemaOptions } from '@nestjs/graphql/dist/external/type-graphql.types';
-import { AuthChecker } from 'type-graphql';
-import { PointsModule } from './points/points.module';
-import { GameModule } from './game/game.module';
-import { PubSub } from 'apollo-server-express';
-
+import { Module } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { ChallengeRequestsModule } from './challengeRequests/index.module'
+import { GraphQLModule } from '@nestjs/graphql'
+import { ProfileModule } from './profile/profile.module'
+import { MongooseModule } from '@nestjs/mongoose'
+import { AuthModule } from './auth/auth.module'
+import { ProfileService } from './profile/profile.service'
+import { QuestionsModule } from './questions/questions.module'
+import { gqlFieldAuthChecker } from './auth/gqlFieldAuthChecker'
+import { BuildSchemaOptions } from '@nestjs/graphql/dist/external/type-graphql.types'
+import { AuthChecker } from 'type-graphql'
+import { PointsModule } from './points/points.module'
+import { GameModule } from './game/game.module'
+import { PubSub } from 'apollo-server-express'
+require('dotenv').config()
 export interface TypeGraphQLBuildSchemaOptions extends BuildSchemaOptions {
- authChecker: AuthChecker<any, any>;
+  authChecker: AuthChecker<any, any>
 }
 
 // const graphQLModuleFactory = async (config: ConfigService) => ({
@@ -41,26 +41,28 @@ export interface TypeGraphQLBuildSchemaOptions extends BuildSchemaOptions {
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
       context: ({ req, connection }) => {
-        return connection ? { req: { headers: connection.context.headers } } : { req };
+        return connection
+          ? { req: { headers: connection.context.headers } }
+          : { req }
       },
       buildSchemaOptions: {
         authChecker: gqlFieldAuthChecker,
-        authMode: 'null',
-      } as TypeGraphQLBuildSchemaOptions,
+        authMode: 'null'
+      } as TypeGraphQLBuildSchemaOptions
     }),
-    MongooseModule.forRoot('mongodb+srv://ali:123456khan@cluster0-5hifi.mongodb.net/test?retryWrites=true&w=majority'),
+    MongooseModule.forRoot(process.env.MONGODB_URL),
     AuthModule,
     QuestionsModule,
     PointsModule,
-    GameModule,
+    GameModule
   ],
   controllers: [AppController],
   providers: [
     {
       provide: 'PUB_SUB',
-      useValue: new PubSub(),
+      useValue: new PubSub()
     },
-    AppService,
-  ],
+    AppService
+  ]
 })
 export class AppModule {}
